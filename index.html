@@ -3,174 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python 基础练习平台</title>
+    <title>Ichigo的小站</title>
     <style>
+        /* CSS 变量，用于主题切换 */
+        :root {
+            --primary-color: #2094f3;
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --sidebar-bg: #ffffff;
+            --border-color: #eeeeee;
+            --admonition-bg: #e0f7fa;
+            --admonition-border: #00bcd4;
+            --card-bg: #fafafa;
+        }
+
+        [data-theme="slate"] {
+            --bg-color: #1e1e1e;
+            --text-color: #cccccc;
+            --sidebar-bg: #252525;
+            --border-color: #333333;
+            --admonition-bg: rgba(0, 188, 212, 0.1);
+            --card-bg: #2d2d2d;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f5f7;
-            color: #333;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            height: 100vh;
         }
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+        /* 顶部导航栏 */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0 20px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
         }
-        h2 {
-            border-bottom: 2px solid #eaeaea;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
+
+        .header-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9em;
+        }
+        
+        .header-nav span { cursor: pointer; opacity: 0.9; }
+        .header-nav span:hover { opacity: 1; text-decoration: underline; }
+
+        /* 主体布局 */
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* 侧边栏 */
+        aside {
+            width: 250px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            color: var(--text-color);
+            transition: background 0.2s;
+        }
+
+        .sidebar-menu li:hover, .sidebar-menu li.active {
+            color: var(--primary-color);
+            background-color: rgba(32, 148, 243, 0.1);
+        }
+
+        /* 内容区 */
+        main {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-content { display: none; }
+        .page-content.active { display: block; }
+
+        /* 组件样式：About Me 提示框 */
+        .admonition {
+            background-color: var(--admonition-bg);
+            border: 1px solid var(--admonition-border);
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .admonition-title {
+            color: var(--admonition-border);
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        ul.about-list {
+            padding-left: 20px;
+            line-height: 1.8;
+        }
+
+        /* 主题切换按钮区 */
+        .theme-section { margin-top: 30px; }
+        .theme-btn {
+            border: none;
+            padding: 5px 15px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: white;
+            font-size: 0.9em;
+        }
+        .mode-btn { background: #e0e0e0; color: #333; }
+        .mode-btn.dark { background: #333; color: white; }
+
+        /* 答题卡样式 (复用上一轮) */
         .question-card {
-            background: #fafafa;
-            border: 1px solid #eaeaea;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 6px;
             padding: 20px;
             margin-bottom: 20px;
         }
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 10px;
-        }
-        .question-title {
-            font-size: 1.1em;
-            margin-bottom: 15px;
-        }
-        .options label {
-            margin-right: 30px;
-            cursor: pointer;
-        }
-        .result-box {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed #ddd;
-            display: none; /* 初始隐藏，提交后显示 */
-        }
-        .correct { color: #52c41a; font-weight: bold; }
-        .incorrect { color: #ff4d4f; font-weight: bold; }
         .submit-btn {
-            background-color: #1890ff;
+            background-color: var(--primary-color);
             color: white;
             border: none;
             padding: 12px 24px;
-            font-size: 1em;
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
-            transition: background 0.3s;
         }
-        .submit-btn:hover { background-color: #40a9ff; }
+        .result-box { margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border-color); display: none; }
+        .correct { color: #4caf50; font-weight: bold; }
+        .incorrect { color: #f44336; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>判断题练习</h2>
-    <div id="quiz-container">
+    <header>
+        <div class="header-left">
+            <div class="header-title" onclick="switchPage('home')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Ichigo的小站
+            </div>
+            <div class="header-nav">
+                <span onclick="switchPage('home')">主页</span>
+                <span>校内课程</span>
+                <span>校外</span>
+                <span>好用</span>
+                <span>杂项</span>
+                <span>一些talks</span>
+            </div>
         </div>
-    <button class="submit-btn" onclick="submitQuiz()">提交判卷</button>
-</div>
+        <div style="font-size: 0.9em;">GitHub Repo</div>
+    </header>
 
-<script>
-    // 题库数据（你可以随时在这里添加新题目）
-    const questions = [
-        {
-            id: "q1",
-            text: "高级语言程序要被机器执行,只有用解释器来解释执行。",
-            author: "陈春晖",
-            correctAnswer: "F" // 正确答案是错的，因为还有编译器
-        },
-        {
-            id: "q2",
-            text: "不可以在同一台计算机上安装多个不同的Python解释器版本。",
-            author: "陈春晖",
-            correctAnswer: "F"
-        },
-        {
-            id: "q3",
-            text: "Python是一种跨平台、开源、免费的动态编程语言。",
-            author: "陈春晖",
-            correctAnswer: "T"
-        },
-        {
-            id: "q4",
-            text: "math模块是python语言的数学模块。",
-            author: "陈春晖",
-            correctAnswer: "T"
-        }
-    ];
+    <div class="main-container">
+        <aside>
+            <ul class="sidebar-menu">
+                <li id="nav-home" class="active" onclick="switchPage('home')">主页 (About)</li>
+                <li id="nav-tf" onclick="switchPage('tf-quiz')">判断题</li>
+                <li id="nav-fill" onclick="switchPage('fill-quiz')">填空题</li>
+                <li id="nav-code" onclick="switchPage('code-quiz')">编程题</li>
+            </ul>
+        </aside>
 
-    const container = document.getElementById('quiz-container');
-
-    // 1. 初始化页面，渲染题目
-    function renderQuestions() {
-        questions.forEach((q, index) => {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            card.innerHTML = `
-                <div class="question-header">
-                    <span>${index + 1}-1 分数 1</span>
-                    <span>作者 ${q.author} 单位 浙江大学</span>
+        <main>
+            <div id="page-home" class="page-content active">
+                <h1 style="margin-top: 0;">Ichigo的小站</h1>
+                <div style="color: #888; font-size: 0.9em; margin-bottom: 20px;">
+                    <span style="margin-right:15px;">⏱ 约 155 个字</span>
+                    <span>⌛ 预计阅读时间 1 分钟</span>
                 </div>
-                <div class="question-title">${q.text}</div>
-                <div class="options">
-                    <label><input type="radio" name="${q.id}" value="T"> T</label>
-                    <label><input type="radio" name="${q.id}" value="F"> F</label>
-                </div>
-                <div class="result-box" id="result-${q.id}">
-                    评测结果：<span class="status"></span><br>
-                    得  分：<span class="score"></span>
-                </div>
-            `;
-            container.appendChild(card);
-        });
-    }
+                
+                <p><strong>欢迎来访！这里是Ichigo的小站</strong></p>
 
-    // 2. 判卷逻辑
-    function submitQuiz() {
-        questions.forEach(q => {
-            // 获取用户选择的答案
-            const selectedOption = document.querySelector(`input[name="${q.id}"]:checked`);
-            const resultBox = document.getElementById(`result-${q.id}`);
-            const statusSpan = resultBox.querySelector('.status');
-            const scoreSpan = resultBox.querySelector('.score');
+                <div class="admonition">
+                    <div class="admonition-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        About Me
+                    </div>
+                    <ul class="about-list">
+                        <li>浙江大学24级机械工程</li>
+                        <li>infj，比较典型，but现在有点变e的趋向</li>
+                        <li>喜欢运动，现在的运动主要是健身和打台球，或许有一档，球类还会排球篮球乒乓，欢迎来约</li>
+                        <li>喜欢deeptalk，喜欢约人出去吃饭聊天，也欢迎大家来找我约饭聊天</li>
+                    </ul>
+                </div>
+
+                <div class="theme-section">
+                    <p>下面是主题切换的页面，请谨慎选择，因为你之后的阅读将会保持选择的样式：</p>
+                    
+                    <h4>日间 / 夜间</h4>
+                    <button class="theme-btn mode-btn" onclick="setDarkMode('default')">default</button>
+                    <button class="theme-btn mode-btn dark" onclick="setDarkMode('slate')">slate</button>
+
+                    <h4>主色</h4>
+                    <div id="color-buttons">
+                        </div>
+                </div>
+            </div>
+
+            <div id="page-tf-quiz" class="page-content">
+                <h2>判断题练习</h2>
+                <div id="quiz-container"></div>
+                <button class="submit-btn" onclick="submitQuiz()">提交判卷</button>
+            </div>
+
+            <div id="page-fill-quiz" class="page-content">
+                <h2>填空题</h2>
+                <p>建设中... 这里后续可以添加填空题的逻辑。</p>
+            </div>
+
+            <div id="page-code-quiz" class="page-content">
+                <h2>编程题</h2>
+                <p>建设中... 在线代码沙箱（Online Judge）模块后续接入。</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // === 页面路由切换逻辑 ===
+        function switchPage(pageId) {
+            // 隐藏所有页面
+            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
+            // 取消侧边栏高亮
+            document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
             
-            resultBox.style.display = 'block'; // 显示结果框
+            // 显示目标页面
+            document.getElementById(`page-${pageId}`).classList.add('active');
+            // 高亮当前侧边栏
+            const navId = pageId === 'home' ? 'nav-home' : `nav-${pageId.split('-')[0]}`;
+            document.getElementById(navId).classList.add('active');
+        }
 
-            if (!selectedOption) {
-                statusSpan.textContent = "未作答";
-                statusSpan.className = "status incorrect";
-                scoreSpan.textContent = "0 分";
-            } else if (selectedOption.value === q.correctAnswer) {
-                statusSpan.textContent = "答案正确";
-                statusSpan.className = "status correct";
-                scoreSpan.textContent = "1 分";
+        // === 主题切换逻辑 ===
+        function setDarkMode(mode) {
+            if (mode === 'slate') {
+                document.documentElement.setAttribute('data-theme', 'slate');
             } else {
-                statusSpan.textContent = "答案错误";
-                statusSpan.className = "status incorrect";
-                scoreSpan.textContent = "0 分";
+                document.documentElement.removeAttribute('data-theme');
             }
-        });
-        
-        // 判卷后可以把按钮变成灰色或者禁用
-        const btn = document.querySelector('.submit-btn');
-        btn.textContent = "已完成判卷";
-        btn.style.backgroundColor = "#ccc";
-        btn.disabled = true;
-    }
+        }
 
-    // 网页加载时运行渲染函数
-    window.onload = renderQuestions;
-</script>
+        function setPrimaryColor(colorHex) {
+            document.documentElement.style.setProperty('--primary-color', colorHex);
+        }
 
+        // 生成颜色按钮
+        const colors = {
+            red: '#f44336', pink: '#e91e63', purple: '#9c27b0', indigo: '#3f51b5',
+            blue: '#2094f3', cyan: '#00bcd4', teal: '#009688', green: '#4caf50',
+            lime: '#cddc39', orange: '#ff9800', brown: '#795548', grey: '#9e9e9e', black: '#000000'
+        };
+        const colorContainer = document.getElementById('color-buttons');
+        for (const [name, hex] of Object.entries(colors)) {
+            const btn = document.createElement('button');
+            btn.className = 'theme-btn';
+            btn.style.backgroundColor = hex;
+            btn.textContent = name;
+            btn.onclick = () => setPrimaryColor(hex);
+            colorContainer.appendChild(btn);
+        }
+
+        // === 题库与判卷逻辑 (复用) ===
+        const questions = [
+            { id: "q1", text: "高级语言程序要被机器执行,只有用解释器来解释执行。", author: "陈春晖", correctAnswer: "F" },
+            { id: "q2", text: "不可以在同一台计算机上安装多个不同的Python解释器版本。", author: "陈春晖", correctAnswer: "F" },
+            { id: "q3", text: "Python是一种跨平台、开源、免费的动态编程语言。", author: "陈春晖", correctAnswer: "T" },
+            { id: "q4", text: "math模块是python语言的数学模块。", author: "陈春晖", correctAnswer: "T" }
+        ];
+
+        function renderQuestions() {
+            const container = document.getElementById('quiz-container');
+            questions.forEach((q, index) => {
+                container.innerHTML += `
+                    <div class="question-card">
+                        <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
+                            <span>${index + 1}-1 分数 1</span><span>作者 ${q.author} 单位 浙江大学</span>
+                        </div>
+                        <div style="margin-bottom:15px;">${q.text}</div>
+                        <div>
+                            <label style="margin-right:20px;"><input type="radio" name="${q.id}" value="T"> T</label>
+                            <label><input type="radio" name="${q.id}" value="F"> F</label>
+                        </div>
+                        <div class="result-box" id="result-${q.id}">
+                            评测结果：<span class="status"></span><br>得  分：<span class="score"></span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function submitQuiz() {
+            questions.forEach(q => {
+                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                const resultBox = document.getElementById(`result-${q.id}`);
+                const statusSpan = resultBox.querySelector('.status');
+                const scoreSpan = resultBox.querySelector('.score');
+                resultBox.style.display = 'block';
+
+                if (!selected) {
+                    statusSpan.textContent = "未作答"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
+                } else if (selected.value === q.correctAnswer) {
+                    statusSpan.textContent = "答案正确"; statusSpan.className = "status correct"; scoreSpan.textContent = "1 分";
+                } else {
+                    statusSpan.textContent = "答案错误"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
+                }
+            });
+        }
+
+        // 初始化
+        window.onload = renderQuestions;
+    </script>
 </body>
 </html>
