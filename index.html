@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ichigo的小站</title>
@@ -195,6 +197,9 @@
     </style>
 </head>
 <body>
+    <py-config>
+        packages = ["iapws"]
+    </py-config>
 
     <header>
         <div class="header-left">
@@ -202,7 +207,7 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                 Ichigo的小站
             </div>
-            </div>
+        </div>
         <div style="font-size: 0.9em;">GitHub Repo</div>
     </header>
 
@@ -251,7 +256,7 @@
 
                     <h4>主色</h4>
                     <div id="color-buttons">
-                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -292,10 +297,9 @@
                         <label>温度 (°C): </label>
                         <input type="number" id="steam-t" step="1" placeholder="例: 100">
                     </div>
-                    <button class="submit-btn" style="margin-top: 10px;" onclick="querySteam()">查询参数</button>
-                    
+                    <button class="submit-btn" style="margin-top: 10px;" py-click="query_steam">查询参数</button>
                     <div id="steam-result" class="result-box">
-                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -341,31 +345,6 @@
             btn.textContent = name;
             btn.onclick = () => setPrimaryColor(hex);
             colorContainer.appendChild(btn);
-        }
-
-        // === 水蒸气查询逻辑 (模拟版) ===
-        function querySteam() {
-            const p = document.getElementById('steam-p').value;
-            const t = document.getElementById('steam-t').value;
-            const resBox = document.getElementById('steam-result');
-            
-            resBox.style.display = 'block';
-            
-            if (!p || !t) {
-                resBox.innerHTML = '<span class="incorrect">⚠ 请输入压力和温度参数！</span>';
-                return;
-            }
-
-            // 这里展示的是模拟数据，后续你可以在网上找一个 IAPWS-IF97 的开源 JS 库引入并替换这里的计算逻辑
-            resBox.innerHTML = `
-                <div style="line-height: 1.8;">
-                    <p><strong style="color:var(--primary-color);">查询条件：</strong> $p = ${p}$ MPa, $t = ${t}$ °C</p>
-                    <p><strong>状态：</strong> 过热蒸汽 (模拟结果)</p>
-                    <p><strong>比体积 $v$:</strong> 正在等待计算核心接入...</p>
-                    <p><strong>比焓 $h$:</strong> 正在等待计算核心接入...</p>
-                    <p><strong>比熵 $s$:</strong> 正在等待计算核心接入...</p>
-                </div>
-            `;
         }
 
         // === 题库与判卷逻辑 ===
@@ -417,6 +396,54 @@
 
         // 初始化
         window.onload = renderQuestions;
+    </script>
+    <script type="py">
+from pyscript import document
+from iapws import IAPWS97
+
+def query_steam(event):
+    res_box = document.querySelector('#steam-result')
+    res_box.style.display = 'block'
+    # Pyodide 引擎和科学计算库首次加载可能需要几秒钟
+    res_box.innerHTML = "正在拉起计算核心并进行求解，请稍候..."
+
+    try:
+        # 抓取前端输入框的数据
+        p_val = document.querySelector('#steam-p').value
+        t_val = document.querySelector('#steam-t').value
+        
+        if not p_val or not t_val:
+            res_box.innerHTML = '<span class="incorrect">⚠ 请输入完整的压力和温度参数！</span>'
+            return
+
+        p = float(p_val)
+        t_c = float(t_val)
+        t_k = t_c + 273.15  # IF97标准库通常使用开尔文
+
+        # 调用底层库进行精准求解
+        steam = IAPWS97(P=p, T=t_k)
+        
+        # 将生硬的英文相态词汇进行本地化
+        phase_map = {
+            "Liquid": "液相 (水)", 
+            "Vapour": "气相 (蒸汽)", 
+            "Two phases": "两相 (汽水混合物)", 
+            "Supercritical": "超临界"
+        }
+        phase_str = phase_map.get(steam.phase, steam.phase)
+
+        # 将高精度的结果动态组装并渲染回网页
+        res_box.innerHTML = f"""
+            <div style="line-height: 1.8;">
+                <p><strong style="color:var(--primary-color);">查询条件：</strong> <i>p</i> = {p} MPa, <i>t</i> = {t_c} ℃</p>
+                <p><strong>状态：</strong> {phase_str}</p>
+                <p><strong>比体积 <i>v</i> :</strong> {steam.v:.5f} m³/kg</p>
+                <p><strong>比焓 <i>h</i> :</strong> {steam.h:.2f} kJ/kg</p>
+                <p><strong>比熵 <i>s</i> :</strong> {steam.s:.4f} kJ/(kg·K)</p>
+            </div>
+        """
+    except Exception as e:
+        res_box.innerHTML = f'<span class="incorrect">⚠ 计算出错或超出 IF97 标准适用范围: {str(e)}</span>'
     </script>
 </body>
 </html>
