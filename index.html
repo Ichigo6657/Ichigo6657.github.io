@@ -40,7 +40,6 @@
             height: 100vh;
         }
 
-        /* 顶部导航栏 */
         header {
             background-color: var(--primary-color);
             color: white;
@@ -53,147 +52,47 @@
             z-index: 10;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .header-title { font-size: 1.2em; font-weight: bold; display: flex; align-items: center; gap: 10px; cursor: pointer; }
 
-        .header-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
+        .main-container { display: flex; flex: 1; overflow: hidden; }
 
-        /* 主体布局 */
-        .main-container {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
+        aside { width: 250px; background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color); padding: 20px; overflow-y: auto; }
+        .sidebar-menu { list-style: none; padding: 0; margin: 0; }
+        .menu-category { font-size: 0.85em; color: #888; font-weight: bold; padding: 15px 15px 5px 5px; text-transform: uppercase; cursor: default; }
+        .sidebar-menu li.menu-item { padding: 10px 15px; margin-bottom: 5px; cursor: pointer; border-radius: 4px; color: var(--text-color); transition: background 0.2s; }
+        .sidebar-menu li.sub-item { margin-left: 15px; }
+        .sidebar-menu li.menu-item:hover, .sidebar-menu li.menu-item.active { color: var(--primary-color); background-color: rgba(32, 148, 243, 0.1); }
 
-        /* 侧边栏 */
-        aside {
-            width: 250px;
-            background-color: var(--sidebar-bg);
-            border-right: 1px solid var(--border-color);
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        /* 侧边栏分组标题样式 */
-        .menu-category {
-            font-size: 0.85em;
-            color: #888;
-            font-weight: bold;
-            padding: 15px 15px 5px 5px;
-            text-transform: uppercase;
-            cursor: default;
-        }
-
-        .sidebar-menu li.menu-item {
-            padding: 10px 15px;
-            margin-bottom: 5px;
-            cursor: pointer;
-            border-radius: 4px;
-            color: var(--text-color);
-            transition: background 0.2s;
-        }
-        
-        /* 子菜单缩进 */
-        .sidebar-menu li.sub-item {
-            margin-left: 15px;
-        }
-
-        .sidebar-menu li.menu-item:hover, .sidebar-menu li.menu-item.active {
-            color: var(--primary-color);
-            background-color: rgba(32, 148, 243, 0.1);
-        }
-
-        /* 内容区 */
-        main {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
+        main { flex: 1; padding: 40px; overflow-y: auto; max-width: 900px; margin: 0 auto; }
         .page-content { display: none; }
         .page-content.active { display: block; }
 
-        /* 组件样式：提示框 */
-        .admonition {
-            background-color: var(--admonition-bg);
-            border: 1px solid var(--admonition-border);
-            border-radius: 4px;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        
-        .admonition-title {
-            color: var(--admonition-border);
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .admonition { background-color: var(--admonition-bg); border: 1px solid var(--admonition-border); border-radius: 4px; padding: 15px; margin: 20px 0; }
+        .admonition-title { color: var(--admonition-border); font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        ul.about-list { padding-left: 20px; line-height: 1.8; }
 
-        ul.about-list {
-            padding-left: 20px;
-            line-height: 1.8;
-        }
-
-        /* 主题切换按钮区 */
         .theme-section { margin-top: 30px; }
-        .theme-btn {
-            border: none;
-            padding: 5px 15px;
-            margin: 5px;
-            border-radius: 4px;
-            cursor: pointer;
-            color: white;
-            font-size: 0.9em;
-        }
+        .theme-btn { border: none; padding: 5px 15px; margin: 5px; border-radius: 4px; cursor: pointer; color: white; font-size: 0.9em; }
         .mode-btn { background: #e0e0e0; color: #333; }
         .mode-btn.dark { background: #333; color: white; }
 
-        /* 通用卡片与表单样式 */
-        .card-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .submit-btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-        }
+        .card-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; margin-bottom: 20px; }
+        .submit-btn { background-color: var(--primary-color); color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; width: 100%; font-weight:bold; }
         .submit-btn:hover { opacity: 0.9; }
         .result-box { margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border-color); display: none; }
         .correct { color: #4caf50; font-weight: bold; }
         .incorrect { color: #f44336; font-weight: bold; }
         
-        /* 工具输入框样式 */
         .input-group { margin-bottom: 15px; }
         .input-group label { display: inline-block; width: 90px; font-weight: bold;}
         .input-group input { padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; width: 150px; background: var(--bg-color); color: var(--text-color);}
+        
+        /* 填空题输入框与代码区样式 */
+        .fill-input { border: none; border-bottom: 1px solid var(--text-color); background: transparent; color: var(--primary-color); width: 100px; text-align: center; font-size: 1em; outline: none; margin: 0 5px; font-weight:bold; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; color: #333; border: 1px solid #ddd; }
+        [data-theme="slate"] pre { background: #1a1a1a; color: #ccc; border-color: #444; }
+        .code-editor { width: 100%; height: 200px; padding: 10px; font-family: monospace; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-bottom: 10px; resize: vertical; }
     </style>
 </head>
 <body>
@@ -230,9 +129,7 @@
         <main>
             <div id="page-home" class="page-content active">
                 <h1 style="margin-top: 0;">Ichigo的小站</h1>
-                
                 <p><strong>欢迎来访！这里是Ichigo的小站</strong></p>
-
                 <div class="admonition">
                     <div class="admonition-title">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
@@ -246,17 +143,13 @@
                         <li>喜欢和大家唠嗑</li>
                     </ul>
                 </div>
-
                 <div class="theme-section">
                     <p>下面是主题切换的页面，请谨慎选择，因为你之后的阅读将会保持选择的样式：</p>
-                    
                     <h4>日间 / 夜间</h4>
                     <button class="theme-btn mode-btn" onclick="setDarkMode('default')">default</button>
                     <button class="theme-btn mode-btn dark" onclick="setDarkMode('slate')">slate</button>
-
                     <h4>主色</h4>
-                    <div id="color-buttons">
-                    </div>
+                    <div id="color-buttons"></div>
                 </div>
             </div>
 
@@ -267,27 +160,56 @@
             </div>
 
             <div id="page-choice-quiz" class="page-content">
-                <h2>选择题</h2>
-                <p>选择题系统建设中...</p>
+                <h2>单选题练习 <span style="font-size:0.5em;color:#888;">(共10题)</span></h2>
+                <div id="choice-container"></div>
+                <button class="submit-btn" onclick="submitChoiceQuiz()">提交判卷</button>
             </div>
 
             <div id="page-fill-quiz" class="page-content">
-                <h2>填空题</h2>
-                <p>建设中... 这里后续可以添加填空题的逻辑。</p>
+                <h2>填空题练习 <span style="font-size:0.5em;color:#888;">(共4题)</span></h2>
+                <div id="fill-container"></div>
+                <button class="submit-btn" onclick="submitFillQuiz()">提交判卷</button>
             </div>
 
             <div id="page-code-quiz" class="page-content">
-                <h2>编程题</h2>
-                <p>建设中... 在线代码沙箱（Online Judge）模块后续接入。</p>
+                <h2>编程题：写字母H</h2>
+                <div class="card-box">
+                    <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
+                        <span>分数 10</span><span>作者 陈春晖 单位 浙江大学</span>
+                    </div>
+                    <div style="margin-bottom:15px; line-height: 1.6;">
+                        <p>字母H可以这样输出。编程序输出H</p>
+<pre>
+* *
+* *
+*****
+* *
+* *
+</pre>
+                        <p><strong>输入格式:</strong> 无</p>
+                        <p><strong>输出格式:</strong> 输出字母H图形。</p>
+                        <p style="color:#888; font-size: 0.9em;">代码长度限制: 16 KB | 时间限制: 400 ms | 内存限制: 64 MB</p>
+                    </div>
+                    
+                    <h4>代码编辑区</h4>
+                    <textarea class="code-editor" placeholder="在此处编写你的 Python 代码..."></textarea>
+                    
+                    <button class="submit-btn" style="width: auto; padding: 8px 16px;" onclick="document.getElementById('code-answer').style.display='block'">查看参考答案</button>
+                    
+                    <div id="code-answer" class="result-box" style="margin-top: 15px;">
+                        <p><span class="correct">参考答案：</span></p>
+<pre>
+print("* *\n* *\n*****\n* *\n* *")
+</pre>
+                    </div>
+                </div>
             </div>
 
             <div id="page-steam-tool" class="page-content">
                 <h2>水蒸气热力性质参数查询</h2>
-                
                 <div class="admonition">
                     <p>这是一个简易的查询工具演示页面。在输入框中输入压力和温度参数，即可快速获取水蒸气的各项热力学物性。</p>
                 </div>
-                
                 <div class="card-box">
                     <div class="input-group">
                         <label>压力 (MPa): </label>
@@ -298,8 +220,7 @@
                         <input type="number" id="steam-t" step="1" placeholder="例: 100">
                     </div>
                     <button class="submit-btn" style="margin-top: 10px;" py-click="query_steam">查询参数</button>
-                    <div id="steam-result" class="result-box">
-                    </div>
+                    <div id="steam-result" class="result-box"></div>
                 </div>
             </div>
 
@@ -307,30 +228,21 @@
     </div>
 
     <script>
-        // === 页面路由切换逻辑 ===
+        // === 页面路由切换与主题逻辑 ===
         function switchPage(pageId) {
-            // 隐藏所有页面并取消高亮
             document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.sidebar-menu li.menu-item').forEach(el => el.classList.remove('active'));
-            
-            // 显示并高亮目标
             document.getElementById(`page-${pageId}`).classList.add('active');
             const navElement = document.getElementById(`nav-${pageId}`);
             if(navElement) navElement.classList.add('active');
         }
 
-        // === 主题切换逻辑 ===
         function setDarkMode(mode) {
-            if (mode === 'slate') {
-                document.documentElement.setAttribute('data-theme', 'slate');
-            } else {
-                document.documentElement.removeAttribute('data-theme');
-            }
+            if (mode === 'slate') document.documentElement.setAttribute('data-theme', 'slate');
+            else document.documentElement.removeAttribute('data-theme');
         }
 
-        function setPrimaryColor(colorHex) {
-            document.documentElement.style.setProperty('--primary-color', colorHex);
-        }
+        function setPrimaryColor(colorHex) { document.documentElement.style.setProperty('--primary-color', colorHex); }
 
         const colors = {
             red: '#f44336', pink: '#e91e63', purple: '#9c27b0', indigo: '#3f51b5',
@@ -340,28 +252,26 @@
         const colorContainer = document.getElementById('color-buttons');
         for (const [name, hex] of Object.entries(colors)) {
             const btn = document.createElement('button');
-            btn.className = 'theme-btn';
-            btn.style.backgroundColor = hex;
-            btn.textContent = name;
+            btn.className = 'theme-btn'; btn.style.backgroundColor = hex; btn.textContent = name;
             btn.onclick = () => setPrimaryColor(hex);
             colorContainer.appendChild(btn);
         }
 
-        // === 题库与判卷逻辑 ===
-        const questions = [
-            { id: "q1", text: "高级语言程序要被机器执行,只有用解释器来解释执行。", author: "陈春晖", correctAnswer: "F" },
-            { id: "q2", text: "不可以在同一台计算机上安装多个不同的Python解释器版本。", author: "陈春晖", correctAnswer: "F" },
-            { id: "q3", text: "Python是一种跨平台、开源、免费的动态编程语言。", author: "陈春晖", correctAnswer: "T" },
-            { id: "q4", text: "math模块是python语言的数学模块。", author: "陈春晖", correctAnswer: "T" }
+        // === 1. 判断题数据与逻辑 ===
+        const tfQuestions = [
+            { id: "tf1", text: "高级语言程序要被机器执行,只有用解释器来解释执行。", correct: "F" },
+            { id: "tf2", text: "不可以在同一台计算机上安装多个不同的Python解释器版本。", correct: "F" },
+            { id: "tf3", text: "Python是一种跨平台、开源、免费的动态编程语言。", correct: "T" },
+            { id: "tf4", text: "math模块是python语言的数学模块。", correct: "T" }
         ];
 
-        function renderQuestions() {
+        function renderTF() {
             const container = document.getElementById('quiz-container');
-            questions.forEach((q, index) => {
+            tfQuestions.forEach((q, idx) => {
                 container.innerHTML += `
                     <div class="card-box">
                         <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
-                            <span>${index + 1}-1 分数 1</span><span>作者 ${q.author} 单位 浙江大学</span>
+                            <span>${idx + 1}-1 分数 1</span><span>作者 陈春晖 单位 浙江大学</span>
                         </div>
                         <div style="margin-bottom:15px;">${q.text}</div>
                         <div>
@@ -371,13 +281,12 @@
                         <div class="result-box" id="result-${q.id}">
                             评测结果：<span class="status"></span><br>得 分：<span class="score"></span>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
         function submitQuiz() {
-            questions.forEach(q => {
+            tfQuestions.forEach(q => {
                 const selected = document.querySelector(`input[name="${q.id}"]:checked`);
                 const resultBox = document.getElementById(`result-${q.id}`);
                 const statusSpan = resultBox.querySelector('.status');
@@ -386,7 +295,7 @@
 
                 if (!selected) {
                     statusSpan.textContent = "未作答"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
-                } else if (selected.value === q.correctAnswer) {
+                } else if (selected.value === q.correct) {
                     statusSpan.textContent = "答案正确"; statusSpan.className = "status correct"; scoreSpan.textContent = "1 分";
                 } else {
                     statusSpan.textContent = "答案错误"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
@@ -394,9 +303,126 @@
             });
         }
 
-        // 初始化
-        window.onload = renderQuestions;
+        // === 2. 单选题数据与逻辑 ===
+        const choiceQuestions = [
+            { id: "c1", text: "计算机存储器的单位是字节（B,Byte）,1B等于__________。", options: ["一位二进制", "四位二进制", "八位二进制", "十六位二进制"], correct: "C" },
+            { id: "c2", text: "Python程序在Windows上的扩展名是_________。", options: ["py", "exe", "docx", "jpg"], correct: "A" },
+            { id: "c3", text: "10的二进制值是__________。", options: ["1100", "1010", "0011", "1110"], correct: "B" },
+            { id: "c4", text: "八进制35的十进制值是_________。", options: ["30", "25", "19", "29"], correct: "D" },
+            { id: "c5", text: "计算机系统由硬件和________组成。", options: ["语言", "控制器", "存储器", "软件"], correct: "D" },
+            { id: "c6", text: "______是不等长编码。", options: ["ASCII码", "Unicode码", "UTF-8码", "以上都不"], correct: "C" },
+            { id: "c7", text: "_______号表示同一行的后面部分是Python程序的注释。", options: ["*", "%", "/", "#"], correct: "D" },
+            { id: "c8", text: "Python语言的官方网站地址是_______。", options: ["www.python.org", "www.python.com", "www.python.edu", "www.pythontutor.com"], correct: "A" },
+            { id: "c9", text: "不是面向对象的程序设计语言是________。", options: ["Java", "C", "C++", "Python"], correct: "B" },
+            { id: "c10", text: "下面程序的输出是什么？<pre style='margin:10px 0;'>a,b=5,9\nprint(a, b)</pre>", options: ["59", "5,9", "5□9   (□表示空格)", "5□□9  (5和9之间二个空格)"], correct: "C" }
+        ];
+
+        function renderChoice() {
+            const container = document.getElementById('choice-container');
+            const labels = ['A', 'B', 'C', 'D'];
+            choiceQuestions.forEach((q, idx) => {
+                let optionsHtml = '';
+                q.options.forEach((opt, i) => {
+                    optionsHtml += `<label style="display:block; margin: 8px 0; cursor:pointer;"><input type="radio" name="${q.id}" value="${labels[i]}"> ${labels[i]}. ${opt}</label>`;
+                });
+                container.innerHTML += `
+                    <div class="card-box">
+                        <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
+                            <span>${idx + 1}-1 分数 1</span><span>作者 陈春晖 单位 浙江大学</span>
+                        </div>
+                        <div style="margin-bottom:15px; font-weight:bold;">${q.text}</div>
+                        <div>${optionsHtml}</div>
+                        <div class="result-box" id="result-${q.id}">
+                            评测结果：<span class="status"></span><br>得 分：<span class="score"></span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function submitChoiceQuiz() {
+            choiceQuestions.forEach(q => {
+                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                const resultBox = document.getElementById(`result-${q.id}`);
+                const statusSpan = resultBox.querySelector('.status');
+                const scoreSpan = resultBox.querySelector('.score');
+                resultBox.style.display = 'block';
+
+                if (!selected) {
+                    statusSpan.textContent = "未作答"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
+                } else if (selected.value === q.correct) {
+                    statusSpan.textContent = "答案正确"; statusSpan.className = "status correct"; scoreSpan.textContent = "1 分";
+                } else {
+                    statusSpan.textContent = `答案错误 (正确答案: ${q.correct})`; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
+                }
+            });
+        }
+
+        // === 3. 填空题数据与逻辑 ===
+        const fillQuestions = [
+            { id: "f1", parts: ["十进制19.625的二进制是", "。（整数部分用八位二进制表示）"], answers: ["00010011.101"], score: 1 },
+            { id: "f2", parts: ["十六进制2AC的八进制表示是", "。"], answers: ["1254"], score: 1 },
+            { id: "f3", parts: ["十进制106的原码是", "，反码是", "，补码是", "。 （用八位表示）"], answers: ["01101010", "01101010", "01101010"], score: 3 },
+            { id: "f4", parts: ["-78的原码是", "，反码是", "，补码是", "。 （用八位表示）"], answers: ["11001110", "10110001", "10110010"], score: 3 }
+        ];
+
+        function renderFill() {
+            const container = document.getElementById('fill-container');
+            fillQuestions.forEach((q, idx) => {
+                let htmlText = "";
+                q.parts.forEach((part, i) => {
+                    htmlText += part;
+                    if (i < q.answers.length) {
+                        htmlText += `<input type="text" class="fill-input" id="${q.id}-ans-${i}">`;
+                    }
+                });
+
+                container.innerHTML += `
+                    <div class="card-box">
+                        <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
+                            <span>分数 ${q.score}</span><span>作者 陈春晖 单位 浙江大学</span>
+                        </div>
+                        <div style="margin-bottom:15px; font-weight:bold; line-height:2;">${htmlText}</div>
+                        <div class="result-box" id="result-${q.id}">
+                            评测结果：<span class="status"></span><br>得 分：<span class="score"></span>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function submitFillQuiz() {
+            fillQuestions.forEach(q => {
+                let allCorrect = true;
+                let isEmpty = true;
+                
+                q.answers.forEach((ans, i) => {
+                    const inputVal = document.getElementById(`${q.id}-ans-${i}`).value.trim();
+                    if (inputVal !== "") isEmpty = false;
+                    if (inputVal !== ans) allCorrect = false;
+                });
+
+                const resultBox = document.getElementById(`result-${q.id}`);
+                const statusSpan = resultBox.querySelector('.status');
+                const scoreSpan = resultBox.querySelector('.score');
+                resultBox.style.display = 'block';
+
+                if (isEmpty) {
+                    statusSpan.textContent = "未作答"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
+                } else if (allCorrect) {
+                    statusSpan.textContent = "答案正确"; statusSpan.className = "status correct"; scoreSpan.textContent = `${q.score} 分`;
+                } else {
+                    statusSpan.textContent = `答案错误 (正确答案: ${q.answers.join(", ")})`; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
+                }
+            });
+        }
+
+        // 页面初始化渲染所有题型
+        window.onload = () => {
+            renderTF();
+            renderChoice();
+            renderFill();
+        };
     </script>
+
     <script type="py">
 from pyscript import document
 from iapws import IAPWS97
@@ -404,35 +430,24 @@ from iapws import IAPWS97
 def query_steam(event):
     res_box = document.querySelector('#steam-result')
     res_box.style.display = 'block'
-    # Pyodide 引擎和科学计算库首次加载可能需要几秒钟
     res_box.innerHTML = "正在拉起计算核心并进行求解，请稍候..."
 
     try:
-        # 抓取前端输入框的数据
         p_val = document.querySelector('#steam-p').value
         t_val = document.querySelector('#steam-t').value
-        
         if not p_val or not t_val:
             res_box.innerHTML = '<span class="incorrect">⚠ 请输入完整的压力和温度参数！</span>'
             return
 
         p = float(p_val)
         t_c = float(t_val)
-        t_k = t_c + 273.15  # IF97标准库通常使用开尔文
+        t_k = t_c + 273.15  
 
-        # 调用底层库进行精准求解
         steam = IAPWS97(P=p, T=t_k)
         
-        # 将生硬的英文相态词汇进行本地化
-        phase_map = {
-            "Liquid": "液相 (水)", 
-            "Vapour": "气相 (蒸汽)", 
-            "Two phases": "两相 (汽水混合物)", 
-            "Supercritical": "超临界"
-        }
+        phase_map = { "Liquid": "液相 (水)", "Vapour": "气相 (蒸汽)", "Two phases": "两相 (汽水混合物)", "Supercritical": "超临界" }
         phase_str = phase_map.get(steam.phase, steam.phase)
 
-        # 将高精度的结果动态组装并渲染回网页
         res_box.innerHTML = f"""
             <div style="line-height: 1.8;">
                 <p><strong style="color:var(--primary-color);">查询条件：</strong> <i>p</i> = {p} MPa, <i>t</i> = {t_c} ℃</p>
