@@ -37,7 +37,8 @@
         }
 
         header {
-            background-color: var(--primary-color); color: white;
+            background-color: var(--primary-color);
+            color: white;
             padding: 0 20px; height: 60px; display: flex; align-items: center;
             justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10;
         }
@@ -211,11 +212,28 @@
         const tfQuestions = [
             { id: "t1", text: "下面程序的运行结果是4。<br><pre>i=3\n++i</pre>", correct: "F" },
             { id: "t2", text: "表达式 -2**4 等于16。", correct: "F" },
-            { id: "t3", text: "当输入是：45,8 时，下面程序的输出结果是37。<br><pre>a,b = input().split(',')\nb=int(b)\nc=int('a',b)\nprint(c)</pre>", correct: "F" },
-            { id: "t4", text: "下面语句的输出是：这是数字输出格式□□123。 （□表示空格）<br><pre>print('这是数字输出格式{:5d}'.format(123))</pre>", correct: "T" },
-            { id: "t5", text: "bool([])的返回值是False。", correct: "T" },
-            { id: "t6", text: "在循环中continue语句的作用是退出循环的当前迭代。", correct: "T" },
-            { id: "t7", text: "使用for i in range(10)和for i in range(10,20),控制循环次数是一样的。", correct: "T" }
+            { id: "t3", text: "下面程序的输入是5，输出是：<br><pre>*****\n*****</pre><pre>m=int(input())\nprint('{:^5}'.format('*'*m))\nprint('{:^m}'.format('*'*m))</pre>", correct: "T" },
+            { id: "t4", text: "当输入是：45,8 时，下面程序的输出结果是37。<br><pre>a,b = input().split(',')\nb=int(b)\nc=int('a',b)\nprint(c)</pre>", correct: "F" },
+            { id: "t5", text: "当输入是10.0时，下面程序的输出是 f(10.0) = 0.1。<br><pre>x=int(input())\nif x==0:\n    result=0\nelse:\n    result=1/x\nprint('f({0:.1f}) = {1:.1f}'.format(x,result))</pre>", correct: "T" },
+            { id: "t6", text: "下面程序的输出是：这是字符串输出格式□□123。 □表示空格。<br><pre>print(\"这是字符串输出格式{:5s}\".format(\"123\"))</pre>", correct: "F" },
+            { id: "t7", text: "下面语句的输出是：这是数字输出格式□□123。 □表示空格。<br><pre>print(\"这是数字输出格式{:5d}\".format(123))</pre>", correct: "T" },
+            { id: "t8", text: "int(True)的返回值是1。", correct: "T" },
+            { id: "t9", text: "print(bin(12.5))的输出是0b1100.1", correct: "F" },
+            { id: "t10", text: "int(\"92\",8)的值是74。", correct: "F" },
+            { id: "t11", text: "输入正整数6和5,要求和，6+66+666+6666+66666，下面程序正确吗？<br><pre>a=int(input())\nn=int(input())\nprint(sum([int('a'*i) for i in range(1,n+1)]))</pre>", correct: "T" },
+            { id: "t12", text: "bool(FALSE)的返回值是True。", correct: "F" },
+            { id: "t13", text: "bool([])的返回值是False。", correct: "T" },
+            { id: "t14", text: "bool(None)的返回值是False。", correct: "T" },
+            { id: "t15", text: "表达式 3 and 0 and \"hello\"的值是False。", correct: "F" },
+            { id: "t16", text: "z已赋值，x=(y=z+1)语句是错误语句", correct: "T" },
+            { id: "t17", text: "在循环中continue语句的作用是退出循环的当前迭代。", correct: "T" },
+            { id: "t18", text: "带有else子句的循环如果因为执行了break语句而退出的话，会执行else子句的代码。", correct: "F" },
+            { id: "t19", text: "使用 for i in range(10) 和 for i in range(10,20),控制循环次数是一样的。", correct: "T" },
+            { id: "t20", text: "在Python语言里，循环结构必须有else子句。", correct: "F" },
+            { id: "t21", text: "下面程序输入36，输出是10。<br><pre>a=[3,5,7,11,13,16,21,24,28,32,36,40,46]\nx = int(input())\nfound = -1\nleft = 0\nright = len(a)-1\nwhile left&lt;right:\n    mid = (left + right) // 2\n    if a[mid] &gt; x:\n        right = mid - 1\n    elif a[mid] &lt; x:\n        left = mid + 1\n    else:\n        found = mid\n        break\nprint(found)</pre>", correct: "T" },
+            { id: "t22", text: "下面程序的输出是3。<br><pre>lst=[34,6,7,0,0,0,9]\nn=0\nfor i in lst:\n    if i==0:\n        lst.remove(i)\n        n+=1\nprint(n)</pre>", correct: "F" },
+            { id: "t23", text: "下面程序输出是2。<br><pre>lst=[0,34,6,0,7,0,9]\nn=0\nfor i in lst:\n    if i==0:\n        lst.remove(i)\n        n+=1\nprint(n)</pre>", correct: "F" },
+            { id: "t24", text: "下面程序输出值是1。<br><pre>data=[[1]*3]*3\ndata[0][1]=45\nprint(data[2][1])</pre>", correct: "F" }
         ];
 
         function renderTF() {
@@ -255,10 +273,31 @@
         // === 2. 选择题 ===
         const choiceQuestions = [
             { id: "c1", text: "下列数据类型中， Python不支持的是_____________。", options: ["char", "int", "float", "list"], correct: "A" },
-            { id: "c2", text: "Python 语句print(type(1J))的输出结果是______________。", options: ["<class 'complex'>", "<class 'int'>", "<class 'float'>", "<class 'dict'>"], correct: "A" },
-            { id: "c3", text: "Python 语句print(type(1//2))的输出结果是______________。", options: ["<class 'int'>", "<class 'number'>", "<class 'float'>", "<class 'double'>"], correct: "A" },
-            { id: "c4", text: "关于Python字符串，下列说法错误的是___________。", options: ["字符即长度为1的字符串", "字符串以\\0标志字符串的结束", "既可以用单引号，也可以用双引号创建字符串", "在三引号字符串中可以包含换行回车等特殊字符"], correct: "B" },
-            { id: "c5", text: "在一个函数中如局部变量和全局变量同名，则_________________。", options: ["局部变量屏蔽全局变量", "全局变量屏蔽局部变量", "全局变量和局部变量都不可用", "程序错误"], correct: "A" }
+            { id: "c2", text: "Python 语句 print(type(1J)) 的输出结果是______________。", options: ["&lt;class 'complex'&gt;", "&lt;class 'int'&gt;", "&lt;class 'float'&gt;", "&lt;class 'dict'&gt;"], correct: "A" },
+            { id: "c3", text: "Python 语句 print(type(1/2)) 的输出结果是______________。", options: ["&lt;class 'int'&gt;", "&lt;class 'number'&gt;", "&lt;class 'float'&gt;", "&lt;class 'double'&gt;"], correct: "C" },
+            { id: "c4", text: "Python 语句 print(type(1//2)) 的输出结果是______________。", options: ["&lt;class 'int'&gt;", "&lt;class 'number'&gt;", "&lt;class 'float'&gt;", "&lt;class 'double'&gt;"], correct: "A" },
+            { id: "c5", text: "Python 语句 x='car'; y = 2; print (x+y) 的输出结果是____________。", options: ["语法错", "2", "'car2'", "'carcar'"], correct: "A" },
+            { id: "c6", text: "Python 语句 a=121+1.21; print(type(a)) 的输出结果是_____________。", options: ["&lt;class 'int'&gt;", "&lt;class 'float'&gt;", "&lt;class 'double'&gt;", "&lt;class 'long'&gt;"], correct: "B" },
+            { id: "c7", text: "Python 语句 print(0xA + 0xB) 的输出结果是______________。", options: ["0xA + 0xB", "A + B", "0xA0xB", "21"], correct: "D" },
+            { id: "c8", text: "如math模块已引入，Python 表达式 math.sqrt(4)*math.sqrt(9) 的值为________。", options: ["36.0", "6", "13", "6.0"], correct: "D" },
+            { id: "c9", text: "关于Python中的复数，下列说法错误的是___________。", options: ["表示复数的语法是real + imag j", "实部和虚部都是浮点数", "虚部必须后缀j, 且必须是小写", "方法conjugate 返回复数的共轭复数"], correct: "C" },
+            { id: "c10", text: "Python 语句 print(chr(65)) 的运行结果是___________。", options: ["65", "6", "5", "A"], correct: "D" },
+            { id: "c11", text: "关于Python字符串，下列说法错误的是___________。", options: ["字符即长度为1的字符串", "字符串以\\0标志字符串的结束", "既可以用单引号，也可以用双引号创建字符串", "在三引号字符串中可以包含换行回车等特殊字符"], correct: "B" },
+            { id: "c12", text: "表达式 1+2*3.14>0 的结果类型是:", options: ["int", "long", "float", "bool"], correct: "D" },
+            { id: "c13", text: "continue语句用于________。", options: ["退出循环程序", "结束本次循环", "空操作", "引发异常处理"], correct: "B" },
+            { id: "c14", text: "下面程序中，i的循环终值是__________。<br><pre>for i in range(10):\n    print(i)</pre>", options: ["9", "10", "11", "以上都不对"], correct: "A" },
+            { id: "c15", text: "下面程序中语句 print(i*j) 共执行了___________________次。<br><pre>for i in range(5):\n    for j in range(2,5):\n        print(i*j)</pre>", options: ["15", "14", "20", "12"], correct: "A" },
+            { id: "c16", text: "执行下面程序产生的结果是___________________。<br><pre>x=2;y=2.0\nif(x==y):\n   print(\"相等\")\nelse:\n   print(\"不相等\")</pre>", options: ["相等", "不相等", "运行错误", "死循环"], correct: "A" },
+            { id: "c17", text: "下面那个语句不能完成1到10的累加功能, total初值为0。", options: ["for i in range(10,0):total+=i", "for i in range(1,11):total+=i", "for i in range(10,0,-1):total+=i", "for i in (10,9,8,7,6,5,4,3,2,1):total+=i"], correct: "A" },
+            { id: "c18", text: "下面程序的运行结果是什么？<br><pre>s=0\na,b=1,2\nif a>0:\n    s=s+1\nelif b>0:\n    s=s+1\nprint(s)</pre>", options: ["错误", "0", "1", "2"], correct: "C" },
+            { id: "c19", text: "下面程序输入1时，输出是什么？<br><pre>num=int(input())\na=num-1\nwhile a>1:\n   if num % a == 0:\n        print(\"不是素数\")\n        break\n   a=a-1\nelse:\n   print(\"是素数\")</pre>", options: ["不是素数", "是素数", "没有输出", "出现异常"], correct: "B" },
+            { id: "c20", text: "print(type(lambda:3)) 的输出结果是_________。", options: ["&lt;class 'function'&gt;", "&lt;class 'int'&gt;", "&lt;class 'NoneType'&gt;", "&lt;class 'float'&gt;"], correct: "A" },
+            { id: "c21", text: "在Python中，对于函数定义代码的理解，正确的理解是________。", options: ["必须存在形参", "必须存在return语句", "形参和return语句都是可有可无的", "形参和return语句要么都存在，要么都不存在"], correct: "C" },
+            { id: "c22", text: "在一个函数中如局部变量和全局变量同名，则_________________。", options: ["局部变量屏蔽全局变量", "全局变量屏蔽局部变量", "全局变量和局部变量都不可用", "程序错误"], correct: "A" },
+            { id: "c23", text: "area是tri模块中的一个函数，执行 from tri import area 后，调用area函数应该使用____ 。", options: ["tri(area)", "tri.area()", "area()", "tri()"], correct: "C" },
+            { id: "c24", text: "函数可以改变哪种数据类型的实参？", options: ["int", "string", "list", "float"], correct: "C" },
+            { id: "c25", text: "函数定义如下，运行程序的输出是____。<br><pre>def f1(a,b,c):\n     print(a+b)\nnums=(1,2,3)\nf1(nums)</pre>", options: ["6", "3", "1", "语法错"], correct: "D" },
+            { id: "c26", text: "下面程序的运行结果是什么？<br><pre>def fun(x1,x2,x3,**x4):\n    print(x1,x2,x3,x4)\n\nfun(x1=1,x2=22,x3=333,x4=4444)</pre>", options: ["1 22 333 4444", "1 22 333 (4444)", "1 22 333 [4444]", "1 22 333 {'x4': 4444}"], correct: "D" }
         ];
 
         function renderChoice() {
@@ -296,8 +335,37 @@
         const fillQuestions = [
             { id: "f1", parts: ["Python 表达式 3**2**3 的值为", "。"], answers: ["6561"], score: 1 },
             { id: "f2", parts: ["Python 表达式 round(17.0/3**2,2) 的值为", "。"], answers: ["1.89"], score: 1 },
-            { id: "f3", parts: ["表达式32.2//6-24//6的值是", "。"], answers: ["1.0"], score: 1 },
-            { id: "f4", parts: ["下面程序的运行结果是", "。<br><pre>b, c=2, 4\ndef g_func(d):\n    global a\n    a=d*c\ng_func(b)\nprint(a)</pre>"], answers: ["8"], score: 1 }
+            { id: "f3", parts: ["Python 语句 print(int(\"20\", 16), int(\"101\",2)) 的输出结果是", "。"], answers: ["32 5"], score: 1 },
+            { id: "f4", parts: ["表达式 --3 的结果是什么？", "。"], answers: ["3"], score: 1 },
+            { id: "f5", parts: ["Python 表达式 10 + 5//3 –True+False 的值为", "。"], answers: ["10"], score: 1 },
+            { id: "f6", parts: ["Python 语句 print(hex(16), bin(10)) 的输出结果是 (进制用小写字母表示)：", "。"], answers: ["0x10 0b1010"], score: 1 },
+            { id: "f7", parts: ["Python 语句 print(abs(-10.2), round(abs(8-2j),3)) 的输出结果是：", "。"], answers: ["10.2 8.246"], score: 1 },
+            { id: "f8", parts: ["Python输出 print(\"hello\" 'world') 的结果是：", "。"], answers: ["helloworld"], score: 1 },
+            { id: "f9", parts: ["表达式 32.2//6-24//6 的值是：", "。"], answers: ["1.0"], score: 1 },
+            { id: "f10", parts: ["下面程序输出是：", "。<br><pre>n = 39\nremainders = []\nwhile n>0:\n    n,remainder = divmod(n,2)\n    remainders.insert(0,remainder)\nprint(len(remainders))</pre>"], answers: ["6"], score: 1 },
+            { id: "f11", parts: ["Python 表达式 0 and 1 or not 2&lt;True 的值为：", "。"], answers: ["True"], score: 1 },
+            { id: "f12", parts: ["已知 a=3; b=5; c=6; d=True, 则表达式 not d or a>=0 and a+c>b+3 的值是：", "。"], answers: ["True"], score: 1 },
+            { id: "f13", parts: ["Python 语句 x=True; y=False; z=False; print(x or y and z) 的程序运行结果是：", "。"], answers: ["True"], score: 1 },
+            { id: "f14", parts: ["Python 语句 x=0; y= True; print(x>=y and‘A'&lt;'B') 的程序运行结果是：", "。"], answers: ["False"], score: 1 },
+            { id: "f15", parts: ["Python 表达式 16-25>78/2 or \"XYZ\"!=\"xyz\"and not (10-6>18/2) 的值是：", "。"], answers: ["True"], score: 1 },
+            { id: "f16", parts: ["表达式 ((2>=2) or (2&lt;2)) and 2 的值为多少？", "。"], answers: ["2"], score: 1 },
+            { id: "f17", parts: ["表达式 3 and 0 and 5 的结果是什么？", "。"], answers: ["0"], score: 1 },
+            { id: "f18", parts: ["下面程序运行后，位于最后一行的最后一个数字是：", "。<br><pre>for i in range(1,5):\n    j=0\n    while j&lt;i:\n       print(j,end=\" \")\n       j+=1\n    print()</pre>"], answers: ["3"], score: 1 },
+            { id: "f19", parts: ["下面程序运行后，倒数第二行打印出：", "。<br><pre>i=5\nwhile i>=1:\n    num=1\n    for j in range(1,i+1):\n        print(num,end=\"xxx\")\n        num*=2\n    print()\n    i-=1</pre>"], answers: ["1xxx"], score: 1 },
+            { id: "f20", parts: ["下面程序运行后，最后一行有", "个“G”。<br><pre>i=1\nwhile i&lt;=5:\n    num=1\n    for j in range(1,i+1):\n        print(num,end=\"G\")\n        num+=2\n    print()\n    i+=1</pre>"], answers: ["5"], score: 1 },
+            { id: "f21", parts: ["下面程序运行后输出是：", "。<br><pre>a = [1, 2, 3, 4, [5, 6], [7, 8, 9]]\ns = 0\nfor row in a:\n       if type(row)==list:\n            for elem in row:\n               s += elem\n       else:\n            s+=row\nprint(s)</pre>"], answers: ["45"], score: 1 },
+            { id: "f22", parts: ["下面程序运行后输出是：", "。<br><pre>l3=[i+j for i in range(1,6) for j in range(1,6)]\nprint(sum(l3))</pre>"], answers: ["150"], score: 1 },
+            { id: "f23", parts: ["下面程序运行后输出是：", "。<br><pre>l3=[[(i,j) for i in range(1,6)] for j in range(1,6)]\nprint(l3[2][1][0])</pre>"], answers: ["2"], score: 1 },
+            { id: "f24", parts: ["下面程序的运行结果是：", "。<br><pre>def scope():\n     n=4\n     m=5\n     print(m,n,end=' ')\nn=5\nt=8\nscope()\nprint(n,t)</pre>"], answers: ["5 4 5 8"], score: 1 },
+            { id: "f25", parts: ["下面程序运行结果是：", "。<br><pre>def nprintf(message,n):\n    for i in range(n):\n        print(message,end=\" \")\n\nnprintf(\"a\",3,)\nnprintf(n=5,message=\"good\")</pre>"], answers: ["a a a good good good good good"], score: 1 },
+            { id: "f26", parts: ["下面程序的输出是什么? (字符串不要加引号)：", "。<br><pre>lst=[(1,\"one\"),(2,\"two\"),(3,\"three\"),(4,\"four\")]\nlst.sort(key=lambda x:x[1])\nprint(lst[3][1][2])</pre>"], answers: ["o"], score: 1 },
+            { id: "f27", parts: ["下面程序的第四行输出是：", "。<br><pre>def perm(choice,selected=[]):\n    if len(choice)==1:\n        print(\"\".join(selected+choice))\n    else:\n        for i in range(len(choice)):\n            t=choice[i]\n            choice.remove(t)\n            selected.append(t)\n            perm(choice,selected)\n            choice.insert(i,t)\n            selected.pop()\n\nfirst=[\"1\",\"2\",\"3\"]\nperm(first,selected=[])</pre>"], answers: ["321"], score: 1 },
+            { id: "f28", parts: ["在Python中，函数是对象，可以像其他数据对象一样使用。下面程序的输出是：", "。<br><pre>def func1():\n    print(\"11\",end=\" \")\n\ndef func2():\n    print(\"22\",end=\" \")\n\ndef func3():\n    print(\"33\",end=\" \")\n\nfunclist=[func1,func2,func3]\nfor func in funclist:\n    func()</pre>"], answers: ["11 22 33"], score: 1 },
+            { id: "f29", parts: ["下面程序的输出是：", "。<br><pre>f = lambda p:p+5\nt = lambda p:p*3\nx=7\nx=f(x)\nx=t(x)\nx=f(x)\nprint(x)</pre>"], answers: ["41"], score: 1 },
+            { id: "f30", parts: ["下面程序的输出是：", "。<br><pre>def factorial(n):\n    match n:\n        case 0 | 1:\n            return 1\n        case _:\n            return n * factorial(n - 1)\nprint(factorial(5))</pre>"], answers: ["120"], score: 1 },
+            { id: "f31", parts: ["下面程序的运行结果是：", "。<br><pre>l=[1]\ndef scope1():\n    l.append(6)\n    print(*l)\nscope1()</pre>"], answers: ["1 6"], score: 1 },
+            { id: "f32", parts: ["下面程序的运行结果是：", "。<br><pre>a=10\ndef func():\n    global a\n    a=20\n    print(a,end=' ')\nfunc()\nprint(a)</pre>"], answers: ["20 20"], score: 1 },
+            { id: "f33", parts: ["下面程序的运行结果是：", "。<br><pre>b, c=2, 4\ndef g_func(d):\n    global a\n    a=d*c\ng_func(b)\nprint(a)</pre>"], answers: ["8"], score: 1 }
         ];
 
         function renderFill() {
