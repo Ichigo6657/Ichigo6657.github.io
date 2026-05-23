@@ -30,26 +30,16 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            margin: 0; padding: 0;
+            background-color: var(--bg-color); color: var(--text-color);
             transition: background-color 0.3s, color 0.3s;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            display: flex; flex-direction: column; height: 100vh;
         }
 
         header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0 20px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            z-index: 10;
+            background-color: var(--primary-color); color: white;
+            padding: 0 20px; height: 60px; display: flex; align-items: center;
+            justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10;
         }
 
         .header-left { display: flex; align-items: center; gap: 20px; }
@@ -88,11 +78,10 @@
         .input-group label { display: inline-block; width: 90px; font-weight: bold;}
         .input-group input { padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; width: 150px; background: var(--bg-color); color: var(--text-color);}
         
-        /* 填空题输入框与代码区样式 */
         .fill-input { border: none; border-bottom: 1px solid var(--text-color); background: transparent; color: var(--primary-color); width: 100px; text-align: center; font-size: 1em; outline: none; margin: 0 5px; font-weight:bold; }
         pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; color: #333; border: 1px solid #ddd; }
         [data-theme="slate"] pre { background: #1a1a1a; color: #ccc; border-color: #444; }
-        .code-editor { width: 100%; height: 200px; padding: 10px; font-family: monospace; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-bottom: 10px; resize: vertical; }
+        .code-editor { width: 100%; height: 200px; padding: 10px; font-family: monospace; font-size: 14px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-bottom: 10px; resize: vertical; }
     </style>
 </head>
 <body>
@@ -114,13 +103,11 @@
         <aside>
             <ul class="sidebar-menu">
                 <li id="nav-home" class="menu-item active" onclick="switchPage('home')">主页 (About)</li>
-                
                 <li class="menu-category">Python 练习</li>
                 <li id="nav-tf-quiz" class="menu-item sub-item" onclick="switchPage('tf-quiz')">判断题</li>
                 <li id="nav-choice-quiz" class="menu-item sub-item" onclick="switchPage('choice-quiz')">选择题</li>
                 <li id="nav-fill-quiz" class="menu-item sub-item" onclick="switchPage('fill-quiz')">填空题</li>
                 <li id="nav-code-quiz" class="menu-item sub-item" onclick="switchPage('code-quiz')">编程题</li>
-
                 <li class="menu-category">工程热力学</li>
                 <li id="nav-steam-tool" class="menu-item sub-item" onclick="switchPage('steam-tool')">水蒸气性质查询</li>
             </ul>
@@ -145,11 +132,9 @@
                 </div>
                 <div class="theme-section">
                     <p>下面是主题切换的页面，请谨慎选择，因为你之后的阅读将会保持选择的样式：</p>
-                    <h4>日间 / 夜间</h4>
                     <button class="theme-btn mode-btn" onclick="setDarkMode('default')">default</button>
                     <button class="theme-btn mode-btn dark" onclick="setDarkMode('slate')">slate</button>
-                    <h4>主色</h4>
-                    <div id="color-buttons"></div>
+                    <div id="color-buttons" style="margin-top:10px;"></div>
                 </div>
             </div>
 
@@ -160,49 +145,20 @@
             </div>
 
             <div id="page-choice-quiz" class="page-content">
-                <h2>单选题练习 <span style="font-size:0.5em;color:#888;">(共10题)</span></h2>
+                <h2>单选题练习</h2>
                 <div id="choice-container"></div>
                 <button class="submit-btn" onclick="submitChoiceQuiz()">提交判卷</button>
             </div>
 
             <div id="page-fill-quiz" class="page-content">
-                <h2>填空题练习 <span style="font-size:0.5em;color:#888;">(共4题)</span></h2>
+                <h2>填空题练习</h2>
                 <div id="fill-container"></div>
                 <button class="submit-btn" onclick="submitFillQuiz()">提交判卷</button>
             </div>
 
             <div id="page-code-quiz" class="page-content">
-                <h2>编程题：写字母H</h2>
-                <div class="card-box">
-                    <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
-                        <span>分数 10</span><span>作者 陈春晖 单位 浙江大学</span>
-                    </div>
-                    <div style="margin-bottom:15px; line-height: 1.6;">
-                        <p>字母H可以这样输出。编程序输出H</p>
-<pre>
-* *
-* *
-*****
-* *
-* *
-</pre>
-                        <p><strong>输入格式:</strong> 无</p>
-                        <p><strong>输出格式:</strong> 输出字母H图形。</p>
-                        <p style="color:#888; font-size: 0.9em;">代码长度限制: 16 KB | 时间限制: 400 ms | 内存限制: 64 MB</p>
-                    </div>
-                    
-                    <h4>代码编辑区</h4>
-                    <textarea class="code-editor" placeholder="在此处编写你的 Python 代码..."></textarea>
-                    
-                    <button class="submit-btn" style="width: auto; padding: 8px 16px;" onclick="document.getElementById('code-answer').style.display='block'">查看参考答案</button>
-                    
-                    <div id="code-answer" class="result-box" style="margin-top: 15px;">
-                        <p><span class="correct">参考答案：</span></p>
-<pre>
-print("* *\n* *\n*****\n* *\n* *")
-</pre>
-                    </div>
-                </div>
+                <h2>编程题 (OJ在线评测)</h2>
+                <div id="code-container"></div>
             </div>
 
             <div id="page-steam-tool" class="page-content">
@@ -228,7 +184,7 @@ print("* *\n* *\n*****\n* *\n* *")
     </div>
 
     <script>
-        // === 页面路由切换与主题逻辑 ===
+        // === 页面路由切换与主题 ===
         function switchPage(pageId) {
             document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.sidebar-menu li.menu-item').forEach(el => el.classList.remove('active'));
@@ -241,28 +197,25 @@ print("* *\n* *\n*****\n* *\n* *")
             if (mode === 'slate') document.documentElement.setAttribute('data-theme', 'slate');
             else document.documentElement.removeAttribute('data-theme');
         }
-
         function setPrimaryColor(colorHex) { document.documentElement.style.setProperty('--primary-color', colorHex); }
 
-        const colors = {
-            red: '#f44336', pink: '#e91e63', purple: '#9c27b0', indigo: '#3f51b5',
-            blue: '#2094f3', cyan: '#00bcd4', teal: '#009688', green: '#4caf50',
-            lime: '#cddc39', orange: '#ff9800', brown: '#795548', grey: '#9e9e9e', black: '#000000'
-        };
+        const colors = { red: '#f44336', pink: '#e91e63', purple: '#9c27b0', indigo: '#3f51b5', blue: '#2094f3', cyan: '#00bcd4', teal: '#009688', green: '#4caf50', lime: '#cddc39', orange: '#ff9800', brown: '#795548', grey: '#9e9e9e', black: '#000000' };
         const colorContainer = document.getElementById('color-buttons');
         for (const [name, hex] of Object.entries(colors)) {
             const btn = document.createElement('button');
             btn.className = 'theme-btn'; btn.style.backgroundColor = hex; btn.textContent = name;
-            btn.onclick = () => setPrimaryColor(hex);
-            colorContainer.appendChild(btn);
+            btn.onclick = () => setPrimaryColor(hex); colorContainer.appendChild(btn);
         }
 
-        // === 1. 判断题数据与逻辑 ===
+        // === 1. 判断题 ===
         const tfQuestions = [
-            { id: "tf1", text: "高级语言程序要被机器执行,只有用解释器来解释执行。", correct: "F" },
-            { id: "tf2", text: "不可以在同一台计算机上安装多个不同的Python解释器版本。", correct: "F" },
-            { id: "tf3", text: "Python是一种跨平台、开源、免费的动态编程语言。", correct: "T" },
-            { id: "tf4", text: "math模块是python语言的数学模块。", correct: "T" }
+            { id: "t1", text: "下面程序的运行结果是4。<br><pre>i=3\n++i</pre>", correct: "F" },
+            { id: "t2", text: "表达式 -2**4 等于16。", correct: "F" },
+            { id: "t3", text: "当输入是：45,8 时，下面程序的输出结果是37。<br><pre>a,b = input().split(',')\nb=int(b)\nc=int('a',b)\nprint(c)</pre>", correct: "F" },
+            { id: "t4", text: "下面语句的输出是：这是数字输出格式□□123。 （□表示空格）<br><pre>print('这是数字输出格式{:5d}'.format(123))</pre>", correct: "T" },
+            { id: "t5", text: "bool([])的返回值是False。", correct: "T" },
+            { id: "t6", text: "在循环中continue语句的作用是退出循环的当前迭代。", correct: "T" },
+            { id: "t7", text: "使用for i in range(10)和for i in range(10,20),控制循环次数是一样的。", correct: "T" }
         ];
 
         function renderTF() {
@@ -273,7 +226,7 @@ print("* *\n* *\n*****\n* *\n* *")
                         <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
                             <span>${idx + 1}-1 分数 1</span><span>作者 陈春晖 单位 浙江大学</span>
                         </div>
-                        <div style="margin-bottom:15px;">${q.text}</div>
+                        <div style="margin-bottom:15px; line-height: 1.6;">${q.text}</div>
                         <div>
                             <label style="margin-right:20px;"><input type="radio" name="${q.id}" value="T"> T</label>
                             <label><input type="radio" name="${q.id}" value="F"> F</label>
@@ -289,32 +242,23 @@ print("* *\n* *\n*****\n* *\n* *")
             tfQuestions.forEach(q => {
                 const selected = document.querySelector(`input[name="${q.id}"]:checked`);
                 const resultBox = document.getElementById(`result-${q.id}`);
+                resultBox.style.display = 'block';
                 const statusSpan = resultBox.querySelector('.status');
                 const scoreSpan = resultBox.querySelector('.score');
-                resultBox.style.display = 'block';
 
-                if (!selected) {
-                    statusSpan.textContent = "未作答"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
-                } else if (selected.value === q.correct) {
-                    statusSpan.textContent = "答案正确"; statusSpan.className = "status correct"; scoreSpan.textContent = "1 分";
-                } else {
-                    statusSpan.textContent = "答案错误"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
-                }
+                if (!selected) { statusSpan.textContent = "未作答"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分"; }
+                else if (selected.value === q.correct) { statusSpan.textContent = "答案正确"; statusSpan.className = "status correct"; scoreSpan.textContent = "1 分"; }
+                else { statusSpan.textContent = "答案错误"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分"; }
             });
         }
 
-        // === 2. 单选题数据与逻辑 ===
+        // === 2. 选择题 ===
         const choiceQuestions = [
-            { id: "c1", text: "计算机存储器的单位是字节（B,Byte）,1B等于__________。", options: ["一位二进制", "四位二进制", "八位二进制", "十六位二进制"], correct: "C" },
-            { id: "c2", text: "Python程序在Windows上的扩展名是_________。", options: ["py", "exe", "docx", "jpg"], correct: "A" },
-            { id: "c3", text: "10的二进制值是__________。", options: ["1100", "1010", "0011", "1110"], correct: "B" },
-            { id: "c4", text: "八进制35的十进制值是_________。", options: ["30", "25", "19", "29"], correct: "D" },
-            { id: "c5", text: "计算机系统由硬件和________组成。", options: ["语言", "控制器", "存储器", "软件"], correct: "D" },
-            { id: "c6", text: "______是不等长编码。", options: ["ASCII码", "Unicode码", "UTF-8码", "以上都不"], correct: "C" },
-            { id: "c7", text: "_______号表示同一行的后面部分是Python程序的注释。", options: ["*", "%", "/", "#"], correct: "D" },
-            { id: "c8", text: "Python语言的官方网站地址是_______。", options: ["www.python.org", "www.python.com", "www.python.edu", "www.pythontutor.com"], correct: "A" },
-            { id: "c9", text: "不是面向对象的程序设计语言是________。", options: ["Java", "C", "C++", "Python"], correct: "B" },
-            { id: "c10", text: "下面程序的输出是什么？<pre style='margin:10px 0;'>a,b=5,9\nprint(a, b)</pre>", options: ["59", "5,9", "5□9   (□表示空格)", "5□□9  (5和9之间二个空格)"], correct: "C" }
+            { id: "c1", text: "下列数据类型中， Python不支持的是_____________。", options: ["char", "int", "float", "list"], correct: "A" },
+            { id: "c2", text: "Python 语句print(type(1J))的输出结果是______________。", options: ["<class 'complex'>", "<class 'int'>", "<class 'float'>", "<class 'dict'>"], correct: "A" },
+            { id: "c3", text: "Python 语句print(type(1//2))的输出结果是______________。", options: ["<class 'int'>", "<class 'number'>", "<class 'float'>", "<class 'double'>"], correct: "A" },
+            { id: "c4", text: "关于Python字符串，下列说法错误的是___________。", options: ["字符即长度为1的字符串", "字符串以\\0标志字符串的结束", "既可以用单引号，也可以用双引号创建字符串", "在三引号字符串中可以包含换行回车等特殊字符"], correct: "B" },
+            { id: "c5", text: "在一个函数中如局部变量和全局变量同名，则_________________。", options: ["局部变量屏蔽全局变量", "全局变量屏蔽局部变量", "全局变量和局部变量都不可用", "程序错误"], correct: "A" }
         ];
 
         function renderChoice() {
@@ -322,9 +266,7 @@ print("* *\n* *\n*****\n* *\n* *")
             const labels = ['A', 'B', 'C', 'D'];
             choiceQuestions.forEach((q, idx) => {
                 let optionsHtml = '';
-                q.options.forEach((opt, i) => {
-                    optionsHtml += `<label style="display:block; margin: 8px 0; cursor:pointer;"><input type="radio" name="${q.id}" value="${labels[i]}"> ${labels[i]}. ${opt}</label>`;
-                });
+                q.options.forEach((opt, i) => { optionsHtml += `<label style="display:block; margin: 8px 0; cursor:pointer;"><input type="radio" name="${q.id}" value="${labels[i]}"> ${labels[i]}. ${opt}</label>`; });
                 container.innerHTML += `
                     <div class="card-box">
                         <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
@@ -343,26 +285,19 @@ print("* *\n* *\n*****\n* *\n* *")
             choiceQuestions.forEach(q => {
                 const selected = document.querySelector(`input[name="${q.id}"]:checked`);
                 const resultBox = document.getElementById(`result-${q.id}`);
-                const statusSpan = resultBox.querySelector('.status');
-                const scoreSpan = resultBox.querySelector('.score');
                 resultBox.style.display = 'block';
-
-                if (!selected) {
-                    statusSpan.textContent = "未作答"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
-                } else if (selected.value === q.correct) {
-                    statusSpan.textContent = "答案正确"; statusSpan.className = "status correct"; scoreSpan.textContent = "1 分";
-                } else {
-                    statusSpan.textContent = `答案错误 (正确答案: ${q.correct})`; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
-                }
+                if (!selected) { resultBox.innerHTML = '<span class="incorrect">未作答</span> (0 分)'; }
+                else if (selected.value === q.correct) { resultBox.innerHTML = '<span class="correct">答案正确</span> (1 分)'; }
+                else { resultBox.innerHTML = `<span class="incorrect">答案错误</span> (正确答案: ${q.correct}, 0 分)`; }
             });
         }
 
-        // === 3. 填空题数据与逻辑 ===
+        // === 3. 填空题 ===
         const fillQuestions = [
-            { id: "f1", parts: ["十进制19.625的二进制是", "。（整数部分用八位二进制表示）"], answers: ["00010011.101"], score: 1 },
-            { id: "f2", parts: ["十六进制2AC的八进制表示是", "。"], answers: ["1254"], score: 1 },
-            { id: "f3", parts: ["十进制106的原码是", "，反码是", "，补码是", "。 （用八位表示）"], answers: ["01101010", "01101010", "01101010"], score: 3 },
-            { id: "f4", parts: ["-78的原码是", "，反码是", "，补码是", "。 （用八位表示）"], answers: ["11001110", "10110001", "10110010"], score: 3 }
+            { id: "f1", parts: ["Python 表达式 3**2**3 的值为", "。"], answers: ["6561"], score: 1 },
+            { id: "f2", parts: ["Python 表达式 round(17.0/3**2,2) 的值为", "。"], answers: ["1.89"], score: 1 },
+            { id: "f3", parts: ["表达式32.2//6-24//6的值是", "。"], answers: ["1.0"], score: 1 },
+            { id: "f4", parts: ["下面程序的运行结果是", "。<br><pre>b, c=2, 4\ndef g_func(d):\n    global a\n    a=d*c\ng_func(b)\nprint(a)</pre>"], answers: ["8"], score: 1 }
         ];
 
         function renderFill() {
@@ -371,94 +306,215 @@ print("* *\n* *\n*****\n* *\n* *")
                 let htmlText = "";
                 q.parts.forEach((part, i) => {
                     htmlText += part;
-                    if (i < q.answers.length) {
-                        htmlText += `<input type="text" class="fill-input" id="${q.id}-ans-${i}">`;
-                    }
+                    if (i < q.answers.length) htmlText += `<input type="text" class="fill-input" id="${q.id}-ans-${i}">`;
                 });
-
                 container.innerHTML += `
                     <div class="card-box">
                         <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
                             <span>分数 ${q.score}</span><span>作者 陈春晖 单位 浙江大学</span>
                         </div>
                         <div style="margin-bottom:15px; font-weight:bold; line-height:2;">${htmlText}</div>
-                        <div class="result-box" id="result-${q.id}">
-                            评测结果：<span class="status"></span><br>得 分：<span class="score"></span>
-                        </div>
+                        <div class="result-box" id="result-${q.id}"></div>
                     </div>`;
             });
         }
 
         function submitFillQuiz() {
             fillQuestions.forEach(q => {
-                let allCorrect = true;
-                let isEmpty = true;
-                
+                let allCorrect = true; let isEmpty = true;
                 q.answers.forEach((ans, i) => {
                     const inputVal = document.getElementById(`${q.id}-ans-${i}`).value.trim();
                     if (inputVal !== "") isEmpty = false;
                     if (inputVal !== ans) allCorrect = false;
                 });
-
                 const resultBox = document.getElementById(`result-${q.id}`);
-                const statusSpan = resultBox.querySelector('.status');
-                const scoreSpan = resultBox.querySelector('.score');
                 resultBox.style.display = 'block';
-
-                if (isEmpty) {
-                    statusSpan.textContent = "未作答"; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
-                } else if (allCorrect) {
-                    statusSpan.textContent = "答案正确"; statusSpan.className = "status correct"; scoreSpan.textContent = `${q.score} 分`;
-                } else {
-                    statusSpan.textContent = `答案错误 (正确答案: ${q.answers.join(", ")})`; statusSpan.className = "status incorrect"; scoreSpan.textContent = "0 分";
-                }
+                if (isEmpty) { resultBox.innerHTML = '<span class="incorrect">未作答</span> (0 分)'; }
+                else if (allCorrect) { resultBox.innerHTML = `<span class="correct">答案正确</span> (${q.score} 分)`; }
+                else { resultBox.innerHTML = `<span class="incorrect">答案错误</span> (正确答案: ${q.answers.join(", ")}, 0 分)`; }
             });
         }
 
-        // 页面初始化渲染所有题型
-        window.onload = () => {
-            renderTF();
-            renderChoice();
-            renderFill();
-        };
+        // === 4. 编程题渲染逻辑 ===
+        const codeQuestions = [
+            {
+                id: "code1", title: "缩写词", score: 20, author: "陈春晖",
+                desc: "缩写词是由一个短语中每个单词的第一个字母组成，均为大写。例如，CPU是短语“central processing unit”的缩写。<br>函数接口定义：<code>acronym(phrase);</code> phrase是短语参数，返回短语的缩写词。<br><br><b>裁判测试程序样例：</b><br><pre>phrase=input()\nprint(acronym(phrase))</pre>",
+                inputEx: "central processing unit", outputEx: "CPU",
+                ans: "def acronym(phrase):\n    return ''.join([word[0].upper() for word in phrase.split()])"
+            },
+            {
+                id: "code2", title: "找完数", score: 20, author: "陈建海",
+                desc: "所谓完数就是该数恰好等于除自身外的因子之和。例如：6=1+2+3。本题要求编写程序，找出任意两正整数m和n之间的所有完数。<br>若区间内没有完数，则输出“None”。",
+                inputEx: "2 30", outputEx: "6 = 1 + 2 + 3\n28 = 1 + 2 + 4 + 7 + 14",
+                ans: "m, n = map(int, input().split())\nfound = False\nfor i in range(m, n + 1):\n    factors = [1]\n    for j in range(2, int(i**0.5) + 1):\n        if i % j == 0:\n            factors.append(j)\n            if j != i // j:\n                factors.append(i // j)\n    if i > 1 and sum(factors) == i:\n        factors.sort()\n        print(f\"{i} = {' + '.join(map(str, factors))}\")\n        found = True\nif not found:\n    print('None')"
+            },
+            {
+                id: "code3", title: "显示Pascal三角形", score: 30, author: "陈春晖",
+                desc: "输入行数n,显示n行Pascal三角形。数字间有一个空格。每行最后一个数字后有一个空格。",
+                inputEx: "4", outputEx: "1 \n1 1 \n1 2 1 \n1 3 3 1 ",
+                ans: "n = int(input())\nfor i in range(n):\n    row = [1]\n    if i > 0:\n        prev = 1\n        for j in range(1, i + 1):\n            curr = prev * (i - j + 1) // j\n            row.append(curr)\n            prev = curr\n    print(' '.join(map(str, row)) + ' ')"
+            }
+        ];
+
+        function renderCode() {
+            const container = document.getElementById('code-container');
+            codeQuestions.forEach((q, idx) => {
+                container.innerHTML += `
+                    <div class="card-box">
+                        <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
+                            <span>分数 ${q.score}</span><span>作者 ${q.author} 单位 浙江大学</span>
+                        </div>
+                        <h3 style="margin-top:0;">${idx + 1}. ${q.title}</h3>
+                        <div style="margin-bottom:15px; line-height: 1.6;">
+                            <p>${q.desc}</p>
+                            <p><strong>输入样例:</strong><br><pre>${q.inputEx}</pre></p>
+                            <p><strong>输出样例:</strong><br><pre>${q.outputEx}</pre></p>
+                        </div>
+                        <textarea class="code-editor" id="code-editor-${q.id}" placeholder="在此处编写你的 Python 代码..."></textarea>
+                        
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <button class="submit-btn" style="width: auto;" data-qid="${q.id}" py-click="verify_code">提交验证</button>
+                            <button class="submit-btn" style="width: auto; background-color:#757575;" onclick="document.getElementById('ans-${q.id}').style.display='block'">显示参考答案</button>
+                        </div>
+                        
+                        <div id="code-result-${q.id}" class="result-box" style="margin-top: 15px; background:#f9f9f9; padding:15px; border-radius:4px;"></div>
+                        
+                        <div id="ans-${q.id}" class="result-box" style="margin-top: 15px; border-top: none; background:#e8f4fd; padding:15px; border-radius:4px;">
+                            <p><strong style="color:var(--primary-color);">💡 参考答案：</strong></p>
+                            <pre>${q.ans}</pre>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.onload = () => { renderTF(); renderChoice(); renderFill(); renderCode(); };
     </script>
 
     <script type="py">
-from pyscript import document
-from iapws import IAPWS97
+        import sys
+        import io
+        import builtins
+        import traceback
+        from pyscript import document
+        from iapws import IAPWS97
 
-def query_steam(event):
-    res_box = document.querySelector('#steam-result')
-    res_box.style.display = 'block'
-    res_box.innerHTML = "正在拉起计算核心并进行求解，请稍候..."
+        # === 编程题测试用例库 ===
+        TEST_CASES = {
+            "code1": [
+                {"input": "central processing unit", "expected": "CPU\n"},
+                {"input": "united nations", "expected": "UN\n"},
+                {"input": "zhejiang university", "expected": "ZU\n"}
+            ],
+            "code2": [
+                {"input": "2 30", "expected": "6 = 1 + 2 + 3\n28 = 1 + 2 + 4 + 7 + 14\n"},
+                {"input": "2 5", "expected": "None\n"},
+                {"input": "490 500", "expected": "496 = 1 + 2 + 4 + 8 + 16 + 31 + 62 + 124 + 248\n"}
+            ],
+            "code3": [
+                {"input": "4", "expected": "1 \n1 1 \n1 2 1 \n1 3 3 1 \n"},
+                {"input": "2", "expected": "1 \n1 1 \n"}
+            ]
+        }
 
-    try:
-        p_val = document.querySelector('#steam-p').value
-        t_val = document.querySelector('#steam-t').value
-        if not p_val or not t_val:
-            res_box.innerHTML = '<span class="incorrect">⚠ 请输入完整的压力和温度参数！</span>'
-            return
+        # === 编程题在线评测核心逻辑 ===
+        def verify_code(event):
+            btn = event.target
+            q_id = btn.getAttribute("data-qid")
+            code_str = document.querySelector(f"#code-editor-{q_id}").value
+            res_box = document.querySelector(f"#code-result-{q_id}")
+            
+            res_box.style.display = "block"
+            res_box.innerHTML = "正在挂载沙箱并执行评测，请稍候..."
 
-        p = float(p_val)
-        t_c = float(t_val)
-        t_k = t_c + 273.15  
+            test_cases = TEST_CASES.get(q_id, [])
+            all_passed = True
+            html_out = ""
 
-        steam = IAPWS97(P=p, T=t_k)
-        
-        phase_map = { "Liquid": "液相 (水)", "Vapour": "气相 (蒸汽)", "Two phases": "两相 (汽水混合物)", "Supercritical": "超临界" }
-        phase_str = phase_map.get(steam.phase, steam.phase)
+            for i, tc in enumerate(test_cases):
+                old_stdout = sys.stdout
+                redirected_output = io.StringIO()
+                sys.stdout = redirected_output
+                
+                input_iter = iter(tc["input"].split('\n'))
+                def mock_input(prompt=""):
+                    try: return next(input_iter)
+                    except StopIteration: return ""
+                
+                old_input = builtins.input
+                builtins.input = mock_input
+                
+                success = True
+                
+                # 如果是第一题，需要注入题目要求的测试桩
+                final_code = code_str
+                if q_id == "code1":
+                    final_code += "\nphrase=input()\nprint(acronym(phrase))"
 
-        res_box.innerHTML = f"""
-            <div style="line-height: 1.8;">
-                <p><strong style="color:var(--primary-color);">查询条件：</strong> <i>p</i> = {p} MPa, <i>t</i> = {t_c} ℃</p>
-                <p><strong>状态：</strong> {phase_str}</p>
-                <p><strong>比体积 <i>v</i> :</strong> {steam.v:.5f} m³/kg</p>
-                <p><strong>比焓 <i>h</i> :</strong> {steam.h:.2f} kJ/kg</p>
-                <p><strong>比熵 <i>s</i> :</strong> {steam.s:.4f} kJ/(kg·K)</p>
-            </div>
-        """
-    except Exception as e:
-        res_box.innerHTML = f'<span class="incorrect">⚠ 计算出错或超出 IF97 标准适用范围: {str(e)}</span>'
+                try:
+                    # 使用空字典限制全局变量污染
+                    exec(final_code, {})
+                except Exception as e:
+                    success = False
+                    traceback.print_exc(file=sys.stdout)
+                    
+                sys.stdout = old_stdout
+                builtins.input = old_input
+                
+                output = redirected_output.getvalue()
+                # 统一换行符并去除末尾冗余空白符进行比对
+                out_norm = output.strip().replace('\r\n', '\n')
+                exp_norm = tc["expected"].strip().replace('\r\n', '\n')
+                
+                if not success:
+                    all_passed = False
+                    html_out += f'<div style="margin-bottom:10px;"><span class="incorrect">❌ 测试点 {i+1} 运行报错：</span><br><pre>{output}</pre></div>'
+                    break
+                elif out_norm != exp_norm:
+                    all_passed = False
+                    html_out += f'<div style="margin-bottom:10px;"><span class="incorrect">❌ 测试点 {i+1} 答案错误</span><br>预期：<pre>{tc["expected"]}</pre>实际输出：<pre>{output}</pre></div>'
+                    break
+                else:
+                    html_out += f'<div style="margin-bottom:5px;"><span class="correct">✅ 测试点 {i+1} 验证通过</span></div>'
+            
+            if all_passed:
+                html_out += f'<h4 class="correct" style="margin-top:10px;">🎉 恭喜！所有测试点已通过。</h4>'
+                
+            res_box.innerHTML = html_out
+
+        # === 水蒸气查询逻辑 ===
+        def query_steam(event):
+            res_box = document.querySelector('#steam-result')
+            res_box.style.display = 'block'
+            res_box.innerHTML = "正在拉起计算核心并进行求解，请稍候..."
+
+            try:
+                p_val = document.querySelector('#steam-p').value
+                t_val = document.querySelector('#steam-t').value
+                if not p_val or not t_val:
+                    res_box.innerHTML = '<span class="incorrect">⚠ 请输入完整的压力和温度参数！</span>'
+                    return
+
+                p = float(p_val)
+                t_c = float(t_val)
+                t_k = t_c + 273.15  
+
+                steam = IAPWS97(P=p, T=t_k)
+                phase_map = { "Liquid": "液相 (水)", "Vapour": "气相 (蒸汽)", "Two phases": "两相 (汽水混合物)", "Supercritical": "超临界" }
+                phase_str = phase_map.get(steam.phase, steam.phase)
+
+                res_box.innerHTML = f"""
+                    <div style="line-height: 1.8;">
+                        <p><strong style="color:var(--primary-color);">查询条件：</strong> <i>p</i> = {p} MPa, <i>t</i> = {t_c} ℃</p>
+                        <p><strong>状态：</strong> {phase_str}</p>
+                        <p><strong>比体积 <i>v</i> :</strong> {steam.v:.5f} m³/kg</p>
+                        <p><strong>比焓 <i>h</i> :</strong> {steam.h:.2f} kJ/kg</p>
+                        <p><strong>比熵 <i>s</i> :</strong> {steam.s:.4f} kJ/(kg·K)</p>
+                    </div>
+                """
+            except Exception as e:
+                res_box.innerHTML = f'<span class="incorrect">⚠ 计算出错或超出 IF97 标准适用范围: {str(e)}</span>'
     </script>
 </body>
 </html>
