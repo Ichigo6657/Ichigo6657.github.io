@@ -66,15 +66,6 @@
             cursor: pointer;
         }
 
-        .header-nav {
-            display: flex;
-            gap: 15px;
-            font-size: 0.9em;
-        }
-        
-        .header-nav span { cursor: pointer; opacity: 0.9; }
-        .header-nav span:hover { opacity: 1; text-decoration: underline; }
-
         /* 主体布局 */
         .main-container {
             display: flex;
@@ -97,7 +88,17 @@
             margin: 0;
         }
 
-        .sidebar-menu li {
+        /* 侧边栏分组标题样式 */
+        .menu-category {
+            font-size: 0.85em;
+            color: #888;
+            font-weight: bold;
+            padding: 15px 15px 5px 5px;
+            text-transform: uppercase;
+            cursor: default;
+        }
+
+        .sidebar-menu li.menu-item {
             padding: 10px 15px;
             margin-bottom: 5px;
             cursor: pointer;
@@ -105,8 +106,13 @@
             color: var(--text-color);
             transition: background 0.2s;
         }
+        
+        /* 子菜单缩进 */
+        .sidebar-menu li.sub-item {
+            margin-left: 15px;
+        }
 
-        .sidebar-menu li:hover, .sidebar-menu li.active {
+        .sidebar-menu li.menu-item:hover, .sidebar-menu li.menu-item.active {
             color: var(--primary-color);
             background-color: rgba(32, 148, 243, 0.1);
         }
@@ -123,7 +129,7 @@
         .page-content { display: none; }
         .page-content.active { display: block; }
 
-        /* 组件样式：About Me 提示框 */
+        /* 组件样式：提示框 */
         .admonition {
             background-color: var(--admonition-bg);
             border: 1px solid var(--admonition-border);
@@ -160,8 +166,8 @@
         .mode-btn { background: #e0e0e0; color: #333; }
         .mode-btn.dark { background: #333; color: white; }
 
-        /* 答题卡样式 (复用上一轮) */
-        .question-card {
+        /* 通用卡片与表单样式 */
+        .card-box {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
@@ -177,9 +183,15 @@
             cursor: pointer;
             width: 100%;
         }
+        .submit-btn:hover { opacity: 0.9; }
         .result-box { margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border-color); display: none; }
         .correct { color: #4caf50; font-weight: bold; }
         .incorrect { color: #f44336; font-weight: bold; }
+        
+        /* 工具输入框样式 */
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: inline-block; width: 90px; font-weight: bold;}
+        .input-group input { padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; width: 150px; background: var(--bg-color); color: var(--text-color);}
     </style>
 </head>
 <body>
@@ -190,33 +202,29 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                 Ichigo的小站
             </div>
-            <div class="header-nav">
-                <span onclick="switchPage('home')">主页</span>
-                <span>校内课程</span>
-                <span>校外</span>
-                <span>好用</span>
-                <span>杂项</span>
-                <span>一些talks</span>
             </div>
-        </div>
         <div style="font-size: 0.9em;">GitHub Repo</div>
     </header>
 
     <div class="main-container">
         <aside>
             <ul class="sidebar-menu">
-                <li id="nav-home" class="active" onclick="switchPage('home')">主页 (About)</li>
-                <li id="nav-tf" onclick="switchPage('tf-quiz')">判断题</li>
-                <li id="nav-fill" onclick="switchPage('fill-quiz')">填空题</li>
-                <li id="nav-code" onclick="switchPage('code-quiz')">编程题</li>
+                <li id="nav-home" class="menu-item active" onclick="switchPage('home')">主页 (About)</li>
+                
+                <li class="menu-category">Python 练习</li>
+                <li id="nav-tf-quiz" class="menu-item sub-item" onclick="switchPage('tf-quiz')">判断题</li>
+                <li id="nav-choice-quiz" class="menu-item sub-item" onclick="switchPage('choice-quiz')">选择题</li>
+                <li id="nav-fill-quiz" class="menu-item sub-item" onclick="switchPage('fill-quiz')">填空题</li>
+                <li id="nav-code-quiz" class="menu-item sub-item" onclick="switchPage('code-quiz')">编程题</li>
+
+                <li class="menu-category">工程热力学</li>
+                <li id="nav-steam-tool" class="menu-item sub-item" onclick="switchPage('steam-tool')">水蒸气性质查询</li>
             </ul>
         </aside>
 
         <main>
             <div id="page-home" class="page-content active">
                 <h1 style="margin-top: 0;">Ichigo的小站</h1>
-                <div style="color: #888; font-size: 0.9em; margin-bottom: 20px;">
-                </div>
                 
                 <p><strong>欢迎来访！这里是Ichigo的小站</strong></p>
 
@@ -228,8 +236,8 @@
                     <ul class="about-list">
                         <li>浙江大学24级能源与环境系统工程</li>
                         <li>ENFJ</li>
-                        <li>喜欢打游戏，一般打一些类魂，cs，明日方舟等等</li>
-                        <li>喜欢慢跑，游泳，爬山等比较养生的运动（我是虚逼）也会打一点乒乓、篮球、羽毛球<li>
+                        <li>喜欢打游戏，一般打一些类魂，cs，明日方舟等等，也喜欢下中国象棋（虽然很菜）</li>
+                        <li>喜欢慢跑，游泳，爬山等比较养生的运动（我是虚逼）也会打一点乒乓、篮球、羽毛球</li>
                         <li>喜欢和大家唠嗑</li>
                     </ul>
                 </div>
@@ -253,6 +261,11 @@
                 <button class="submit-btn" onclick="submitQuiz()">提交判卷</button>
             </div>
 
+            <div id="page-choice-quiz" class="page-content">
+                <h2>选择题</h2>
+                <p>选择题系统建设中...</p>
+            </div>
+
             <div id="page-fill-quiz" class="page-content">
                 <h2>填空题</h2>
                 <p>建设中... 这里后续可以添加填空题的逻辑。</p>
@@ -262,22 +275,44 @@
                 <h2>编程题</h2>
                 <p>建设中... 在线代码沙箱（Online Judge）模块后续接入。</p>
             </div>
+
+            <div id="page-steam-tool" class="page-content">
+                <h2>水蒸气热力性质参数查询</h2>
+                
+                <div class="admonition">
+                    <p>这是一个简易的查询工具演示页面。在输入框中输入压力和温度参数，即可快速获取水蒸气的各项热力学物性。</p>
+                </div>
+                
+                <div class="card-box">
+                    <div class="input-group">
+                        <label>压力 (MPa): </label>
+                        <input type="number" id="steam-p" step="0.1" placeholder="例: 0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>温度 (°C): </label>
+                        <input type="number" id="steam-t" step="1" placeholder="例: 100">
+                    </div>
+                    <button class="submit-btn" style="margin-top: 10px;" onclick="querySteam()">查询参数</button>
+                    
+                    <div id="steam-result" class="result-box">
+                        </div>
+                </div>
+            </div>
+
         </main>
     </div>
 
     <script>
         // === 页面路由切换逻辑 ===
         function switchPage(pageId) {
-            // 隐藏所有页面
+            // 隐藏所有页面并取消高亮
             document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
-            // 取消侧边栏高亮
-            document.querySelectorAll('.sidebar-menu li').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.sidebar-menu li.menu-item').forEach(el => el.classList.remove('active'));
             
-            // 显示目标页面
+            // 显示并高亮目标
             document.getElementById(`page-${pageId}`).classList.add('active');
-            // 高亮当前侧边栏
-            const navId = pageId === 'home' ? 'nav-home' : `nav-${pageId.split('-')[0]}`;
-            document.getElementById(navId).classList.add('active');
+            const navElement = document.getElementById(`nav-${pageId}`);
+            if(navElement) navElement.classList.add('active');
         }
 
         // === 主题切换逻辑 ===
@@ -293,7 +328,6 @@
             document.documentElement.style.setProperty('--primary-color', colorHex);
         }
 
-        // 生成颜色按钮
         const colors = {
             red: '#f44336', pink: '#e91e63', purple: '#9c27b0', indigo: '#3f51b5',
             blue: '#2094f3', cyan: '#00bcd4', teal: '#009688', green: '#4caf50',
@@ -309,7 +343,32 @@
             colorContainer.appendChild(btn);
         }
 
-        // === 题库与判卷逻辑 (复用) ===
+        // === 水蒸气查询逻辑 (模拟版) ===
+        function querySteam() {
+            const p = document.getElementById('steam-p').value;
+            const t = document.getElementById('steam-t').value;
+            const resBox = document.getElementById('steam-result');
+            
+            resBox.style.display = 'block';
+            
+            if (!p || !t) {
+                resBox.innerHTML = '<span class="incorrect">⚠ 请输入压力和温度参数！</span>';
+                return;
+            }
+
+            // 这里展示的是模拟数据，后续你可以在网上找一个 IAPWS-IF97 的开源 JS 库引入并替换这里的计算逻辑
+            resBox.innerHTML = `
+                <div style="line-height: 1.8;">
+                    <p><strong style="color:var(--primary-color);">查询条件：</strong> $p = ${p}$ MPa, $t = ${t}$ °C</p>
+                    <p><strong>状态：</strong> 过热蒸汽 (模拟结果)</p>
+                    <p><strong>比体积 $v$:</strong> 正在等待计算核心接入...</p>
+                    <p><strong>比焓 $h$:</strong> 正在等待计算核心接入...</p>
+                    <p><strong>比熵 $s$:</strong> 正在等待计算核心接入...</p>
+                </div>
+            `;
+        }
+
+        // === 题库与判卷逻辑 ===
         const questions = [
             { id: "q1", text: "高级语言程序要被机器执行,只有用解释器来解释执行。", author: "陈春晖", correctAnswer: "F" },
             { id: "q2", text: "不可以在同一台计算机上安装多个不同的Python解释器版本。", author: "陈春晖", correctAnswer: "F" },
@@ -321,7 +380,7 @@
             const container = document.getElementById('quiz-container');
             questions.forEach((q, index) => {
                 container.innerHTML += `
-                    <div class="question-card">
+                    <div class="card-box">
                         <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
                             <span>${index + 1}-1 分数 1</span><span>作者 ${q.author} 单位 浙江大学</span>
                         </div>
@@ -331,7 +390,7 @@
                             <label><input type="radio" name="${q.id}" value="F"> F</label>
                         </div>
                         <div class="result-box" id="result-${q.id}">
-                            评测结果：<span class="status"></span><br>得  分：<span class="score"></span>
+                            评测结果：<span class="status"></span><br>得 分：<span class="score"></span>
                         </div>
                     </div>
                 `;
