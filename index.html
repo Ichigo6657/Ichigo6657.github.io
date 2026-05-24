@@ -49,9 +49,13 @@
 
         .main-container { display: flex; flex: 1; overflow: hidden; }
 
-        aside { width: 250px; background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color); padding: 20px; overflow-y: auto; }
+        aside { width: 260px; background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color); padding: 20px; overflow-y: auto; }
         .sidebar-menu { list-style: none; padding: 0; margin: 0; }
+        
         .menu-category { font-size: 0.85em; color: #888; font-weight: bold; padding: 15px 15px 5px 5px; text-transform: uppercase; cursor: default; }
+        .menu-category.toggleable { cursor: pointer; color: var(--text-color); font-size: 1em; display: flex; align-items: center; justify-content: space-between; border-radius: 4px; transition: background 0.2s; padding: 10px 10px; margin-top: 10px; background-color: var(--primary-hover-bg); }
+        .menu-category.toggleable:hover { background-color: rgba(0,0,0,0.05); }
+        
         .sidebar-menu li.menu-item { padding: 8px 15px; margin-bottom: 2px; cursor: pointer; border-radius: 4px; color: var(--text-color); transition: background 0.2s; font-size: 0.95em; }
         .sidebar-menu li.sub-item { margin-left: 20px; font-size: 0.9em; position: relative; }
         .sidebar-menu li.sub-item::before { content: "•"; position: absolute; left: 5px; color: var(--border-color); }
@@ -105,22 +109,29 @@
     <div class="main-container">
         <aside>
             <ul class="sidebar-menu">
-                <li id="nav-home" class="menu-item active" onclick="switchPage('home')">主页 (About)</li>
+                <li id="nav-home" class="menu-item active" onclick="switchPage('home')" style="margin-top: 10px;">主页 (About)</li>
                 
-                <li class="menu-category">判断题</li>
-                <li id="nav-tf-concept" class="menu-item sub-item" onclick="switchPage('tf-concept')">基本概念题</li>
-                <li id="nav-tf-code" class="menu-item sub-item" onclick="switchPage('tf-code')">代码阅读题</li>
-
-                <li class="menu-category">选择题</li>
-                <li id="nav-choice-concept" class="menu-item sub-item" onclick="switchPage('choice-concept')">基本概念题</li>
-                <li id="nav-choice-code" class="menu-item sub-item" onclick="switchPage('choice-code')">代码阅读题</li>
-
-                <li class="menu-category">填空题</li>
-                <li id="nav-fill-concept" class="menu-item sub-item" onclick="switchPage('fill-concept')">基本概念题</li>
-                <li id="nav-fill-code" class="menu-item sub-item" onclick="switchPage('fill-code')">代码阅读题</li>
+                <li class="menu-category toggleable" onclick="togglePythonMenu()">
+                    <span style="font-weight:bold; color:var(--primary-color);">Python 练习</span>
+                    <span id="python-menu-icon" style="transition: transform 0.3s; font-size:0.8em; color:var(--primary-color);">▶</span>
+                </li>
                 
-                <li class="menu-category">在线评测</li>
-                <li id="nav-code-quiz" class="menu-item sub-item" onclick="switchPage('code-quiz')">Python 编程题</li>
+                <div id="python-submenu" style="display:none; margin-bottom: 10px; border-left: 2px solid var(--border-color); margin-left: 10px; padding-left: 5px;">
+                    <li class="menu-category" style="padding-top:10px; padding-bottom:5px; font-size:0.8em;">判断题</li>
+                    <li id="nav-tf-concept" class="menu-item sub-item" onclick="switchPage('tf-concept')">基本概念题</li>
+                    <li id="nav-tf-code" class="menu-item sub-item" onclick="switchPage('tf-code')">代码阅读题</li>
+
+                    <li class="menu-category" style="padding-top:5px; padding-bottom:5px; font-size:0.8em;">选择题</li>
+                    <li id="nav-choice-concept" class="menu-item sub-item" onclick="switchPage('choice-concept')">基本概念题</li>
+                    <li id="nav-choice-code" class="menu-item sub-item" onclick="switchPage('choice-code')">代码阅读题</li>
+
+                    <li class="menu-category" style="padding-top:5px; padding-bottom:5px; font-size:0.8em;">填空题</li>
+                    <li id="nav-fill-concept" class="menu-item sub-item" onclick="switchPage('fill-concept')">基本概念题</li>
+                    <li id="nav-fill-code" class="menu-item sub-item" onclick="switchPage('fill-code')">代码阅读题</li>
+                    
+                    <li class="menu-category" style="padding-top:5px; padding-bottom:5px; font-size:0.8em;">编程题</li>
+                    <li id="nav-code-quiz" class="menu-item sub-item" onclick="switchPage('code-quiz')">Python 编程题</li>
+                </div>
                 
                 <li class="menu-category">工程热力学</li>
                 <li id="nav-steam-tool" class="menu-item sub-item" onclick="switchPage('steam-tool')">水蒸气性质查询</li>
@@ -189,10 +200,7 @@
             </div>
 
             <div id="page-code-quiz" class="page-content">
-                <h2>编程题 (OJ在线评测)</h2>
-                <div class="admonition">
-                    <p>💡 提示：本评测系统已开启边界条件测试（鲁棒性测试）。你的代码不仅需要通过常规样例，还可能面临诸如：空数组输入、非法下标、负数求和、极小规模矩阵等特殊条件的考验。</p>
-                </div>
+                <h2>Python 编程题 (OJ评测)</h2>
                 <div id="code-container"></div>
             </div>
 
@@ -224,14 +232,36 @@
             if(navElement) navElement.classList.add('active');
         }
 
+        // 折叠菜单功能
+        function togglePythonMenu() {
+            const submenu = document.getElementById('python-submenu');
+            const icon = document.getElementById('python-menu-icon');
+            if (submenu.style.display === 'none' || submenu.style.display === '') {
+                submenu.style.display = 'block';
+                icon.style.transform = 'rotate(90deg)';
+            } else {
+                submenu.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // 展开/收起答案功能
+        function toggleAnswer(id) {
+            const ansDiv = document.getElementById('ans-' + id);
+            if (ansDiv.style.display === 'none' || ansDiv.style.display === '') {
+                ansDiv.style.display = 'block';
+            } else {
+                ansDiv.style.display = 'none';
+            }
+        }
+
         function setDarkMode(mode) {
             if (mode === 'slate') document.documentElement.setAttribute('data-theme', 'slate');
             else document.documentElement.removeAttribute('data-theme');
         }
         
         function setPrimaryColor(colorHex) { 
-            document.documentElement.style.setProperty('--primary-color', colorHex); 
-            // 简单的同色系透明度叠加，提升UI质感
+            document.documentElement.style.setProperty('--primary-color', colorHex);
             document.documentElement.style.setProperty('--primary-hover-bg', colorHex + '1A');
         }
 
@@ -243,29 +273,27 @@
             btn.onclick = () => setPrimaryColor(hex); colorContainer.appendChild(btn);
         }
 
-        // === 题库数据结构划分（原题 + 补充题 无一遗漏） ===
-
-        // 1. 判断题 (拆分为概念和代码阅读)
+        // === 1. 判断题 ===
         const tfConceptQuestions = [
-            { id: "tc1", text: "表达式 -2**4 等于16。", correct: "F" }, // 原题t2
-            { id: "tc2", text: "bool([])的返回值是False。", correct: "T" }, // 原题t5
-            { id: "tc3", text: "在循环中continue语句的作用是退出循环的当前迭代。", correct: "T" }, // 原题t6
-            { id: "tc4", text: "使用for i in range(10)和for i in range(10,20),控制循环次数是一样的。", correct: "T" }, // 原题t7
-            { id: "tc5", text: "集合的元素可以是任意数据类型。", correct: "F" }, // 补充
-            { id: "tc6", text: "len(set([0,4,5,6,0,7,8])) 的结果是7。", correct: "F" }, // 补充
-            { id: "tc7", text: "a={}, type(a) 结果是 &lt;class 'set'&gt;。", correct: "F" }, // 补充
-            { id: "tc8", text: "列表可以作为字典的键。", correct: "F" }, // 补充
-            { id: "tc9", text: "高级语言程序要被机器执行,只有用解释器来解释执行。", correct: "F" }, // 补充
-            { id: "tc10", text: "不可以在同一台计算机上安装多个不同的Python解释器版本。", correct: "F" }, // 补充
-            { id: "tc11", text: "Python是一种跨平台、开源、免费的动态编程语言。", correct: "T" }, // 补充
-            { id: "tc12", text: "math模块是python语言的数学模块。", correct: "T" }, // 补充
-            { id: "tc13", text: "字母A的ASCII编码值和Unicode编码值相同。", correct: "T" } // 补充
+            { id: "tc1", text: "表达式 -2**4 等于16。", correct: "F" },
+            { id: "tc2", text: "bool([])的返回值是False。", correct: "T" },
+            { id: "tc3", text: "在循环中continue语句的作用是退出循环的当前迭代。", correct: "T" }, 
+            { id: "tc4", text: "使用for i in range(10)和for i in range(10,20),控制循环次数是一样的。", correct: "T" }, 
+            { id: "tc5", text: "集合的元素可以是任意数据类型。", correct: "F" }, 
+            { id: "tc6", text: "len(set([0,4,5,6,0,7,8])) 的结果是7。", correct: "F" }, 
+            { id: "tc7", text: "a={}, type(a) 结果是 &lt;class 'set'&gt;。", correct: "F" }, 
+            { id: "tc8", text: "列表可以作为字典的键。", correct: "F" }, 
+            { id: "tc9", text: "高级语言程序要被机器执行,只有用解释器来解释执行。", correct: "F" }, 
+            { id: "tc10", text: "不可以在同一台计算机上安装多个不同的Python解释器版本。", correct: "F" }, 
+            { id: "tc11", text: "Python是一种跨平台、开源、免费的动态编程语言。", correct: "T" }, 
+            { id: "tc12", text: "math模块是python语言的数学模块。", correct: "T" }, 
+            { id: "tc13", text: "字母A的ASCII编码值和Unicode编码值相同。", correct: "T" } 
         ];
 
         const tfCodeQuestions = [
-            { id: "td1", text: "下面程序的运行结果是4。<br><pre>i=3\n++i</pre>", correct: "F" }, // 原题t1
-            { id: "td2", text: "当输入是：45,8 时，下面程序的输出结果是37。<br><pre>a,b = input().split(',')\nb=int(b)\nc=int('a',b)\nprint(c)</pre>", correct: "F" }, // 原题t3
-            { id: "td3", text: "下面语句的输出是：这是数字输出格式□□123。 （□表示空格）<br><pre>print('这是数字输出格式{:5d}'.format(123))</pre>", correct: "T" }, // 原题t4
+            { id: "td1", text: "下面程序的运行结果是4。<br><pre>i=3\n++i</pre>", correct: "F" },
+            { id: "td2", text: "当输入是：45,8 时，下面程序的输出结果是37。<br><pre>a,b = input().split(',')\nb=int(b)\nc=int('a',b)\nprint(c)</pre>", correct: "F" },
+            { id: "td3", text: "下面语句的输出是：这是数字输出格式□□123。 （□表示空格）<br><pre>print('这是数字输出格式{:5d}'.format(123))</pre>", correct: "T" },
             { id: "td4", text: "下面程序的输出是3。<br><pre>lst=[34,6,7,0,0,0,9]\nn=0\nfor i in lst:\n   if i==0:\n       lst.remove(i)\n       n+=1\nprint(n)</pre>", correct: "F" },
             { id: "td5", text: "下面程序输出是2。<br><pre>lst=[0,34,6,0,7,0,9]\nn=0\nfor i in lst:\n   if i==0:\n       lst.remove(i)\n       n+=1\nprint(n)</pre>", correct: "F" },
             { id: "td6", text: "下面程序输出值是1。<br><pre>data=[[1]*3]*3\ndata[0][1]=45\nprint(data[2][1])</pre>", correct: "F" },
@@ -282,13 +310,13 @@
             { id: "td17", text: "下面程序输出是circle。<br><pre>d={\"color\":\"red\",\"shape\":\"circle\"}\nd1=d\nd1[\"shape\"]=\"triangle\"\nprint(\"shape\")</pre>", correct: "T" }
         ];
 
-        // 2. 选择题
+        // === 2. 选择题 ===
         const choiceConceptQuestions = [
-            { id: "cc1", text: "下列数据类型中， Python不支持的是_____________。", options: ["char", "int", "float", "list"], correct: "A" }, // 原题c1
-            { id: "cc2", text: "Python 语句print(type(1J))的输出结果是______________。", options: ["&lt;class 'complex'&gt;", "&lt;class 'int'&gt;", "&lt;class 'float'&gt;", "&lt;class 'dict'&gt;"], correct: "A" }, // 原题c2
-            { id: "cc3", text: "关于Python字符串，下列说法错误的是___________。", options: ["字符即长度为1的字符串", "字符串以\\0标志字符串的结束", "既可以用单引号，也可以用双引号创建字符串", "在三引号字符串中可以包含换行回车等特殊字符"], correct: "B" }, // 原题c4
-            { id: "cc4", text: "在一个函数中如局部变量和全局变量同名，则_________________。", options: ["局部变量屏蔽全局变量", "全局变量屏蔽局部变量", "全局变量和局部变量都不可用", "程序错误"], correct: "A" }, // 原题c5
-            { id: "cc5", text: "以下哪一句会得到 {'1','2','3'}？", options: ["list(\"123\")", "tuple(\"123\")", "set(\"123\")", "以上都不是"], correct: "C" }, // 补充
+            { id: "cc1", text: "下列数据类型中， Python不支持的是_____________。", options: ["char", "int", "float", "list"], correct: "A" },
+            { id: "cc2", text: "Python 语句print(type(1J))的输出结果是______________。", options: ["&lt;class 'complex'&gt;", "&lt;class 'int'&gt;", "&lt;class 'float'&gt;", "&lt;class 'dict'&gt;"], correct: "A" },
+            { id: "cc3", text: "关于Python字符串，下列说法错误的是___________。", options: ["字符即长度为1的字符串", "字符串以\\0标志字符串的结束", "既可以用单引号，也可以用双引号创建字符串", "在三引号字符串中可以包含换行回车等特殊字符"], correct: "B" }, 
+            { id: "cc4", text: "在一个函数中如局部变量和全局变量同名，则_________________。", options: ["局部变量屏蔽全局变量", "全局变量屏蔽局部变量", "全局变量和局部变量都不可用", "程序错误"], correct: "A" }, 
+            { id: "cc5", text: "以下哪一句会得到 {'1','2','3'}？", options: ["list(\"123\")", "tuple(\"123\")", "set(\"123\")", "以上都不是"], correct: "C" }, 
             { id: "cc6", text: "以下哪个方式可以创建一个空的集合？", options: ["set()", "{}", "[]", "()"], correct: "A" },
             { id: "cc7", text: "对于两个集合s1和s2，s1 &lt; s2 的意思是？", options: ["s1的大小小于s2的大小", "s1的元素比s2的小", "s1是s2的真子集", "s2是s1的真子集"], correct: "C" },
             { id: "cc8", text: "对于集合s，以下哪个操作是不存在的？", options: ["len(s)", "s.append(1)", "max(s)", "s - {1}"], correct: "B" },
@@ -308,23 +336,23 @@
         ];
 
         const choiceCodeQuestions = [
-            { id: "cd1", text: "Python 语句print(type(1//2))的输出结果是______________。", options: ["&lt;class 'int'&gt;", "&lt;class 'number'&gt;", "&lt;class 'float'&gt;", "&lt;class 'double'&gt;"], correct: "A" }, // 原题c3
-            { id: "cd2", text: "下面程序的输出是什么？<br><pre>a,b=5,9\nprint(a, b)</pre>", options: ["59", "5,9", "5□9 (□表示空格)", "5□□9 (5和9之间二个空格)"], correct: "C" } // 补充
+            { id: "cd1", text: "Python 语句print(type(1//2))的输出结果是______________。", options: ["&lt;class 'int'&gt;", "&lt;class 'number'&gt;", "&lt;class 'float'&gt;", "&lt;class 'double'&gt;"], correct: "A" }, 
+            { id: "cd2", text: "下面程序的输出是什么？<br><pre>a,b=5,9\nprint(a, b)</pre>", options: ["59", "5,9", "5□9 (□表示空格)", "5□□9 (5和9之间二个空格)"], correct: "C" } 
         ];
 
-        // 3. 填空题
+        // === 3. 填空题 ===
         const fillConceptQuestions = [
-            { id: "fc1", parts: ["Python 表达式 3**2**3 的值为", "。"], answers: ["6561"], score: 1 }, // 原题f1
-            { id: "fc2", parts: ["Python 表达式 round(17.0/3**2,2) 的值为", "。"], answers: ["1.89"], score: 1 }, // 原题f2
-            { id: "fc3", parts: ["表达式32.2//6-24//6的值是", "。"], answers: ["1.0"], score: 1 }, // 原题f3
-            { id: "fc4", parts: ["十进制19.625的二进制是：", "。（整数部分用八位二进制表示）"], answers: ["00010011.101"], score: 1 }, // 补充
-            { id: "fc5", parts: ["十六进制2AC的八进制表示是：", "。"], answers: ["1254"], score: 1 }, // 补充
-            { id: "fc6", parts: ["十进制106的原码是：", "，反码是：", "，补码是：", "。（用八位表示）"], answers: ["01101010", "01101010", "01101010"], score: 3 }, // 补充
-            { id: "fc7", parts: ["-78的原码是：", "，反码是：", "，补码是：", "。（用八位表示）"], answers: ["11001110", "10110001", "10110010"], score: 3 } // 补充
+            { id: "fc1", parts: ["Python 表达式 3**2**3 的值为", "。"], answers: ["6561"], score: 1 }, 
+            { id: "fc2", parts: ["Python 表达式 round(17.0/3**2,2) 的值为", "。"], answers: ["1.89"], score: 1 }, 
+            { id: "fc3", parts: ["表达式32.2//6-24//6的值是", "。"], answers: ["1.0"], score: 1 }, 
+            { id: "fc4", parts: ["十进制19.625的二进制是：", "。（整数部分用八位二进制表示）"], answers: ["00010011.101"], score: 1 }, 
+            { id: "fc5", parts: ["十六进制2AC的八进制表示是：", "。"], answers: ["1254"], score: 1 }, 
+            { id: "fc6", parts: ["十进制106的原码是：", "，反码是：", "，补码是：", "。（用八位表示）"], answers: ["01101010", "01101010", "01101010"], score: 3 }, 
+            { id: "fc7", parts: ["-78的原码是：", "，反码是：", "，补码是：", "。（用八位表示）"], answers: ["11001110", "10110001", "10110010"], score: 3 } 
         ];
 
         const fillCodeQuestions = [
-            { id: "fd1", parts: ["下面程序的运行结果是", "。<br><pre>b, c=2, 4\ndef g_func(d):\n    global a\n    a=d*c\ng_func(b)\nprint(a)</pre>"], answers: ["8"], score: 1 }, // 原题f4
+            { id: "fd1", parts: ["下面程序的运行结果是", "。<br><pre>b, c=2, 4\ndef g_func(d):\n    global a\n    a=d*c\ng_func(b)\nprint(a)</pre>"], answers: ["8"], score: 1 }, 
             { id: "fd2", parts: ["下面程序的运行结果是：", "。<br><pre>import math\ndef factors(x):\n   y=int(math.sqrt(x))\n   for i in range(2,y+1):\n       if (x%i ==0):\n           factors(x//i)\n           break\n       else:\n           print(x,end=' ')\n       return\nfactors(38)</pre>"], answers: ["19"], score: 3 },
             { id: "fd3", parts: ["下面程序的运行结果是：", "。<br><pre>def ins_sort_rec(seq, i):\n   if i == 0: return\n   ins_sort_rec(seq, i - 1)\n   j = i\n   while j > 0 and seq[j - 1] > seq[j]: \n       seq[j - 1], seq[j] = seq[j], seq[j - 1] \n       j -= 1\nseq = [3,-6,79,45,8,12,6,8]\nins_sort_rec(seq, len(seq)-1)\nprint(seq[5])</pre>"], answers: ["12"], score: 3 },
             { id: "fd4", parts: ["下面程序的运行结果是：", "。<br><pre>def basic_lis(seq):\n   l=[1]*len(seq)\n   for cur ,val in enumerate(seq):           #enumerate返回元素的\"索引和值\"\n       for pre in range(cur):\n           if seq[pre]&lt;val:\n               l[cur]=max(l[cur],1+l[pre])\n   return max(l)\nL=[49, 64, 17, 100, 86, 66, 78, 68, 87, 96, 19, 99, 35]\nprint(basic_lis(L))</pre>"], answers: ["7"], score: 3 },
@@ -366,8 +394,8 @@
                 const resultBox = document.getElementById(`result-${q.id}`);
                 resultBox.style.display = 'block';
                 if (!selected) resultBox.innerHTML = '<span class="incorrect">未作答</span> (0 分)';
-                else if (selected.value === q.correct) resultBox.innerHTML = '<span class="correct">答案正确</span> (1 分)';
-                else resultBox.innerHTML = '<span class="incorrect">答案错误</span> (0 分)';
+                else if (selected.value === q.correct) resultBox.innerHTML = '<span class="correct">答案正确</span>';
+                else resultBox.innerHTML = '<span class="incorrect">答案错误</span>';
             });
         }
 
@@ -397,7 +425,7 @@
                 const resultBox = document.getElementById(`result-${q.id}`);
                 resultBox.style.display = 'block';
                 if (!selected) resultBox.innerHTML = '<span class="incorrect">未作答</span> (0 分)';
-                else if (selected.value === q.correct) resultBox.innerHTML = '<span class="correct">答案正确</span> (1 分)';
+                else if (selected.value === q.correct) resultBox.innerHTML = '<span class="correct">答案正确</span>';
                 else resultBox.innerHTML = `<span class="incorrect">答案错误</span> (正确答案: ${q.correct})`;
             });
         }
@@ -413,7 +441,7 @@
                 });
                 html += `
                     <div class="card-box">
-                        <div style="font-size:0.9em; color:#888; margin-bottom:10px;">${idx + 1}. 填空题 (分数: ${q.score})</div>
+                        <div style="font-size:0.9em; color:#888; margin-bottom:10px;">${idx + 1}. 填空题</div>
                         <div style="margin-bottom:15px; font-weight:bold; line-height:2;">${htmlText}</div>
                         <div class="result-box" id="result-${q.id}"></div>
                     </div>`;
@@ -431,140 +459,137 @@
                 });
                 const resultBox = document.getElementById(`result-${q.id}`);
                 resultBox.style.display = 'block';
-                if (isEmpty) resultBox.innerHTML = '<span class="incorrect">未作答</span> (0 分)';
-                else if (allCorrect) resultBox.innerHTML = `<span class="correct">答案正确</span> (${q.score} 分)`;
+                if (isEmpty) resultBox.innerHTML = '<span class="incorrect">未作答</span>';
+                else if (allCorrect) resultBox.innerHTML = `<span class="correct">答案正确</span>`;
                 else resultBox.innerHTML = `<span class="incorrect">答案错误</span> (参考答案: ${q.answers.join(", ")})`;
             });
         }
 
-        // === 4. 编程题渲染逻辑 (原题 + 补充题 无一遗漏) ===
+        // === 4. 编程题渲染逻辑 ===
         const codeQuestions = [
-            // 原网页的 3 道编程题
             {
-                id: "code1", title: "缩写词", score: 20, author: "陈春晖",
+                id: "code1", title: "缩写词",
                 desc: "缩写词是由一个短语中每个单词的第一个字母组成，均为大写。例如，CPU是短语“central processing unit”的缩写。<br>函数接口定义：<code>acronym(phrase);</code> phrase是短语参数，返回短语的缩写词。<br><br><b>裁判测试程序样例：</b><br><pre>phrase=input()\nprint(acronym(phrase))</pre>",
                 inputEx: "central processing unit", outputEx: "CPU",
                 ans: "def acronym(phrase):\n    return ''.join([word[0].upper() for word in phrase.split()])"
             },
             {
-                id: "code2", title: "找完数", score: 20, author: "陈建海",
+                id: "code2", title: "找完数",
                 desc: "所谓完数就是该数恰好等于除自身外的因子之和。例如：6=1+2+3。本题要求编写程序，找出任意两正整数m和n之间的所有完数。<br>若区间内没有完数，则输出“None”。",
                 inputEx: "2 30", outputEx: "6 = 1 + 2 + 3\n28 = 1 + 2 + 4 + 7 + 14",
                 ans: "m, n = map(int, input().split())\nfound = False\nfor i in range(m, n + 1):\n    factors = [1]\n    for j in range(2, int(i**0.5) + 1):\n        if i % j == 0:\n            factors.append(j)\n            if j != i // j:\n                factors.append(i // j)\n    if i > 1 and sum(factors) == i:\n        factors.sort()\n        print(f\"{i} = {' + '.join(map(str, factors))}\")\n        found = True\nif not found:\n    print('None')"
             },
             {
-                id: "code3", title: "显示Pascal三角形", score: 30, author: "陈春晖",
+                id: "code3", title: "显示Pascal三角形",
                 desc: "输入行数n,显示n行Pascal三角形。数字间有一个空格。每行最后一个数字后有一个空格。",
                 inputEx: "4", outputEx: "1 \n1 1 \n1 2 1 \n1 3 3 1 ",
                 ans: "n = int(input())\nfor i in range(n):\n    row = [1]\n    if i > 0:\n        prev = 1\n        for j in range(1, i + 1):\n            curr = prev * (i - j + 1) // j\n            row.append(curr)\n            prev = curr\n    print(' '.join(map(str, row)) + ' ')"
             },
-            
-            // 补充的 18 道编程题
             {
-                id: "code4", title: "一帮一", score: 20, author: "补充题库",
-                desc: "老师把学习成绩靠前的学生跟成绩靠后的学生排在一组。输入全班排名后，将名次最靠前的学生与尚未分组的名次最靠后的异性学生分为一组。",
+                id: "code4", title: "一帮一",
+                desc: "“一帮一学习小组”是中小学中常见的学习组织方式，老师把学习成绩靠前的学生跟学习成绩靠后的学生排在一组。本题就请你编写程序帮助老师自动完成这个分配工作，即在得到全班学生的排名后，在当前尚未分组的学生中，将名次最靠前的学生与名次最靠后的异性学生分为一组。<br><br>输入格式：<br>输入第一行给出正偶数N（≤50），即全班学生的人数。此后N行，按照名次从高到低的顺序给出每个学生的性别（0代表女生，1代表男生）和姓名（不超过8个英文字母的非空字符串），其间以1个空格分隔。这里保证本班男女比例是1:1，并且没有并列名次。<br><br>输出格式：<br>每行输出一组两个学生的姓名，其间以1个空格分隔。名次高的学生在前，名次低的学生在后。小组的输出顺序按照前面学生的名次从高到低排列。",
                 inputEx: "8\n0 Amy\n1 Tom\n1 Bill\n0 Cindy\n0 Maya\n1 John\n1 Jack\n0 Linda", outputEx: "Amy Jack\nTom Linda\nBill Maya\nCindy John",
                 ans: "n = int(input())\nstudents = []\nfor _ in range(n):\n    gender, name = input().split()\n    students.append([int(gender), name, False])\n\nfor i in range(n // 2):\n    if not students[i][2]:\n        print(students[i][1], end=' ')\n        students[i][2] = True\n        for j in range(n - 1, i, -1):\n            if not students[j][2] and students[i][0] != students[j][0]:\n                print(students[j][1])\n                students[j][2] = True\n                break"
             },
             {
-                id: "code5", title: "列表或元组的数字元素求和", score: 20, author: "补充题库",
-                desc: "求列表中数字和，列表中嵌套层次不限2层。",
+                id: "code5", title: "列表或元组的数字元素求和",
+                desc: "求列表中数字和，列表中嵌套层次不限2层。<br><br>输入格式:<br>在一行中输入列表或元组。<br><br>输出格式:<br>在一行中输出数字的和。",
                 inputEx: "[11,2,[3,7],(68,-1),\"123\",9]", outputEx: "99",
                 ans: "def flatten_sum(item):\n    total = 0\n    if isinstance(item, (int, float)):\n        return item\n    elif isinstance(item, (list, tuple)):\n        for sub in item:\n            total += flatten_sum(sub)\n    return total\n\ndata = eval(input())\nprint(flatten_sum(data))"
             },
             {
-                id: "code6", title: "列表数字元素加权和(1)", score: 20, author: "补充题库",
-                desc: "输入一个嵌套列表，求列表元素的加权和。第一层权值为1，第二层为2，以此类推。",
+                id: "code6", title: "列表数字元素加权和(1)",
+                desc: "输入一个嵌套列表，嵌套层次不限，根据层次，求列表元素的加权和。第一层每个元素的值为：元素值*1，第二层每个元素的值为：元素值*2，第三层每个元素的值为：元素值*3，...以此类推！<br><br>输入格式:<br>在一行中输入列表。<br><br>输出格式:<br>在一行中输出加权和。",
                 inputEx: "[1,2,[3,4,[5,6],7],8]", outputEx: "72",
                 ans: "def weighted_sum(item, depth=1):\n    total = 0\n    if isinstance(item, (int, float)):\n        return item * depth\n    elif isinstance(item, list):\n        for sub in item:\n            total += weighted_sum(sub, depth + 1)\n    return total\n\ndata = eval(input())\nprint(weighted_sum(data, 1))"
             },
             {
-                id: "code7", title: "列表元素个数的加权和(1)", score: 20, author: "补充题库",
-                desc: "输入嵌套列表，求列表元素的加权个数和。第一层每个元素算1个，第二层算2个，以此类推。",
+                id: "code7", title: "列表元素个数的加权和(1)",
+                desc: "输入一个嵌套列表，嵌套层次不限，根据层次，求列表元素的加权个数和。第一层每个元素算一个元素，第二层每个元素算2个元素，第三层每个元素算3个元素，第四层每个元素算4个元素...以此类推！<br><br>输入格式:<br>在一行中输入一个列表。<br><br>输出格式:<br>在一行中输出加权元素个数值。",
                 inputEx: "[1,2,[3,4,[5,6],7],8]", outputEx: "15",
                 ans: "def weighted_count(item, depth=1):\n    count = 0\n    for sub in item:\n        if isinstance(sub, list):\n            count += weighted_count(sub, depth + 1)\n        else:\n            count += depth\n    return count\n\ndata = eval(input())\nprint(weighted_count(data, 1))"
             },
             {
-                id: "code8", title: "求指定层的元素个数", score: 20, author: "补充题库",
-                desc: "输入一个嵌套列表和层数，求该层的数字元素个数。",
+                id: "code8", title: "求指定层的元素个数",
+                desc: "输入一个嵌套列表，再输入层数，求该层的数字元素个数。<br><br>输入格式:<br>第一行输入列表<br>第二行输入层数<br><br>输出格式:<br>在一行中输出元素个数。",
                 inputEx: "[1,2,[3,4,[5,6],7],8]\n3", outputEx: "2",
                 ans: "def count_at_depth(item, target_depth, current_depth=1):\n    count = 0\n    for sub in item:\n        if isinstance(sub, list):\n            count += count_at_depth(sub, target_depth, current_depth + 1)\n        elif current_depth == target_depth:\n            count += 1\n    return count\n\ndata = eval(input())\ntarget = int(input())\nprint(count_at_depth(data, target))"
             },
             {
-                id: "code9", title: "输出全排列", score: 20, author: "补充题库",
-                desc: "输入整数n（3<=n<=7），输出1到n整数的全排列，按字典序输出。",
+                id: "code9", title: "输出全排列",
+                desc: "输入整数n（3<=n<=7），编写程序输出1, 2, ..., n整数的全排列，按字典序输出。<br><br>输入格式:<br>一行输入正整数n。<br><br>输出格式:<br>按字典序输出1到n的全排列。每种排列占一行，数字间无空格。",
                 inputEx: "3", outputEx: "123\n132\n213\n231\n312\n321",
                 ans: "import itertools\nn = int(input())\nperms = itertools.permutations(range(1, n + 1))\nfor p in perms:\n    print(''.join(map(str, p)))"
             },
             {
-                id: "code10", title: "特定矩阵元素和", score: 20, author: "补充题库",
-                desc: "给定一个n×n的方阵，计算该矩阵主、副对角线上的所有元素之和，保留两位小数。<br><br><b>⚠️ 鲁棒性考点：</b>如果 n = 1 矩阵极小，主副对角线重叠，代码能避免重复相加吗？",
+                id: "code10", title: "特定矩阵元素和",
+                desc: "给定一个n×n的方阵，本题要求计算该矩阵主、副对角线上的所有元素之和。主对角线为从矩阵的左上角至右下角的连线，副对角线为从矩阵的右上角至左下角的连线。<br><br>输入格式:<br>输入第一行给出正整数n（1<n≤10）；随后n行，每行给出n个数，其间以空格分隔。<br><br>输出格式:<br>在一行中给出该矩阵主、副对角线的所有元素之和，保留两位小数。",
                 inputEx: "4\n2 3 4 1\n5 6 1 1\n7 1 8 1\n1 1 1 1", outputEx: "21.00",
                 ans: "n = int(input())\nmat = [list(map(float, input().split())) for _ in range(n)]\nres = 0.0\nfor i in range(n):\n    res += mat[i][i]\n    if i != n - 1 - i:\n        res += mat[i][n - 1 - i]\nprint(f'{res:.2f}')"
             },
             {
-                id: "code11", title: "矩阵行、列、对角线和的最大值", score: 20, author: "补充题库",
-                desc: "求一个n*n矩阵每行、每列及对角线和的最大值。输入为一行9个整数（即3x3矩阵）。",
+                id: "code11", title: "矩阵行、列、对角线和的最大值",
+                desc: "求一个n*n矩阵每行、每列及对角线和的最大值。<br><br>输入格式:<br>在一行输入9个整数。<br><br>输出格式:<br>在一行输出每行、每列及对角线和的最大值。",
                 inputEx: "3 6 5 9 8 2 1 4 5", outputEx: "19",
                 ans: "nums = list(map(int, input().split()))\nn = int(len(nums)**0.5)\nmat = [nums[i*n:(i+1)*n] for i in range(n)]\nsums = []\nsums.extend([sum(row) for row in mat])\nsums.extend([sum(mat[r][c] for r in range(n)) for c in range(n)])\nsums.append(sum(mat[i][i] for i in range(n)))\nsums.append(sum(mat[i][n-1-i] for i in range(n)))\nprint(max(sums))"
             },
             {
-                id: "code12", title: "判断三角矩阵", score: 20, author: "补充题库",
-                desc: "判断一个给定的方阵是否是三角矩阵。输出 upper triangular matrix, lower triangular matrix 或 no。",
+                id: "code12", title: "判断三角矩阵",
+                desc: "本题要求编写程序，判断一个给定的方阵是否是三角矩阵。三角矩阵包含上三角矩阵和下三角矩阵两种。上三角矩阵指主对角线以下的元素都为0的矩阵；下三角矩阵指主对角线以上的元素都为0的矩阵；主对角线为从矩阵的左上角至右下角的连线。输入矩阵是三种情况之一（上三角矩阵、下三角矩阵或都不是）。<br><br>输入格式:<br>输入第一行给出一个正整数T，为待测矩阵的个数。接下来给出T个矩阵的信息：每个矩阵信息的第一行给出一个不超过10的正整数n。随后n行，每行给出n个整数，其间以空格分隔。<br><br>输出格式:<br>每个矩阵的判断结果占一行。如果输入的矩阵是上三角矩阵，输出“upper triangular matrix”，如果输入的矩阵是下三角矩阵，输出“lower triangular matrix”，都不是输出“no”。",
                 inputEx: "1\n3\n1 2 3\n0 4 5\n0 0 6", outputEx: "upper triangular matrix",
                 ans: "t = int(input())\nfor _ in range(t):\n    n = int(input())\n    mat = [list(map(int, input().split())) for _ in range(n)]\n    is_upper, is_lower = True, True\n    for r in range(n):\n        for c in range(n):\n            if r > c and mat[r][c] != 0: is_upper = False\n            if r < c and mat[r][c] != 0: is_lower = False\n    if is_upper:\n        print('upper triangular matrix')\n    elif is_lower:\n        print('lower triangular matrix')\n    else:\n        print('no')"
             },
             {
-                id: "code13", title: "求矩阵的局部极大值", score: 20, author: "补充题库",
-                desc: "找出矩阵中大于相邻上下左右4个元素的局部极大值。输出“元素值 行号 列号”。",
+                id: "code13", title: "求矩阵的局部极大值",
+                desc: "给定M行N列的整数矩阵A，如果A的非边界元素A[i][j]大于相邻的上下左右4个元素，那么就称元素A[i][j]是矩阵的局部极大值。本题要求给定矩阵的全部局部极大值及其所在的位置。<br><br>输入格式：<br>输入在第一行中给出矩阵A的行数M和列数N（3≤M,N≤20）；最后M行，每行给出A在该行的N个元素的值。数字间以空格分隔。<br><br>输出格式：<br>每行按照“元素值 行号 列号”的格式输出一个局部极大值，其中行、列编号从1开始。要求按照行号递增输出；若同行有超过1个局部极大值，则该行按列号递增输出。若没有局部极大值，则输出“None 总行数 总列数”。",
                 inputEx: "4 5\n1 1 1 1 1\n1 3 9 3 1\n1 5 3 5 1\n1 1 1 1 1", outputEx: "9 2 3\n5 3 2\n5 3 4",
                 ans: "m, n = map(int, input().split())\nmat = [list(map(int, input().split())) for _ in range(m)]\nfound = False\nfor i in range(1, m-1):\n    for j in range(1, n-1):\n        if mat[i][j] > max(mat[i-1][j], mat[i+1][j], mat[i][j-1], mat[i][j+1]):\n            print(f'{mat[i][j]} {i+1} {j+1}')\n            found = True\nif not found:\n    print(f'None {m} {n}')"
             },
             {
-                id: "code14", title: "图的字典表示", score: 20, author: "补充题库",
-                desc: "输入多行字典形式的字符串，统计有向图的顶点数，边数，边的总长度。使用eval()解析。",
+                id: "code14", title: "图的字典表示",
+                desc: "有向图的字典表示。输入多行字符串，每行表示一个顶点和该顶点相连的边及长度，输出顶点数，边数，边的总长度。比如 {'O':{'A':2,'B':5,'C':4}}。用eval函数处理输入。<br><br>输入格式:<br>第一行表示输入的行数<br>下面每行输入表示一个顶点和该顶点相连的边及长度的字符串。<br><br>输出格式:<br>在一行中输出顶点数，边数，边的总长度。",
                 inputEx: "4\n{'a':{'b':10,'c':6}}\n{'b':{'c':2,'d':7}}\n{'c':{'d':10}}\n{'d':{}} ", outputEx: "4 5 35",
                 ans: "n = int(input())\nnodes = 0\nedges = 0\ntotal_len = 0\nfor _ in range(n):\n    d = eval(input())\n    nodes += 1\n    for k, v in d.items():\n        for dest, length in v.items():\n            edges += 1\n            total_len += length\nprint(f'{nodes} {edges} {total_len}')"
             },
             {
-                id: "code15", title: "统计工龄", score: 20, author: "补充题库",
-                desc: "给定公司 n 名员工的工龄，按工龄增序输出每个工龄段有多少员工。",
+                id: "code15", title: "统计工龄",
+                desc: "给定公司 n 名员工的工龄，要求按工龄增序输出每个工龄段有多少员工。<br><br>输入格式:<br>输入首先给出正整数 n（≤10^5），即员工总人数；随后给出 n 个整数，即每个员工的工龄，范围在 [0, 50]。<br><br>输出格式:<br>按工龄的递增顺序输出每个工龄的员工个数，格式为：“工龄:人数”。每项占一行。如果人数为 0 则不输出该项。",
                 inputEx: "8\n10 2 0 5 7 2 5 2", outputEx: "0:1\n2:3\n5:2\n7:1\n10:1",
                 ans: "n = int(input())\nages = list(map(int, input().split()))\ncounts = {}\nfor age in ages:\n    counts[age] = counts.get(age, 0) + 1\nfor age in sorted(counts.keys()):\n    print(f'{age}:{counts[age]}')"
             },
             {
-                id: "code16", title: "求矩阵鞍点的个数", score: 20, author: "补充题库",
-                desc: "“鞍点”是指该位置上的元素值在该行上最大、在该列上最小。求矩阵鞍点的个数。",
+                id: "code16", title: "求矩阵鞍点的个数",
+                desc: "一个矩阵元素的“鞍点”是指该位置上的元素值在该行上最大、在该列上最小。本题要求编写程序，求一个给定的n阶方阵的鞍点。<br><br>输入格式：<br>输入第一行给出一个正整数n（1≤n≤6）。随后n行，每行给出n个整数，其间以空格分隔。<br><br>输出格式：<br>鞍点的个数。",
                 inputEx: "4\n1 7 4 1\n4 8 3 6\n1 6 1 2\n0 7 8 9", outputEx: "1",
                 ans: "n = int(input())\nmat = [list(map(int, input().split())) for _ in range(n)]\ncount = 0\nfor i in range(n):\n    row_max = max(mat[i])\n    for j in range(n):\n        if mat[i][j] == row_max:\n            col_min = min(mat[k][j] for k in range(n))\n            if mat[i][j] == col_min:\n                count += 1\nprint(count)"
             },
             {
-                id: "code17", title: "两数之和", score: 20, author: "补充题库",
-                desc: "在一组逗号分隔的整数中找到两个数使其和为目标数。输出下标。找不到输出 no answer。<br><br><b>⚠️ 鲁棒性考点：</b>如果目标是0，数组里存在负数比如 `-3` 和正数 `3` 能够正确寻找吗？",
+                id: "code17", title: "两数之和",
+                desc: "给定一组整数，还有一个目标数，在给定这组整数中找到两个数字，使其和为目标数，如找到，解是唯一的。找不到则显示 \"no answer\"。输出的下标按从小到大排序。用一重循环加字典实现。<br><br>输入格式:<br>在一行中给出这组数。<br>在下一行输入目标数。<br><br>输出格式:<br>在一行中输出这两个数的下标，用一个空格分开。",
                 inputEx: "2,7,11,15\n9", outputEx: "0 1",
                 ans: "nums = list(map(int, input().split(',')))\ntarget = int(input())\nseen = {}\nfound = False\nfor i, num in enumerate(nums):\n    if target - num in seen:\n        print(f'{seen[target - num]} {i}')\n        found = True\n        break\n    seen[num] = i\nif not found:\n    print('no answer')"
             },
             {
-                id: "code18", title: "字典合并", score: 20, author: "补充题库",
-                desc: "合并两个字典，将字符串进行内建 `eval` 读取，对于相同的键，后续输入会把前面的键值叠加覆盖？具体按照规则实现。",
+                id: "code18", title: "字典合并",
+                desc: "输入用字符串表示两个字典，输出合并后的字典。字典的键用一个字母或数字表示。注意：1和‘1’是不同的关键字！<br><br>输入格式:<br>在第一行中输入第一个字典字符串；<br>在第二行中输入第二个字典字符串。<br><br>输出格式:<br>在一行中输出合并的字典，输出按字典序。<br>\"1\" 的 ASCII 码为 49，大于 1，排序时 1 在前，\"1\" 在后。其它的字符同理。",
                 inputEx: "{1:3,2:5}\n{1:5,3:7}", outputEx: "{1:8,2:5,3:7}",
                 ans: "import ast\nd1 = ast.literal_eval(input())\nd2 = ast.literal_eval(input())\nfor k, v in d2.items():\n    d1[k] = d1.get(k, 0) + v\nprint(dict(sorted(d1.items(), key=lambda item: str(item[0]))).__str__().replace(' ', ''))"
             },
             {
-                id: "code19", title: "显示数字出现次数", score: 20, author: "补充题库",
-                desc: "十进制正整数转16进制，统计某字符出现次数。",
+                id: "code19", title: "显示数字出现次数",
+                desc: "输入一个十进制正整数，转换成16进制数。再输入一个数(0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f)，统计这个数出现的次数。<br><br>输入格式:<br>一行输入十进制正整数。<br>另一行输入要统计的数。<br><br>输出格式:<br>要统计的数出现的次数。",
                 inputEx: "84117512\n8", outputEx: "3",
                 ans: "n = int(input())\nch = input().strip()\nhex_str = hex(n)[2:]\nprint(hex_str.count(ch))"
             },
             {
-                id: "code20", title: "分析活动投票情况", score: 20, author: "补充题库",
-                desc: "统计投票结果中第二小队（6,7,8,9,10）没有得票的队员序号。",
+                id: "code20", title: "分析活动投票情况",
+                desc: "利用集合分析活动投票情况。第一小队有五名队员，序号是1,2,3,4,5；第二小队也有五名队员，序号6,7,8,9,10。输入一个得票字符串，求第二小队没有得票的队员。<br><br>输入格式:<br>在一行中输入得票的队员的序列号，用逗号隔开。<br><br>输出格式:<br>一行中输出第二小队没有得票的队员序号。",
                 inputEx: "1,5,9,3,9,1,1,7,5,7,7,3,3,1,5,7,4,4,5,4,9,5,10,9 ", outputEx: "6 8",
                 ans: "votes = list(map(int, input().split(',')))\nteam2 = {6, 7, 8, 9, 10}\nvoted = set(votes)\nnot_voted = sorted(list(team2 - voted))\nprint(' '.join(map(str, not_voted)))"
             },
             {
-                id: "code21", title: "统计字符出现次数", score: 20, author: "补充题库",
-                desc: "统计给定字符在字符串中出现的次数。",
+                id: "code21", title: "统计字符出现次数",
+                desc: "本题要求编写程序，统计并输出某给定字符在给定字符串中出现的次数。<br><br>输入格式：<br>输入第一行给出一个以回车结束的字符串（少于80个字符）；第二行输入一个字符。<br><br>输出格式：<br>在一行中输出给定字符在给定字符串中出现的次数。",
                 inputEx: "programming is More fun!\nm", outputEx: "2",
                 ans: "s = input()\nch = input().strip()\nprint(s.count(ch))"
             }
@@ -575,9 +600,6 @@
             codeQuestions.forEach((q, idx) => {
                 container.innerHTML += `
                     <div class="card-box">
-                        <div style="font-size:0.9em; color:#888; margin-bottom:10px; display:flex; justify-content:space-between;">
-                            <span>分数 ${q.score}</span><span>作者 ${q.author}</span>
-                        </div>
                         <h3 style="margin-top:0;">${idx + 1}. ${q.title}</h3>
                         <div style="margin-bottom:15px; line-height: 1.6;">
                             <p>${q.desc}</p>
@@ -588,7 +610,7 @@
                         
                         <div style="display:flex; gap:10px; margin-top:10px;">
                             <button class="submit-btn" style="width: auto;" data-qid="${q.id}" py-click="verify_code">提交 OJ 评测</button>
-                            <button class="submit-btn" style="width: auto; background-color:#757575;" onclick="document.getElementById('ans-${q.id}').style.display='block'">显示参考答案</button>
+                            <button class="submit-btn" style="width: auto; background-color:#757575;" onclick="toggleAnswer('${q.id}')">显示/隐藏参考答案</button>
                         </div>
                         
                         <div id="code-result-${q.id}" class="result-box" style="margin-top: 15px; background:#f9f9f9; padding:15px; border-radius:4px;"></div>
@@ -603,7 +625,6 @@
         }
 
         window.onload = () => { 
-            // 渲染全部分支
             renderTFQuiz(tfConceptQuestions, 'tf-concept-container');
             renderTFQuiz(tfCodeQuestions, 'tf-code-container');
             renderChoiceQuiz(choiceConceptQuestions, 'choice-concept-container');
@@ -622,7 +643,7 @@
         from pyscript import document
         from iapws import IAPWS97
 
-        # === 编程题测试用例库 (带有鲁棒性强壮测试点) ===
+        # === 编程题测试用例库 (带有隐藏的鲁棒性强壮测试点) ===
         TEST_CASES = {
             "code1": [{"input": "central processing unit\n", "expected": "CPU\n"}],
             "code2": [{"input": "2 30\n", "expected": "6 = 1 + 2 + 3\n28 = 1 + 2 + 4 + 7 + 14\n"}, {"input": "2 5\n", "expected": "None\n"}],
@@ -633,7 +654,6 @@
             "code7": [{"input": "[1,2,[3,4,[5,6],7],8]\n", "expected": "15\n"}],
             "code8": [{"input": "[1,2,[3,4,[5,6],7],8]\n3\n", "expected": "2\n"}],
             "code9": [{"input": "3\n", "expected": "123\n132\n213\n231\n312\n321\n"}],
-            # 鲁棒性测试点：1x1矩阵，确保对角线重叠不会加倍
             "code10": [{"input": "4\n2 3 4 1\n5 6 1 1\n7 1 8 1\n1 1 1 1\n", "expected": "21.00\n"}, {"input": "1\n99\n", "expected": "99.00\n"}],
             "code11": [{"input": "3 6 5 9 8 2 1 4 5\n", "expected": "19\n"}],
             "code12": [{"input": "1\n3\n1 2 3\n0 4 5\n0 0 6\n", "expected": "upper triangular matrix\n"}],
@@ -641,7 +661,6 @@
             "code14": [{"input": "4\n{'a':{'b':10,'c':6}}\n{'b':{'c':2,'d':7}}\n{'c':{'d':10}}\n{'d':{}}\n", "expected": "4 5 35\n"}],
             "code15": [{"input": "8\n10 2 0 5 7 2 5 2\n", "expected": "0:1\n2:3\n5:2\n7:1\n10:1\n"}],
             "code16": [{"input": "4\n1 7 4 1\n4 8 3 6\n1 6 1 2\n0 7 8 9\n", "expected": "1\n"}],
-            # 鲁棒性测试点：输入含有负数，且答案加和为 0 的边界用例
             "code17": [{"input": "2,7,11,15\n9\n", "expected": "0 1\n"}, {"input": "-3,4,3,90\n0\n", "expected": "0 2\n"}],
             "code18": [{"input": "{1:3,2:5}\n{1:5,3:7}\n", "expected": "{1:8,2:5,3:7}\n"}],
             "code19": [{"input": "84117512\n8\n", "expected": "3\n"}],
@@ -667,9 +686,9 @@
             all_passed = True
             html_out = ""
 
-            # 第18题字典合并输出由于字典序在Python实现有差异，手动返回提示
+            # 第18题由于字典合并涉及特定键值对累加排序，暂时单独提示处理
             if q_id == "code18":
-                res_box.innerHTML = "已记录代码结构。由于字典合并涉及特定键值对累加排序，本地纯净沙箱暂无法提供精准字典 AST 字符串对比，请对照上方参考答案。"
+                res_box.innerHTML = "已记录代码结构。由于字典合并涉及特定键值对累加排序，本地纯净沙箱暂无法提供精准字典 AST 字符串对比，请点击【显示/隐藏参考答案】对照核验。"
                 return
 
             for i, tc in enumerate(test_cases):
@@ -710,13 +729,13 @@
                     break
                 elif out_norm != exp_norm:
                     all_passed = False
-                    html_out += f'<div style="margin-bottom:10px;"><span class="incorrect">❌ 测试点 {i+1} 答案错误</span><br>预期：<pre>{tc["expected"]}</pre>实际输出：<pre>{output}</pre></div>'
+                    html_out += f'<div style="margin-bottom:10px;"><span class="incorrect">❌ 测试点 {i+1} 答案错误</span><br>预期输出：<pre>{tc["expected"]}</pre>实际输出：<pre>{output}</pre></div>'
                     break
                 else:
                     html_out += f'<div style="margin-bottom:5px;"><span class="correct">✅ 测试点 {i+1} 验证通过</span></div>'
             
             if all_passed and test_cases:
-                html_out += f'<h4 class="correct" style="margin-top:10px;">🎉 恭喜！所有包含鲁棒性条件的测试点均已通过。</h4>'
+                html_out += f'<h4 class="correct" style="margin-top:10px;">🎉 恭喜！所有测试点均已通过。</h4>'
                 
             res_box.innerHTML = html_out
 
