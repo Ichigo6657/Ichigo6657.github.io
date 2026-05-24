@@ -393,7 +393,7 @@
                 const selected = document.querySelector(`input[name="${q.id}"]:checked`);
                 const resultBox = document.getElementById(`result-${q.id}`);
                 resultBox.style.display = 'block';
-                if (!selected) resultBox.innerHTML = '<span class="incorrect">未作答</span> (0 分)';
+                if (!selected) resultBox.innerHTML = '<span class="incorrect">未作答</span>';
                 else if (selected.value === q.correct) resultBox.innerHTML = '<span class="correct">答案正确</span>';
                 else resultBox.innerHTML = '<span class="incorrect">答案错误</span>';
             });
@@ -424,7 +424,7 @@
                 const selected = document.querySelector(`input[name="${q.id}"]:checked`);
                 const resultBox = document.getElementById(`result-${q.id}`);
                 resultBox.style.display = 'block';
-                if (!selected) resultBox.innerHTML = '<span class="incorrect">未作答</span> (0 分)';
+                if (!selected) resultBox.innerHTML = '<span class="incorrect">未作答</span>';
                 else if (selected.value === q.correct) resultBox.innerHTML = '<span class="correct">答案正确</span>';
                 else resultBox.innerHTML = `<span class="incorrect">答案错误</span> (正确答案: ${q.correct})`;
             });
