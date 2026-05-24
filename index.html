@@ -46,6 +46,15 @@
 
         .header-left { display: flex; align-items: center; gap: 20px; }
         .header-title { font-size: 1.2em; font-weight: bold; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        
+        .header-right { display: flex; align-items: center; gap: 8px; }
+        
+        /* 颜色小方块样式 */
+        .color-square {
+            width: 22px; height: 22px; border-radius: 4px; cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.4); transition: transform 0.2s, border-color 0.2s;
+        }
+        .color-square:hover { transform: scale(1.15); border-color: white; }
 
         .main-container { display: flex; flex: 1; overflow: hidden; }
 
@@ -68,11 +77,6 @@
         .admonition { background-color: var(--admonition-bg); border: 1px solid var(--admonition-border); border-radius: 4px; padding: 15px; margin: 20px 0; }
         .admonition-title { color: var(--admonition-border); font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         ul.about-list { padding-left: 20px; line-height: 1.8; }
-
-        .theme-section { margin-top: 30px; }
-        .theme-btn { border: none; padding: 5px 15px; margin: 5px; border-radius: 4px; cursor: pointer; color: white; font-size: 0.9em; }
-        .mode-btn { background: #e0e0e0; color: #333; }
-        .mode-btn.dark { background: #333; color: white; }
 
         .card-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; margin-bottom: 20px; }
         .submit-btn { background-color: var(--primary-color); color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; width: 100%; font-weight:bold; }
@@ -98,12 +102,21 @@
 
     <header>
         <div class="header-left">
+            <div id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer; display:flex; align-items:center; opacity: 0.9; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.9">
+                <svg id="icon-sun" width="24" height="24" viewBox="0 0 24 24" fill="white" style="display:none;">
+                    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41.39.39 1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41.39.39 1.03.39 1.41 0l1.06-1.06z"/>
+                </svg>
+                <svg id="icon-moon" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+                </svg>
+            </div>
+            
             <div class="header-title" onclick="switchPage('home')">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                 Ichigo的小站
             </div>
         </div>
-        <div style="font-size: 0.9em;">GitHub Repo</div>
+        <div class="header-right" id="color-squares"></div>
     </header>
 
     <div class="main-container">
@@ -154,12 +167,6 @@
                         <li>喜欢慢跑，游泳，爬山等比较养生的运动（我是虚逼）也会打一点乒乓、篮球、羽毛球</li>
                         <li>喜欢和大家唠嗑</li>
                     </ul>
-                </div>
-                <div class="theme-section">
-                    <p>下面是主题切换的页面，请谨慎选择，因为你之后的阅读将会保持选择的样式：</p>
-                    <button class="theme-btn mode-btn" onclick="setDarkMode('default')">浅色模式</button>
-                    <button class="theme-btn mode-btn dark" onclick="setDarkMode('slate')">深色模式</button>
-                    <div id="color-buttons" style="margin-top:10px;"></div>
                 </div>
             </div>
 
@@ -255,22 +262,32 @@
             }
         }
 
-        function setDarkMode(mode) {
-            if (mode === 'slate') document.documentElement.setAttribute('data-theme', 'slate');
-            else document.documentElement.removeAttribute('data-theme');
+        // 太阳月亮主题切换
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'slate';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                document.getElementById('icon-sun').style.display = 'none';
+                document.getElementById('icon-moon').style.display = 'block';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'slate');
+                document.getElementById('icon-sun').style.display = 'block';
+                document.getElementById('icon-moon').style.display = 'none';
+            }
         }
         
-        function setPrimaryColor(colorHex) { 
-            document.documentElement.style.setProperty('--primary-color', colorHex);
-            document.documentElement.style.setProperty('--primary-hover-bg', colorHex + '1A');
-        }
-
+        // 生成右侧颜色小方块
         const colors = { green: '#4caf50', blue: '#2094f3', red: '#f44336', pink: '#e91e63', purple: '#9c27b0', orange: '#ff9800', grey: '#9e9e9e', black: '#000000' };
-        const colorContainer = document.getElementById('color-buttons');
+        const sqContainer = document.getElementById('color-squares');
         for (const [name, hex] of Object.entries(colors)) {
-            const btn = document.createElement('button');
-            btn.className = 'theme-btn'; btn.style.backgroundColor = hex; btn.textContent = name;
-            btn.onclick = () => setPrimaryColor(hex); colorContainer.appendChild(btn);
+            const div = document.createElement('div');
+            div.className = 'color-square';
+            div.style.backgroundColor = hex;
+            div.onclick = () => {
+                document.documentElement.style.setProperty('--primary-color', hex);
+                document.documentElement.style.setProperty('--primary-hover-bg', hex + '1A');
+            };
+            sqContainer.appendChild(div);
         }
 
         // === 1. 判断题 ===
@@ -332,6 +349,802 @@
             { id: "cc18", text: "______是不等长编码。", options: ["ASCII码", "Unicode码", "UTF-8码", "以上都不"], correct: "C" },
             { id: "cc19", text: "_______号表示同一行的后面部分是Python程序的注释。", options: ["*", "%", "/", "#"], correct: "D" },
             { id: "cc20", text: "Python语言的官方网站地址是_______。", options: ["www.python.org", "www.python.com", "www.python.edu", "www.pythontutor.com"], correct: "A" },
+            { id: "cc21", text: "不是面向对象的程序设计语言是________。", options: ["Java", "C", "C++", "Python"], correct: "B" }
+        ];
+
+        const choiceCodeQuestions = [
+            { id: "cd1", text: "Python 语句print(type(1//2))的输出结果是______________。", options: ["&lt;class 'int'&gt;", "&lt;class 'number'&gt;", "&lt;class 'float'&gt;", "&lt;class 'double'&gt;"], correct: "A" }, 
+            { id: "cd2", text: "下面程序的输出是什么？<br><pre>a,b=5,9\nprint(a, b)</pre>", options: ["59", "5,9", "5□9 (□表示空格)", "5□□9 (5和9之间二个空格)"], correct: "C" } 
+        ];
+
+        // === 3. 填空题 ===
+        const fillConceptQuestions = [
+            { id: "fc1", parts: ["Python 表达式 3**2**3 的值为", "。"], answers: ["6561"], score: 1 }, 
+            { id: "fc2", parts: ["Python 表达式 round(17.0/3**2,2) 的值为", "。"], answers: ["1.89"], score: 1 }, 
+            { id: "fc3", parts: ["表达式32.2//6-24//6的值是", "。"], answers: ["1.0"], score: 1 }, 
+            { id: "fc4", parts: ["十进制19.625的二进制是：", "。（整数部分用八位二进制表示）"], answers: ["00010011.101"], score: 1 }, 
+            { id: "fc5", parts: ["十六进制2AC的八进制表示是：", "。"], answers: ["1254"], score: 1 }, 
+            { id: "fc6", parts: ["十进制106的原码是：", "，反码是：", "，补码是：", "。（用八位表示）"], answers: ["01101010", "01101010", "01101010"], score: 3 }, 
+            { id: "fc7", parts: ["-78的原码是：", "，反码是：", "，补码是：", "。（用八位表示）"], answers: ["11001110", "10110001", "10110010"], score: 3 } 
+        ];
+
+        const fillCodeQuestions = [
+            { id: "fd1", parts: ["下面程序的运行结果是", "。<br><pre>b, c=2, 4\ndef g_func(d):\n    global a\n    a=d*c\ng_func(b)\nprint(a)</pre>"], answers: ["8"], score: 1 }, 
+            { id: "fd2", parts: ["下面程序的运行结果是：", "。<br><pre>import math\ndef factors(x):\n   y=int(math.sqrt(x))\n   for i in range(2,y+1):\n       if (x%i ==0):\n           factors(x//i)\n           break\n       else:\n           print(x,end=' ')\n       return\nfactors(38)</pre>"], answers: ["19"], score: 3 },
+            { id: "fd3", parts: ["下面程序的运行结果是：", "。<br><pre>def ins_sort_rec(seq, i):\n   if i == 0: return\n   ins_sort_rec(seq, i - 1)\n   j = i\n   while j > 0 and seq[j - 1] > seq[j]: \n       seq[j - 1], seq[j] = seq[j], seq[j - 1] \n       j -= 1\nseq = [3,-6,79,45,8,12,6,8]\nins_sort_rec(seq, len(seq)-1)\nprint(seq[5])</pre>"], answers: ["12"], score: 3 },
+            { id: "fd4", parts: ["下面程序的运行结果是：", "。<br><pre>def basic_lis(seq):\n   l=[1]*len(seq)\n   for cur ,val in enumerate(seq):           #enumerate返回元素的\"索引和值\"\n       for pre in range(cur):\n           if seq[pre]&lt;val:\n               l[cur]=max(l[cur],1+l[pre])\n   return max(l)\nL=[49, 64, 17, 100, 86, 66, 78, 68, 87, 96, 19, 99, 35]\nprint(basic_lis(L))</pre>"], answers: ["7"], score: 3 },
+            { id: "fd5", parts: ["下面程序是冒泡排序的实现，请填空(答案中不要有空格)：", "。<br><pre>def bubble(List):\n   for j in range(________,0,-1):\n       for i in range(0,j):\n           if List[i]>List[i+1]:List[i],List[i+1]=List[i+1],List[i]\n   return List\ntestlist = [49, 38, 65, 97, 76, 13, 27, 49] \nprint( bubble(testlist))</pre>"], answers: ["len(List)-1"], score: 1 },
+            { id: "fd6", parts: ["下面程序是选择排序的实现，请填空(答案中不要有空格)：", "。<br><pre>def selSort(nums):\n   n = len(nums)\n   for bottom in range(n-1):\n       mi = bottom\n       for i in range(_________, n):\n           if nums[i] &lt; nums[mi]:\n                mi = i\n       nums[bottom], nums[mi] = nums[mi], nums[bottom] \n   return nums\nnumbers = [49, 38, 65, 97, 76, 13, 27, 49]\nprint(selSort(numbers))</pre>"], answers: ["bottom+1"], score: 1 },
+            { id: "fd7", parts: ["下面程序的输出是：", "。<br><pre>row=[0]*3\ndata=[row,row,row]\ndata[2][2]=7\nprint(data[0][2])</pre>"], answers: ["7"], score: 2 },
+            { id: "fd8", parts: ["下面程序的输出是：", "。<br><pre>data=[[0]*3] *3\ndata[2][2]=7\nprint(data[0][2])</pre>"], answers: ["7"], score: 2 },
+            { id: "fd9", parts: ["下面程序的输出是：", "。<br><pre>data=[]\nfor i in range(3):\n   data.append([0]*3)\ndata[2][2]=7\nprint(data[0][2])</pre>"], answers: ["0"], score: 2 },
+            { id: "fd10", parts: ["下面程序的输出是：", "。<br><pre>mat=[[i*3+j+1 for j in range(3)] for i in range(5)]\nmattrans=[[row[col] for row in mat] for col in range(3)]\nprint(mattrans[1][3])</pre>"], answers: ["11"], score: 2 },
+            { id: "fd11", parts: ["下面程序的输出是：", "。<br><pre>squares={x:x*x  for x in range(20)}\nprint(squares[12])</pre>"], answers: ["144"], score: 2 },
+            { id: "fd12", parts: ["下面程序的输出是：", "。<br><pre>text=\"four score and 7 years\"\nlenwords={s:len(s) for s in text.split()}\nprint(lenwords[\"score\"])</pre>"], answers: ["5"], score: 2 },
+            { id: "fd13", parts: ["下面程序的输出结果是：", "。<br><pre>dic1 = {\"姓名\": \"xiaoming\", \"年龄\": 27} \ndic2 = {\"性别\": \"male\",\"年龄\": 30} \ndic3 = {k:v for d in [dic1, dic2] for k,v in d.items()} \nprint(dic3[\"年龄\"])</pre>"], answers: ["30"], score: 2 },
+            { id: "fd14", parts: ["下面程序的运行结果是：", "。<br><pre>cells=dict(values=[[100, 90, 80, 90], [95, 85, 75, 95]])\nprint(cells[\"values\"][1][2])</pre>"], answers: ["75"], score: 3 },
+            { id: "fd15", parts: ["下面程序的运行结果是：", "。<br><pre>myth=[{'label': color, 'value': color} for color in ['blue', 'red', 'yellow']]\nprint(myth[1][\"label\"])</pre>"], answers: ["red"], score: 2 }
+        ];
+
+        // === 渲染工厂函数 ===
+        function renderTFQuiz(questions, containerId) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            questions.forEach((q, idx) => {
+                html += `
+                    <div class="card-box">
+                        <div style="font-size:0.9em; color:#888; margin-bottom:10px;">${idx + 1}. 判断题</div>
+                        <div style="margin-bottom:15px; line-height: 1.6;">${q.text}</div>
+                        <div>
+                            <label style="margin-right:20px;"><input type="radio" name="${q.id}" value="T"> T</label>
+                            <label><input type="radio" name="${q.id}" value="F"> F</label>
+                        </div>
+                        <div class="result-box" id="result-${q.id}"></div>
+                    </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function submitTFQuiz(questions, containerId) {
+            questions.forEach(q => {
+                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                const resultBox = document.getElementById(`result-${q.id}`);
+                resultBox.style.display = 'block';
+                if (!selected) resultBox.innerHTML = '<span class="incorrect">未作答</span>';
+                else if (selected.value === q.correct) resultBox.innerHTML = '<span class="correct">答案正确</span>';
+                else resultBox.innerHTML = '<span class="incorrect">答案错误</span>';
+            });
+        }
+
+        function renderChoiceQuiz(questions, containerId) {
+            const container = document.getElementById(containerId);
+            const labels = ['A', 'B', 'C', 'D'];
+            let html = '';
+            questions.forEach((q, idx) => {
+                let optionsHtml = '';
+                q.options.forEach((opt, i) => { 
+                    optionsHtml += `<label style="display:block; margin: 8px 0; cursor:pointer;"><input type="radio" name="${q.id}" value="${labels[i]}"> ${labels[i]}. ${opt}</label>`; 
+                });
+                html += `
+                    <div class="card-box">
+                        <div style="font-size:0.9em; color:#888; margin-bottom:10px;">${idx + 1}. 单选题</div>
+                        <div style="margin-bottom:15px; font-weight:bold;">${q.text}</div>
+                        <div>${optionsHtml}</div>
+                        <div class="result-box" id="result-${q.id}"></div>
+                    </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function submitChoiceQuiz(questions, containerId) {
+            questions.forEach(q => {
+                const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+                const resultBox = document.getElementById(`result-${q.id}`);
+                resultBox.style.display = 'block';
+                if (!selected) resultBox.innerHTML = '<span class="incorrect">未作答</span>';
+                else if (selected.value === q.correct) resultBox.innerHTML = '<span class="correct">答案正确</span>';
+                else resultBox.innerHTML = `<span class="incorrect">答案错误</span> (正确答案: ${q.correct})`;
+            });
+        }
+
+        function renderFillQuiz(questions, containerId) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            questions.forEach((q, idx) => {
+                let htmlText = "";
+                q.parts.forEach((part, i) => {
+                    htmlText += part;
+                    if (i < q.answers.length) htmlText += `<input type="text" class="fill-input" id="${q.id}-ans-${i}">`;
+                });
+                html += `
+                    <div class="card-box">
+                        <div style="font-size:0.9em; color:#888; margin-bottom:10px;">${idx + 1}. 填空题</div>
+                        <div style="margin-bottom:15px; font-weight:bold; line-height:2;">${htmlText}</div>
+                        <div class="result-box" id="result-${q.id}"></div>
+                    </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function submitFillQuiz(questions, containerId) {
+            questions.forEach(q => {
+                let allCorrect = true; let isEmpty = true;
+                q.answers.forEach((ans, i) => {
+                    const inputVal = document.getElementById(`${q.id}-ans-${i}`).value.trim();
+                    if (inputVal !== "") isEmpty = false;
+                    if (inputVal !== ans) allCorrect = false;
+                });
+                const resultBox = document.getElementById(`result-${q.id}`);
+                resultBox.style.display = 'block';
+                if (isEmpty) resultBox.innerHTML = '<span class="incorrect">未作答</span>';
+                else if (allCorrect) resultBox.innerHTML = `<span class="correct">答案正确</span>`;
+                else resultBox.innerHTML = `<span class="incorrect">答案错误</span> (参考答案: ${q.answers.join(", ")})`;
+            });
+        }
+
+        // === 4. 编程题渲染逻辑 ===
+        const codeQuestions = [
+            {
+                id: "code1", title: "缩写词",
+                desc: "缩写词是由一个短语中每个单词的第一个字母组成，均为大写。例如，CPU是短语“central processing unit”的缩写。<br>函数接口定义：<code>acronym(phrase);</code> phrase是短语参数，返回短语的缩写词。<br><br><b>裁判测试程序样例：</b><br><pre>phrase=input()\nprint(acronym(phrase))</pre>",
+                inputEx: "central processing unit", outputEx: "CPU",
+                ans: "def acronym(phrase):\n    return ''.join([word[0].upper() for word in phrase.split()])"
+            },
+            {
+                id: "code2", title: "找完数",
+                desc: "所谓完数就是该数恰好等于除自身外的因子之和。例如：6=1+2+3。本题要求编写程序，找出任意两正整数m和n之间的所有完数。<br>若区间内没有完数，则输出“None”。",
+                inputEx: "2 30", outputEx: "6 = 1 + 2 + 3\n28 = 1 + 2 + 4 + 7 + 14",
+                ans: "m, n = map(int, input().split())\nfound = False\nfor i in range(m, n + 1):\n    factors = [1]\n    for j in range(2, int(i**0.5) + 1):\n        if i % j == 0:\n            factors.append(j)\n            if j != i // j:\n                factors.append(i // j)\n    if i > 1 and sum(factors) == i:\n        factors.sort()\n        print(f\"{i} = {' + '.join(map(str, factors))}\")\n        found = True\nif not found:\n    print('None')"
+            },
+            {
+                id: "code3", title: "显示Pascal三角形",
+                desc: "输入行数n,显示n行Pascal三角形。数字间有一个空格。每行最后一个数字后有一个空格。",
+                inputEx: "4", outputEx: "1 \n1 1 \n1 2 1 \n1 3 3 1 ",
+                ans: "n = int(input())\nfor i in range(n):\n    row = [1]\n    if i > 0:\n        prev = 1\n        for j in range(1, i + 1):\n            curr = prev * (i - j + 1) // j\n            row.append(curr)\n            prev = curr\n    print(' '.join(map(str, row)) + ' ')"
+            },
+            {
+                id: "code4", title: "一帮一",
+                desc: "“一帮一学习小组”是中小学中常见的学习组织方式，老师把学习成绩靠前的学生跟学习成绩靠后的学生排在一组。本题就请你编写程序帮助老师自动完成这个分配工作，即在得到全班学生的排名后，在当前尚未分组的学生中，将名次最靠前的学生与名次最靠后的异性学生分为一组。<br><br>输入格式：<br>输入第一行给出正偶数N（≤50），即全班学生的人数。此后N行，按照名次从高到低的顺序给出每个学生的性别（0代表女生，1代表男生）和姓名（不超过8个英文字母的非空字符串），其间以1个空格分隔。这里保证本班男女比例是1:1，并且没有并列名次。<br><br>输出格式：<br>每行输出一组两个学生的姓名，其间以1个空格分隔。名次高的学生在前，名次低的学生在后。小组的输出顺序按照前面学生的名次从高到低排列。",
+                inputEx: "8\n0 Amy\n1 Tom\n1 Bill\n0 Cindy\n0 Maya\n1 John\n1 Jack\n0 Linda", outputEx: "Amy Jack\nTom Linda\nBill Maya\nCindy John",
+                ans: "n = int(input())\nstudents = []\nfor _ in range(n):\n    gender, name = input().split()\n    students.append([int(gender), name, False])\n\nfor i in range(n // 2):\n    if not students[i][2]:\n        print(students[i][1], end=' ')\n        students[i][2] = True\n        for j in range(n - 1, i, -1):\n            if not students[j][2] and students[i][0] != students[j][0]:\n                print(students[j][1])\n                students[j][2] = True\n                break"
+            },
+            {
+                id: "code5", title: "列表或元组的数字元素求和",
+                desc: "求列表中数字和，列表中嵌套层次不限2层。<br><br>输入格式:<br>在一行中输入列表或元组。<br><br>输出格式:<br>在一行中输出数字的和。",
+                inputEx: "[11,2,[3,7],(68,-1),\"123\",9]", outputEx: "99",
+                ans: "def flatten_sum(item):\n    total = 0\n    if isinstance(item, (int, float)):\n        return item\n    elif isinstance(item, (list, tuple)):\n        for sub in item:\n            total += flatten_sum(sub)\n    return total\n\ndata = eval(input())\nprint(flatten_sum(data))"
+            },
+            {
+                id: "code6", title: "列表数字元素加权和(1)",
+                desc: "输入一个嵌套列表，嵌套层次不限，根据层次，求列表元素的加权和。第一层每个元素的值为：元素值*1，第二层每个元素的值为：元素值*2，第三层每个元素的值为：元素值*3，...以此类推！<br><br>输入格式:<br>在一行中输入列表。<br><br>输出格式:<br>在一行中输出加权和。",
+                inputEx: "[1,2,[3,4,[5,6],7],8]", outputEx: "72",
+                ans: "def weighted_sum(item, depth=1):\n    total = 0\n    if isinstance(item, (int, float)):\n        return item * depth\n    elif isinstance(item, list):\n        for sub in item:\n            total += weighted_sum(sub, depth + 1)\n    return total\n\ndata = eval(input())\nprint(weighted_sum(data, 1))"
+            },
+            {
+                id: "code7", title: "列表元素个数的加权和(1)",
+                desc: "输入一个嵌套列表，嵌套层次不限，根据层次，求列表元素的加权个数和。第一层每个元素算一个元素，第二层每个元素算2个元素，第三层每个元素算3个元素，第四层每个元素算4个元素...以此类推！<br><br>输入格式:<br>在一行中输入一个列表。<br><br>输出格式:<br>在一行中输出加权元素个数值。",
+                inputEx: "[1,2,[3,4,[5,6],7],8]", outputEx: "15",
+                ans: "def weighted_count(item, depth=1):\n    count = 0\n    for sub in item:\n        if isinstance(sub, list):\n            count += weighted_count(sub, depth + 1)\n        else:\n            count += depth\n    return count\n\ndata = eval(input())\nprint(weighted_count(data, 1))"
+            },
+            {
+                id: "code8", title: "求指定层的元素个数",
+                desc: "输入一个嵌套列表，再输入层数，求该层的数字元素个数。<br><br>输入格式:<br>第一行输入列表<br>第二行输入层数<br><br>输出格式:<br>在一行中输出元素个数。",
+                inputEx: "[1,2,[3,4,[5,6],7],8]\n3", outputEx: "2",
+                ans: "def count_at_depth(item, target_depth, current_depth=1):\n    count = 0\n    for sub in item:\n        if isinstance(sub, list):\n            count += count_at_depth(sub, target_depth, current_depth + 1)\n        elif current_depth == target_depth:\n            count += 1\n    return count\n\ndata = eval(input())\ntarget = int(input())\nprint(count_at_depth(data, target))"
+            },
+            {
+                id: "code9", title: "输出全排列",
+                desc: "输入整数n（3<=n<=7），编写程序输出1, 2, ..., n整数的全排列，按字典序输出。<br><br>输入格式:<br>一行输入正整数n。<br><br>输出格式:<br>按字典序输出1到n的全排列。每种排列占一行，数字间无空格。",
+                inputEx: "3", outputEx: "123\n132\n213\n231\n312\n321",
+                ans: "import itertools\nn = int(input())\nperms = itertools.permutations(range(1, n + 1))\nfor p in perms:\n    print(''.join(map(str, p)))"
+            },
+            {
+                id: "code10", title: "特定矩阵元素和",
+                desc: "给定一个n×n的方阵，本题要求计算该矩阵主、副对角线上的所有元素之和。主对角线为从矩阵的左上角至右下角的连线，副对角线为从矩阵的右上角至左下角的连线。<br><br>输入格式:<br>输入第一行给出正整数n（1<n≤10）；随后n行，每行给出n个数，其间以空格分隔。<br><br>输出格式:<br>在一行中给出该矩阵主、副对角线的所有元素之和，保留两位小数。",
+                inputEx: "4\n2 3 4 1\n5 6 1 1\n7 1 8 1\n1 1 1 1", outputEx: "21.00",
+                ans: "n = int(input())\nmat = [list(map(float, input().split())) for _ in range(n)]\nres = 0.0\nfor i in range(n):\n    res += mat[i][i]\n    if i != n - 1 - i:\n        res += mat[i][n - 1 - i]\nprint(f'{res:.2f}')"
+            },
+            {
+                id: "code11", title: "矩阵行、列、对角线和的最大值",
+                desc: "求一个n*n矩阵每行、每列及对角线和的最大值。<br><br>输入格式:<br>在一行输入9个整数。<br><br>输出格式:<br>在一行输出每行、每列及对角线和的最大值。",
+                inputEx: "3 6 5 9 8 2 1 4 5", outputEx: "19",
+                ans: "nums = list(map(int, input().split()))\nn = int(len(nums)**0.5)\nmat = [nums[i*n:(i+1)*n] for i in range(n)]\nsums = []\nsums.extend([sum(row) for row in mat])\nsums.extend([sum(mat[r][c] for r in range(n)) for c in range(n)])\nsums.append(sum(mat[i][i] for i in range(n)))\nsums.append(sum(mat[i][n-1-i] for i in range(n)))\nprint(max(sums))"
+            },
+            {
+                id: "code12", title: "判断三角矩阵",
+                desc: "本题要求编写程序，判断一个给定的方阵是否是三角矩阵。三角矩阵包含上三角矩阵和下三角矩阵两种。上三角矩阵指主对角线以下的元素都为0的矩阵；下三角矩阵指主对角线以上的元素都为0的矩阵；主对角线为从矩阵的左上角至右下角的连线。输入矩阵是三种情况之一（上三角矩阵、下三角矩阵或都不是）。<br><br>输入格式:<br>输入第一行给出一个正整数T，为待测矩阵的个数。接下来给出T个矩阵的信息：每个矩阵信息的第一行给出一个不超过10的正整数n。随后n行，每行给出n个整数，其间以空格分隔。<br><br>输出格式:<br>每个矩阵的判断结果占一行。如果输入的矩阵是上三角矩阵，输出“upper triangular matrix”，如果输入的矩阵是下三角矩阵，输出“lower triangular matrix”，都不是输出“no”。",
+                inputEx: "1\n3\n1 2 3\n0 4 5\n0 0 6", outputEx: "upper triangular matrix",
+                ans: "t = int(input())\nfor _ in range(t):\n    n = int(input())\n    mat = [list(map(int, input().split())) for _ in range(n)]\n    is_upper, is_lower = True, True\n    for r in range(n):\n        for c in range(n):\n            if r > c and mat[r][c] != 0: is_upper = False\n            if r < c and mat[r][c] != 0: is_lower = False\n    if is_upper:\n        print('upper triangular matrix')\n    elif is_lower:\n        print('lower triangular matrix')\n    else:\n        print('no')"
+            },
+            {
+                id: "code13", title: "求矩阵的局部极大值",
+                desc: "给定M行N列的整数矩阵A，如果A的非边界元素A[i][j]大于相邻的上下左右4个元素，那么就称元素A[i][j]是矩阵的局部极大值。本题要求给定矩阵的全部局部极大值及其所在的位置。<br><br>输入格式：<br>输入在第一行中给出矩阵A的行数M和列数N（3≤M,N≤20）；最后M行，每行给出A在该行的N个元素的值。数字间以空格分隔。<br><br>输出格式：<br>每行按照“元素值 行号 列号”的格式输出一个局部极大值，其中行、列编号从1开始。要求按照行号递增输出；若同行有超过1个局部极大值，则该行按列号递增输出。若没有局部极大值，则输出“None 总行数 总列数”。",
+                inputEx: "4 5\n1 1 1 1 1\n1 3 9 3 1\n1 5 3 5 1\n1 1 1 1 1", outputEx: "9 2 3\n5 3 2\n5 3 4",
+                ans: "m, n = map(int, input().split())\nmat = [list(map(int, input().split())) for _ in range(m)]\nfound = False\nfor i in range(1, m-1):\n    for j in range(1, n-1):\n        if mat[i][j] > max(mat[i-1][j], mat[i+1][j], mat[i][j-1], mat[i][j+1]):\n            print(f'{mat[i][j]} {i+1} {j+1}')\n            found = True\nif not found:\n    print(f'None {m} {n}')"
+            },
+            {
+                id: "code14", title: "图的字典表示",
+                desc: "有向图的字典表示。输入多行字符串，每行表示一个顶点和该顶点相连的边及长度，输出顶点数，边数，边的总长度。比如 {'O':{'A':2,'B':5,'C':4}}。用eval函数处理输入。<br><br>输入格式:<br>第一行表示输入的行数<br>下面每行输入表示一个顶点和该顶点相连的边及长度的字符串。<br><br>输出格式:<br>在一行中输出顶点数，边数，边的总长度。",
+                inputEx: "4\n{'a':{'b':10,'c':6}}\n{'b':{'c':2,'d':7}}\n{'c':{'d':10}}\n{'d':{}} ", outputEx: "4 5 35",
+                ans: "n = int(input())\nnodes = 0\edges = 0\ntotal_len = 0\nfor _ in range(n):\n    d = eval(input())\n    nodes += 1\n    for k, v in d.items():\n        for dest, length in v.items():\n            edges += 1\n            total_len += length\nprint(f'{nodes} {edges} {total_len}')"
+            },
+            {
+                id: "code15", title: "统计工龄",
+                desc: "给定公司 n 名员工的工龄，要求按工龄增序输出每个工龄段有多少员工。<br><br>输入格式:<br>输入首先给出正整数 n（≤10^5），即员工总人数；随后给出 n 个整数，即每个员工的工龄，范围在 [0, 50]。<br><br>输出格式:<br>按工龄的递增顺序输出每个工龄的员工个数，格式为：“工龄:人数”。每项占一行。如果人数为 0 则不输出该项。",
+                inputEx: "8\n10 2 0 5 7 2 5 2", outputEx: "0:1\n2:3\n5:2\n7:1\n10:1",
+                ans: "n = int(input())\nages = list(map(int, input().split()))\ncounts = {}\nfor age in ages:\n    counts[age] = counts.get(age, 0) + 1\nfor age in sorted(counts.keys()):\n    print(f'{age}:{counts[age]}')"
+            },
+            {
+                id: "code16", title: "求矩阵鞍点的个数",
+                desc: "一个矩阵元素的“鞍点”是指该位置上的元素值在该行上最大、在该列上最小。本题要求编写程序，求一个给定的n阶方阵的鞍点。<br><br>输入格式：<br>输入第一行给出一个正整数n（1≤n≤6）。随后n行，每行给出n个整数，其间以空格分隔。<br><br>输出格式：<br>鞍点的个数。",
+                inputEx: "4\n1 7 4 1\n4 8 3 6\n1 6 1 2\n0 7 8 9", outputEx: "1",
+                ans: "n = int(input())\nmat = [list(map(int, input().split())) for _ in range(n)]\ncount = 0\nfor i in range(n):\n    row_max = max(mat[i])\n    for j in range(n):\n        if mat[i][j] == row_max:\n            col_min = min(mat[k][j] for k in range(n))\n            if mat[i][j] == col_min:\n                count += 1\nprint(count)"
+            },
+            {
+                id: "code17", title: "两数之和",
+                desc: "给定一组整数，还有一个目标数，在给定这组整数中找到两个数字，使其和为目标数，如找到，解是唯一的。找不到则显示 \"no answer\"。输出的下标按从小到大排序。用一重循环加字典实现。<br><br>输入格式:<br>在一行中给出这组数。<br>在下一行输入目标数。<br><br>输出格式:<br>在一行中输出这两个数的下标，用一个空格分开。",
+                inputEx: "2,7,11,15\n9", outputEx: "0 1",
+                ans: "nums = list(map(int, input().split(',')))\ntarget = int(input())\nseen = {}\nfound = False\nfor i, num in enumerate(nums):\n    if target - num in seen:\n        print(f'{seen[target - num]} {i}')\n        found = True\n        break\n    seen[num] = i\nif not found:\n    print('no answer')"
+            },
+            {
+                id: "code18", title: "字典合并",
+                desc: "输入用字符串表示两个字典，输出合并后的字典。字典的键用一个字母或数字表示。注意：1和‘1’是不同的关键字！<br><br>输入格式:<br>在第一行中输入第一个字典字符串；<br>在第二行中输入第二个字典字符串。<br><br>输出格式:<br>在一行中输出合并的字典，输出按字典序。<br>\"1\" 的 ASCII 码为 49，大于 1，排序时 1 在前，\"1\" 在后。其它的字符同理。",
+                inputEx: "{1:3,2:5}\n{1:5,3:7}", outputEx: "{1:8,2:5,3:7}",
+                ans: "dic_1=eval(input())\ndic_2=eval(input())\nfor k in dict.keys(dic_2):\n    if k in dict.keys(dic_1):\n        dic_2[k]+=dic_1[k]\n        dic_1.pop(k)\ndic_3={**dic_1,**dic_2}\nprint(\"{\",end=\"\")\nflag=0\nkey_3=list(dict.keys(dic_3))\nfor i in range(len(key_3)):\n    if key_3[i] not in [0,1,2,3,4,5,6,7,8,9]:\n        key_3[i]=ord(key_3[i])\nkey_3.sort()\nfor k in key_3:\n    if k>9:\n        k=chr(k)\n        print(\"{}{}{}:{}\".format(\"\\\"\",k,\"\\\"\",dic_3[k]),end=\"\")\n    else:\n        print(\"{}:{}\".format(k,dic_3[k]),end=\"\")\n    flag+=1\n    if flag<len(dic_3):\n        print(\",\",end=\"\")\nprint(\"}\")"
+            },
+            {
+                id: "code19", title: "显示数字出现次数",
+                desc: "输入一个十进制正整数，转换成16进制数。再输入一个数(0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f)，统计这个数出现的次数。<br><br>输入格式:<br>一行输入十进制正整数。<br>另一行输入要统计的数。<br><br>输出格式:<br>要统计的数出现的次数。",
+                inputEx: "84117512\n8", outputEx: "3",
+                ans: "n = int(input())\nch = input().strip()\nhex_str = hex(n)[2:]\nprint(hex_str.count(ch))"
+            },
+            {
+                id: "code20", title: "分析活动投票情况",
+                desc: "利用集合分析活动投票情况。第一小队有五名队员，序号是1,2,3,4,5；第二小队也有五名队员，序号6,7,8,9,10。输入一个得票字符串，求第二小队没有得票的队员。<br><br>输入格式:<br>在一行中输入得票的队员的序列号，用逗号隔开。<br><br>输出格式:<br>一行中输出第二小队没有得票的队员序号。",
+                inputEx: "1,5,9,3,9,1,1,7,5,7,7,3,3,1,5,7,4,4,5,4,9,5,10,9 ", outputEx: "6 8",
+                ans: "votes = list(map(int, input().split(',')))\nteam2 = {6, 7, 8, 9, 10}\nvoted = set(votes)\nnot_voted = sorted(list(team2 - voted))\nprint(' '.join(map(str, not_voted)))"
+            },
+            {
+                id: "code21", title: "统计字符出现次数",
+                desc: "本题要求编写程序，统计并输出某给定字符在给定字符串中出现的次数。<br><br>输入格式：<br>输入第一行给出一个以回车结束的字符串（少于80个字符）；第二行输入一个字符。<br><br>输出格式：<br>在一行中输出给定字符在给定字符串中出现的次数。",
+                inputEx: "programming is More fun!\nm", outputEx: "2",
+                ans: "s = input()\nch = input().strip()\nprint(s.count(ch))"
+            }
+        ];
+
+        function renderCode() {
+            const container = document.getElementById('code-container');
+            codeQuestions.forEach((q, idx) => {
+                container.innerHTML += `
+                    <div class="card-box">
+                        <h3 style="margin-top:0;">${idx + 1}. ${q.title}</h3>
+                        <div style="margin-bottom:15px; line-height: 1.6;">
+                            <p>${q.desc}</p>
+                            <p><strong>输入样例:</strong><br><pre>${q.inputEx}</pre></p>
+                            <p><strong>输出样例:</strong><br><pre>${q.outputEx}</pre></p>
+                        </div>
+                        <textarea class="code-editor" id="code-editor-${q.id}" placeholder="在此处编写你的 Python 代码..."></textarea>
+                        
+                        <div style="display:flex; gap:10px; margin-top:10px;">
+                            <button class="submit-btn" style="width: auto;" data-qid="${q.id}" py-click="verify_code">提交 OJ 评测</button>
+                            <button class="submit-btn" style="width: auto; background-color:#757575;" onclick="toggleAnswer('${q.id}')">显示/隐藏参考答案</button>
+                        </div>
+                        
+                        <div id="code-result-${q.id}" class="result-box" style="margin-top: 15px; background:#f9f9f9; padding:15px; border-radius:4px;"></div>
+                        
+                        <div id="ans-${q.id}" class="result-box" style="margin-top: 15px; border-top: none; background:#e8f4fd; padding:15px; border-radius:4px; display:none;">
+                            <p><strong style="color:var(--primary-color);">💡 参考答案：</strong></p>
+                            <pre>${q.ans}</pre>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.onload = () => { 
+            renderTFQuiz(tfConceptQuestions, 'tf-concept-container');
+            renderTFQuiz(tfCodeQuestions, 'tf-code-container');
+            renderChoiceQuiz(choiceConceptQuestions, 'choice-concept-container');
+            renderChoiceQuiz(choiceCodeQuestions, 'choice-code-container');
+            renderFillQuiz(fillConceptQuestions, 'fill-concept-container');
+            renderFillQuiz(fillCodeQuestions, 'fill-code-container');
+            renderCode(); 
+        };
+    </script>
+
+    <script type="py">
+        import sys
+        import io
+        import builtins
+        import traceback
+        from pyscript import document
+        from iapws import IAPWS97
+
+        # === 编程题测试用例库 (带有隐藏的鲁棒性强壮测试点) ===
+        TEST_CASES = {
+            "code1": [{"input": "central processing unit\n", "expected": "CPU\n"}],
+            "code2": [{"input": "2 30\n", "expected": "6 = 1 + 2 + 3\n28 = 1 + 2 + 4 + 7 + 14\n"}, {"input": "2 5\n", "expected": "None\n"}],
+            "code3": [{"input": "4\n", "expected": "1 \n1 1 \n1 2 1 \n1 3 3 1 \n"}],
+            "code4": [{"input": "8\n0 Amy\n1 Tom\n1 Bill\n0 Cindy\n0 Maya\n1 John\n1 Jack\n0 Linda\n", "expected": "Amy Jack\nTom Linda\nBill Maya\nCindy John\n"}],
+            "code5": [{"input": "[11,2,[3,7],(68,-1),\"123\",9]\n", "expected": "99\n"}],
+            "code6": [{"input": "[1,2,[3,4,[5,6],7],8]\n", "expected": "72\n"}],
+            "code7": [{"input": "[1,2,[3,4,[5,6],7],8]\n", "expected": "15\n"}],
+            "code8": [{"input": "[1,2,[3,4,[5,6],7],8]\n3\n", "expected": "2\n"}],
+            "code9": [{"input": "3\n", "expected": "123\n132\n213\n231\n312\n321\n"}],
+            "code10": [{"input": "4\n2 3 4 1\n5 6 1 1\n7 1 8 1\n1 1 1 1\n", "expected": "21.00\n"}, {"input": "1\n99\n", "expected": "99.00\n"}],
+            "code11": [{"input": "3 6 5 9 8 2 1 4 5\n", "expected": "19\n"}],
+            "code12": [{"input": "1\n3\n1 2 3\n0 4 5\n0 0 6\n", "expected": "upper triangular matrix\n"}],
+            "code13": [{"input": "4 5\n1 1 1 1 1\n1 3 9 3 1\n1 5 3 5 1\n1 1 1 1 1\n", "expected": "9 2 3\n5 3 2\n5 3 4\n"}],
+            "code14": [{"input": "4\n{'a':{'b':10,'c':6}}\n{'b':{'c':2,'d':7}}\n{'c':{'d':10}}\n{'d':{}}\n", "expected": "4 5 35\n"}],
+            "code15": [{"input": "8\n10 2 0 5 7 2 5 2\n", "expected": "0:1\n2:3\n5:2\n7:1\n10:1\n"}],
+            "code16": [{"input": "4\n1 7 4 1\n4 8 3 6\n1 6 1 2\n0 7 8 9\n", "expected": "1\n"}],
+            "code17": [{"input": "2,7,11,15\n9\n", "expected": "0 1\n"}, {"input": "-3,4,3,90\n0\n", "expected": "0 2\n"}],
+            "code18": [
+                {"input": "{1:3,2:5}\n{1:5,3:7}\n", "expected": "{1:8,2:5,3:7}\n"},
+                {"input": "{\"1\":3,1:4}\n{\"a\":5,\"1\":6}\n", "expected": "{1:4,\"1\":9,\"a\":5}\n"},
+                {"input": "{}\n{\"A\":9}\n", "expected": "{\"A\":9}\n"},
+                {"input": "{8:2, \"z\":1}\n{8:3, \"a\":2}\n", "expected": "{8:5,\"a\":2,\"z\":1}\n"}
+            ],
+            "code19": [{"input": "84117512\n8\n", "expected": "3\n"}],
+            "code20": [{"input": "1,5,9,3,9,1,1,7,5,7,7,3,3,1,5,7,4,4,5,4,9,5,10,9\n", "expected": "6 8\n"}],
+            "code21": [{"input": "programming is More fun!\nm\n", "expected": "2\n"}]
+        }
+
+        # === 编程题在线评测核心逻辑 ===
+        def verify_code(event):
+            btn = event.target
+            q_id = btn.getAttribute("data-qid")
+            code_str = document.querySelector(f"#code-editor-{q_id}").value
+            res_box = document.querySelector(f"#code-result-{q_id}")
+            
+            res_box.style.display = "block"
+            if not code_str.strip():
+                res_box.innerHTML = '<span class="incorrect">⚠ 代码不能为空！</span>'
+                return
+
+            res_box.innerHTML = "正在挂载沙箱并执行评测，请稍候..."
+
+            test_cases = TEST_CASES.get(q_id, [])
+            all_passed = True
+            html_out = ""
+
+            for i, tc in enumerate(test_cases):
+                old_stdout = sys.stdout
+                redirected_output = io.StringIO()
+                sys.stdout = redirected_output
+                
+                input_iter = iter(tc["input"].split('\n'))
+                def mock_input(prompt=""):
+                    try: return next(input_iter)
+                    except StopIteration: return ""
+                
+                old_input = builtins.input
+                builtins.input = mock_input
+                
+                success = True
+                
+                final_code = code_str
+                if q_id == "code1":
+                    final_code += "\nphrase=input()\nprint(acronym(phrase))"
+
+                try:
+                    exec(final_code, {})
+                except Exception as e:
+                    success = False
+                    traceback.print_exc(file=sys.stdout)
+                    
+                sys.stdout = old_stdout
+                builtins.input = old_input
+                
+                output = redirected_output.getvalue()
+                out_norm = output.strip().replace('\r\n', '\n')
+                exp_norm = tc["expected"].strip().replace('\r\n', '\n')
+                
+                if not success:
+                    all_passed = False
+                    html_out += f'<div style="margin-bottom:10px;"><span class="incorrect">❌ 测试点 {i+1} 运行报错：</span><br><pre>{output}</pre></div>'
+                    break
+                elif out_norm != exp_norm:
+                    all_passed = False
+                    html_out += f'<div style="margin-bottom:10px;"><span class="incorrect">❌ 测试点 {i+1} 答案错误</span><br>预期输出：<pre>{tc["expected"]}</pre>实际输出：<pre>{output}</pre></div>'
+                    break
+                else:
+                    html_out += f'<div style="margin-bottom:5px;"><span class="correct">✅ 测试点 {i+1} 验证通过</span></div>'
+            
+            if all_passed and test_cases:
+                html_out += f'<h4 class="correct" style="margin-top:10px;">🎉 恭喜！所有测试点均已通过。</h4>'
+                
+            res_box.innerHTML = html_out
+
+        # === 水蒸气查询逻辑 ===
+        def query_steam(event):
+            res_box = document.querySelector('#steam-result')
+            res_box.style.display = 'block'
+            res_box.innerHTML = "正在拉起计算核心并进行求解，请稍候..."
+
+            try:
+                p_val = document.querySelector('#steam-p').value
+                t_val = document.querySelector('#steam-t').value
+                if not p_val or not t_val:
+                    res_box.innerHTML = '<span class="incorrect">⚠ 请输入完整的压力和温度参数！</span>'
+                    return
+
+                p = float(p_val)
+                t_c = float(t_val)
+                t_k = t_c + 273.15  
+
+                steam = IAPWS97(P=p, T=t_k)
+                phase_map = { "Liquid": "液相 (水)", "Vapour": "气相 (蒸汽)", "Two phases": "两相 (汽水混合物)", "Supercritical": "超临界" }
+                phase_str = phase_map.get(steam.phase, steam.phase)
+
+                res_box.innerHTML = f"""
+                    <div style="line-height: 1.8;">
+                        <p><strong style="color:var(--primary-color);">查询条件：</strong> <i>p</i> = {p} MPa, <i>t</i> = {t_c} ℃</p>
+                        <p><strong>状态：</strong> {phase_str}</p>
+                        <p><strong>比体积 <i>v</i> :</strong> {steam.v:.5f} m³/kg</p>
+                        <p><strong>比焓 <i>h</i> :</strong> {steam.h:.2f} kJ/kg</p>
+                        <p><strong>比熵 <i>s</i> :</strong> {steam.s:.4f} kJ/(kg·K)</p>
+                    </div>
+                """
+            except Exception as e:
+                res_box.innerHTML = f'<span class="incorrect">⚠ 计算出错或超出 IF97 标准适用范围: {str(e)}</span>'
+    </script>
+</body>
+</html>
+}
+这是我的小站主页，我想把浅色和深色改成太阳与月亮的图标，放在左上角“Ichigo”的小站左边；颜色调整去掉英文单词，变成若干个带颜色的小正方形，放在页面右上角，直接生成最终完整代码
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="stylesheet" href="[https://pyscript.net/releases/2023.11.1/core.css](https://pyscript.net/releases/2023.11.1/core.css)" />
+    <script type="module" src="[https://pyscript.net/releases/2023.11.1/core.js](https://pyscript.net/releases/2023.11.1/core.js)"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ichigo的小站</title>
+    <style>
+        /* CSS 变量，用于主题切换，默认改为绿色 */
+        :root {
+            --primary-color: #4caf50;
+            --primary-hover-bg: rgba(76, 175, 80, 0.1);
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --sidebar-bg: #ffffff;
+            --border-color: #eeeeee;
+            --admonition-bg: #e8f5e9;
+            --admonition-border: #4caf50;
+            --card-bg: #fafafa;
+        }
+
+        [data-theme="slate"] {
+            --bg-color: #1e1e1e;
+            --text-color: #cccccc;
+            --sidebar-bg: #252525;
+            --border-color: #333333;
+            --admonition-bg: rgba(76, 175, 80, 0.1);
+            --card-bg: #2d2d2d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0; padding: 0;
+            background-color: var(--bg-color); color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            display: flex; flex-direction: column; height: 100vh;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0 20px; height: 60px; display: flex; align-items: center;
+            justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .header-title { font-size: 1.2em; font-weight: bold; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        
+        .header-right { display: flex; align-items: center; gap: 8px; }
+        
+        /* 颜色小方块样式 */
+        .color-square {
+            width: 22px; height: 22px; border-radius: 4px; cursor: pointer;
+            border: 2px solid rgba(255,255,255,0.4); transition: transform 0.2s, border-color 0.2s;
+        }
+        .color-square:hover { transform: scale(1.15); border-color: white; }
+
+        .main-container { display: flex; flex: 1; overflow: hidden; }
+
+        aside { width: 260px; background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color); padding: 20px; overflow-y: auto; }
+        .sidebar-menu { list-style: none; padding: 0; margin: 0; }
+        
+        .menu-category { font-size: 0.85em; color: #888; font-weight: bold; padding: 15px 15px 5px 5px; text-transform: uppercase; cursor: default; }
+        .menu-category.toggleable { cursor: pointer; color: var(--text-color); font-size: 1em; display: flex; align-items: center; justify-content: space-between; border-radius: 4px; transition: background 0.2s; padding: 10px 10px; margin-top: 10px; background-color: var(--primary-hover-bg); }
+        .menu-category.toggleable:hover { background-color: rgba(0,0,0,0.05); }
+        
+        .sidebar-menu li.menu-item { padding: 8px 15px; margin-bottom: 2px; cursor: pointer; border-radius: 4px; color: var(--text-color); transition: background 0.2s; font-size: 0.95em; }
+        .sidebar-menu li.sub-item { margin-left: 20px; font-size: 0.9em; position: relative; }
+        .sidebar-menu li.sub-item::before { content: "•"; position: absolute; left: 5px; color: var(--border-color); }
+        .sidebar-menu li.menu-item:hover, .sidebar-menu li.menu-item.active { color: var(--primary-color); background-color: var(--primary-hover-bg); }
+
+        main { flex: 1; padding: 40px; overflow-y: auto; max-width: 900px; margin: 0 auto; }
+        .page-content { display: none; }
+        .page-content.active { display: block; }
+
+        .admonition { background-color: var(--admonition-bg); border: 1px solid var(--admonition-border); border-radius: 4px; padding: 15px; margin: 20px 0; }
+        .admonition-title { color: var(--admonition-border); font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        ul.about-list { padding-left: 20px; line-height: 1.8; }
+
+        .card-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; padding: 20px; margin-bottom: 20px; }
+        .submit-btn { background-color: var(--primary-color); color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; width: 100%; font-weight:bold; }
+        .submit-btn:hover { opacity: 0.9; }
+        .result-box { margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--border-color); display: none; }
+        .correct { color: #4caf50; font-weight: bold; }
+        .incorrect { color: #f44336; font-weight: bold; }
+        
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: inline-block; width: 90px; font-weight: bold;}
+        .input-group input { padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; width: 150px; background: var(--bg-color); color: var(--text-color);}
+        
+        .fill-input { border: none; border-bottom: 1px solid var(--text-color); background: transparent; color: var(--primary-color); width: 100px; text-align: center; font-size: 1em; outline: none; margin: 0 5px; font-weight:bold; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; color: #333; border: 1px solid #ddd; }
+        [data-theme="slate"] pre { background: #1a1a1a; color: #ccc; border-color: #444; }
+        .code-editor { width: 100%; height: 200px; padding: 10px; font-family: monospace; font-size: 14px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-bottom: 10px; resize: vertical; }
+    </style>
+</head>
+<body>
+    <py-config>
+        packages = ["iapws"]
+    </py-config>
+
+    <header>
+        <div class="header-left">
+            <div id="theme-toggle" onclick="toggleTheme()" style="cursor:pointer; display:flex; align-items:center; opacity: 0.9; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.9">
+                <svg id="icon-sun" width="24" height="24" viewBox="0 0 24 24" fill="white" style="display:none;">
+                    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41.39.39 1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41.39.39 1.03.39 1.41 0l1.06-1.06z"/>
+                </svg>
+                <svg id="icon-moon" width="24" height="24" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>
+                </svg>
+            </div>
+            
+            <div class="header-title" onclick="switchPage('home')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Ichigo的小站
+            </div>
+        </div>
+        <div class="header-right" id="color-squares"></div>
+    </header>
+
+    <div class="main-container">
+        <aside>
+            <ul class="sidebar-menu">
+                <li id="nav-home" class="menu-item active" onclick="switchPage('home')" style="margin-top: 10px;">主页 (About)</li>
+                
+                <li class="menu-category toggleable" onclick="togglePythonMenu()">
+                    <span style="font-weight:bold; color:var(--primary-color);">Python 练习</span>
+                    <span id="python-menu-icon" style="transition: transform 0.3s; font-size:0.8em; color:var(--primary-color);">▶</span>
+                </li>
+                
+                <div id="python-submenu" style="display:none; margin-bottom: 10px; border-left: 2px solid var(--border-color); margin-left: 10px; padding-left: 5px;">
+                    <li class="menu-category" style="padding-top:10px; padding-bottom:5px; font-size:0.8em;">判断题</li>
+                    <li id="nav-tf-concept" class="menu-item sub-item" onclick="switchPage('tf-concept')">基本概念题</li>
+                    <li id="nav-tf-code" class="menu-item sub-item" onclick="switchPage('tf-code')">代码阅读题</li>
+
+                    <li class="menu-category" style="padding-top:5px; padding-bottom:5px; font-size:0.8em;">选择题</li>
+                    <li id="nav-choice-concept" class="menu-item sub-item" onclick="switchPage('choice-concept')">基本概念题</li>
+                    <li id="nav-choice-code" class="menu-item sub-item" onclick="switchPage('choice-code')">代码阅读题</li>
+
+                    <li class="menu-category" style="padding-top:5px; padding-bottom:5px; font-size:0.8em;">填空题</li>
+                    <li id="nav-fill-concept" class="menu-item sub-item" onclick="switchPage('fill-concept')">基本概念题</li>
+                    <li id="nav-fill-code" class="menu-item sub-item" onclick="switchPage('fill-code')">代码阅读题</li>
+                    
+                    <li class="menu-category" style="padding-top:5px; padding-bottom:5px; font-size:0.8em;">编程题</li>
+                    <li id="nav-code-quiz" class="menu-item sub-item" onclick="switchPage('code-quiz')">Python 编程题</li>
+                </div>
+                
+                <li class="menu-category">工程热力学</li>
+                <li id="nav-steam-tool" class="menu-item sub-item" onclick="switchPage('steam-tool')">水蒸气性质查询</li>
+            </ul>
+        </aside>
+
+        <main>
+            <div id="page-home" class="page-content active">
+                <h1 style="margin-top: 0;">Ichigo的小站</h1>
+                <p><strong>欢迎来访！这里是Ichigo的小站</strong></p>
+                <div class="admonition">
+                    <div class="admonition-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        About Me
+                    </div>
+                    <ul class="about-list">
+                        <li>浙江大学24级能源与环境系统工程</li>
+                        <li>ENFJ</li>
+                        <li>喜欢打游戏，一般打一些类魂，cs，明日方舟等等，也喜欢下中国象棋（虽然很菜）</li>
+                        <li>喜欢慢跑，游泳，爬山等比较养生的运动（我是虚逼）也会打一点乒乓、篮球、羽毛球</li>
+                        <li>喜欢和大家唠嗑</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="page-tf-concept" class="page-content">
+                <h2>判断题 / 基本概念题</h2>
+                <div id="tf-concept-container"></div>
+                <button class="submit-btn" onclick="submitTFQuiz(tfConceptQuestions, 'tf-concept-container')">提交判卷</button>
+            </div>
+
+            <div id="page-tf-code" class="page-content">
+                <h2>判断题 / 代码阅读题</h2>
+                <div id="tf-code-container"></div>
+                <button class="submit-btn" onclick="submitTFQuiz(tfCodeQuestions, 'tf-code-container')">提交判卷</button>
+            </div>
+
+            <div id="page-choice-concept" class="page-content">
+                <h2>选择题 / 基本概念题</h2>
+                <div id="choice-concept-container"></div>
+                <button class="submit-btn" onclick="submitChoiceQuiz(choiceConceptQuestions, 'choice-concept-container')">提交判卷</button>
+            </div>
+
+            <div id="page-choice-code" class="page-content">
+                <h2>选择题 / 代码阅读题</h2>
+                <div id="choice-code-container"></div>
+                <button class="submit-btn" onclick="submitChoiceQuiz(choiceCodeQuestions, 'choice-code-container')">提交判卷</button>
+            </div>
+
+            <div id="page-fill-concept" class="page-content">
+                <h2>填空题 / 基本概念题</h2>
+                <div id="fill-concept-container"></div>
+                <button class="submit-btn" onclick="submitFillQuiz(fillConceptQuestions, 'fill-concept-container')">提交判卷</button>
+            </div>
+
+            <div id="page-fill-code" class="page-content">
+                <h2>填空题 / 代码阅读题</h2>
+                <div id="fill-code-container"></div>
+                <button class="submit-btn" onclick="submitFillQuiz(fillCodeQuestions, 'fill-code-container')">提交判卷</button>
+            </div>
+
+            <div id="page-code-quiz" class="page-content">
+                <h2>Python 编程题 (OJ评测)</h2>
+                <div id="code-container"></div>
+            </div>
+
+            <div id="page-steam-tool" class="page-content">
+                <h2>水蒸气热力性质参数查询</h2>
+                <div class="card-box">
+                    <div class="input-group">
+                        <label>压力 (MPa): </label>
+                        <input type="number" id="steam-p" step="0.1" placeholder="例: 0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>温度 (°C): </label>
+                        <input type="number" id="steam-t" step="1" placeholder="例: 100">
+                    </div>
+                    <button class="submit-btn" style="margin-top: 10px;" py-click="query_steam">查询参数</button>
+                    <div id="steam-result" class="result-box"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // === 页面路由切换与主题 ===
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.sidebar-menu li.menu-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(`page-${pageId}`).classList.add('active');
+            const navElement = document.getElementById(`nav-${pageId}`);
+            if(navElement) navElement.classList.add('active');
+        }
+
+        // 折叠菜单功能
+        function togglePythonMenu() {
+            const submenu = document.getElementById('python-submenu');
+            const icon = document.getElementById('python-menu-icon');
+            if (submenu.style.display === 'none' || submenu.style.display === '') {
+                submenu.style.display = 'block';
+                icon.style.transform = 'rotate(90deg)';
+            } else {
+                submenu.style.display = 'none';
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // 展开/收起答案功能
+        function toggleAnswer(id) {
+            const ansDiv = document.getElementById('ans-' + id);
+            if (ansDiv.style.display === 'none' || ansDiv.style.display === '') {
+                ansDiv.style.display = 'block';
+            } else {
+                ansDiv.style.display = 'none';
+            }
+        }
+
+        // 太阳月亮主题切换
+        function toggleTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'slate';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                document.getElementById('icon-sun').style.display = 'none';
+                document.getElementById('icon-moon').style.display = 'block';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'slate');
+                document.getElementById('icon-sun').style.display = 'block';
+                document.getElementById('icon-moon').style.display = 'none';
+            }
+        }
+        
+        // 生成右侧颜色小方块
+        const colors = { green: '#4caf50', blue: '#2094f3', red: '#f44336', pink: '#e91e63', purple: '#9c27b0', orange: '#ff9800', grey: '#9e9e9e', black: '#000000' };
+        const sqContainer = document.getElementById('color-squares');
+        for (const [name, hex] of Object.entries(colors)) {
+            const div = document.createElement('div');
+            div.className = 'color-square';
+            div.style.backgroundColor = hex;
+            div.onclick = () => {
+                document.documentElement.style.setProperty('--primary-color', hex);
+                document.documentElement.style.setProperty('--primary-hover-bg', hex + '1A');
+            };
+            sqContainer.appendChild(div);
+        }
+
+        // === 1. 判断题 ===
+        const tfConceptQuestions = [
+            { id: "tc1", text: "表达式 -2**4 等于16。", correct: "F" },
+            { id: "tc2", text: "bool([])的返回值是False。", correct: "T" },
+            { id: "tc3", text: "在循环中continue语句的作用是退出循环的当前迭代。", correct: "T" }, 
+            { id: "tc4", text: "使用for i in range(10)和for i in range(10,20),控制循环次数是一样的。", correct: "T" }, 
+            { id: "tc5", text: "集合的元素可以是任意数据类型。", correct: "F" }, 
+            { id: "tc6", text: "len(set([0,4,5,6,0,7,8])) 的结果是7。", correct: "F" }, 
+            { id: "tc7", text: "a={}, type(a) 结果是 &lt;class 'set'&gt;。", correct: "F" }, 
+            { id: "tc8", text: "列表可以作为字典的键。", correct: "F" }, 
+            { id: "tc9", text: "高级语言程序要被机器执行,只有用解释器来解释执行。", correct: "F" }, 
+            { id: "tc10", text: "不可以在同一台计算机上安装多个不同的Python解释器版本。", correct: "F" }, 
+            { id: "tc11", text: "Python是一种跨平台、开源、免费的动态编程语言。", correct: "T" }, 
+            { id: "tc12", text: "math模块是python语言的数学模块。", correct: "T" }, 
+            { id: "tc13", text: "字母A的ASCII编码值和Unicode编码值相同。", correct: "T" } 
+        ];
+
+        const tfCodeQuestions = [
+            { id: "td1", text: "下面程序的运行结果是4。<br><pre>i=3\n++i</pre>", correct: "F" },
+            { id: "td2", text: "当输入是：45,8 时，下面程序的输出结果是37。<br><pre>a,b = input().split(',')\nb=int(b)\nc=int('a',b)\nprint(c)</pre>", correct: "F" },
+            { id: "td3", text: "下面语句的输出是：这是数字输出格式□□123。 （□表示空格）<br><pre>print('这是数字输出格式{:5d}'.format(123))</pre>", correct: "T" },
+            { id: "td4", text: "下面程序的输出是3。<br><pre>lst=[34,6,7,0,0,0,9]\nn=0\nfor i in lst:\n   if i==0:\n       lst.remove(i)\n       n+=1\nprint(n)</pre>", correct: "F" },
+            { id: "td5", text: "下面程序输出是2。<br><pre>lst=[0,34,6,0,7,0,9]\nn=0\nfor i in lst:\n   if i==0:\n       lst.remove(i)\n       n+=1\nprint(n)</pre>", correct: "F" },
+            { id: "td6", text: "下面程序输出值是1。<br><pre>data=[[1]*3]*3\ndata[0][1]=45\nprint(data[2][1])</pre>", correct: "F" },
+            { id: "td7", text: "下面程序的运行结果一定是：1 2 3 4<br><pre>set1={1,2,3,4}\nfor i in set1:\n   print(i,end=\" \")</pre>", correct: "F" },
+            { id: "td8", text: "下面程序最后一行的输出是：\"岳瑜\" : 13611987725。<br><pre>dic={\"赵洁\" : 15264771766,\"张秀华\" : 13063767486,\"胡桂珍\" : 15146046882,\"龚丽丽\" : 13606379542,\"岳瑜\" : 13611987725}    \nfor i in range(len(dic)):    \n    print(dic[i])</pre>", correct: "F" },
+            { id: "td9", text: "下面程序的输出是None。<br><pre>dic={\"赵洁\" : 15264771766,\"张秀华\" : 13063767486,\"胡桂珍\" : 15146046882,\"龚丽丽\" : 13606379542,\"岳瑜\" : 13611987725}    \nprint(dic.get(\"张军\",None))</pre>", correct: "T" },
+            { id: "td10", text: "下面程序的输出是None。<br><pre>dic={\"赵洁\" : 15264771766,\"张秀华\" : 13063767486,\"胡桂珍\" : 15146046882,\"龚丽丽\" : 13606379542,\"岳瑜\" : 13611987725}    \nprint(dic[\"张军\"])</pre>", correct: "F" },
+            { id: "td11", text: "下面程序的输出是张秀华。<br><pre>dic={\"赵洁\" : 15264771766,\"张秀华\" : 13063767486,\"胡桂珍\" : 15146046882,\"龚丽丽\" : 13606379542,\"岳瑜\" : 13611987725}    \nreversedic={v:k for k,v in dic.items()}\nprint(reversedic[13063767486])</pre>", correct: "T" },
+            { id: "td12", text: "下面程序的输出是15929494512。<br><pre>dic1={\"赵洁\" : 15264771766,\"张秀华\" : 13063767486,\"胡桂珍\" : 15146046882,\"龚丽丽\" : 13606379542,\"岳瑜\" : 13611987725}\ndic2={\"王玉兰\" : 15619397270,\"王强\" : 15929494512,\"王桂荣\" : 13794876998,\"邓玉英\" : 18890393268,\"何小红\" : 13292597821}\ndic3=dic1.update(dic2)\nprint(dic3[\"王强\"])</pre>", correct: "F" },
+            { id: "td13", text: "下面程序输出的是True。<br><pre>dic1={\"赵洁\" : 15264771766,\"张秀华\" : 13063767486,\"胡桂珍\" : 15146046882,\"龚丽丽\" : 13606379542,\"岳瑜\" : 13611987725}\ndic2={\"王玉兰\" : 15619397270,\"王强\" : 15929494512,\"王桂荣\" : 13794876998,\"邓玉英\" : 18890393268,\"何小红\" : 13292597821}\ndic3={**dic1,**dic2}\ndic1.update(dic2)\nprint(dic1==dic3)</pre>", correct: "T" },
+            { id: "td14", text: "下面程序输出的是15146046882。<br><pre>dic1={\"赵洁\" : 15264771766,\"张秀华\" : 13063767486,\"胡桂珍\" : 15146046882,\"龚丽丽\" : 13606379542,\"岳瑜\" : 13611987725}\ndic2={\"王玉兰\" : 15619397270,\"王强\" : 15929494512,\"王桂荣\" : 13794876998,\"邓玉英\" : 18890393268,\"胡桂珍\" : 13292597821}\ndic3={**dic1,**dic2}\nprint(dic3[\"胡桂珍\"])</pre>", correct: "F" },
+            { id: "td15", text: "下面程序的输出是5。<br><pre>set2={num for num in range(1,15) if num%3==0}\nprint(len(set2))</pre>", correct: "F" },
+            { id: "td16", text: "下面程序的输出是3。<br><pre>s={1,2,3}\ns1=s\ns1.remove(2)\nprint(len(s))</pre>", correct: "F" },
+            { id: "td17", text: "下面程序输出是circle。<br><pre>d={\"color\":\"red\",\"shape\":\"circle\"}\nd1=d\nd1[\"shape\"]=\"triangle\"\nprint(\"shape\")</pre>", correct: "T" }
+        ];
+
+        // === 2. 选择题 ===
+        const choiceConceptQuestions = [
+            { id: "cc1", text: "下列数据类型中， Python不支持的是_____________。", options: ["char", "int", "float", "list"], correct: "A" },
+            { id: "cc2", text: "Python 语句print(type(1J))的输出结果是______________。", options: ["&lt;class 'complex'&gt;", "&lt;class 'int'&gt;", "&lt;class 'float'&gt;", "&lt;class 'dict'&gt;"], correct: "A" },
+            { id: "cc3", text: "关于Python字符串，下列说法错误的是___________。", options: ["字符即长度为1的字符串", "字符串以\\0标志字符串的结束", "既可以用单引号，也可以用双引号创建字符串", "在三引号字符串中可以包含换行回车等特殊字符"], correct: "B" }, 
+            { id: "cc4", text: "在一个函数中如局部变量和全局变量同名，则_________________。", options: ["局部变量屏蔽全局变量", "全局变量屏蔽局部变量", "全局变量和局部变量都不可用", "程序错误"], correct: "A" }, 
+            { id: "cc5", text: "以下哪一句会得到 {'1','2','3'}？", options: ["list(\"123\")", "tuple(\"123\")", "set(\"123\")", "以上都不是"], correct: "C" }, 
+            { id: "cc6", text: "以下哪个方式可以创建一个空的集合？", options: ["set()", "{}", "[]", "()"], correct: "A" },
+            { id: "cc7", text: "对于两个集合s1和s2，s1 &lt; s2 的意思是？", options: ["s1的大小小于s2的大小", "s1的元素比s2的小", "s1是s2的真子集", "s2是s1的真子集"], correct: "C" },
+            { id: "cc8", text: "对于集合s，以下哪个操作是不存在的？", options: ["len(s)", "s.append(1)", "max(s)", "s - {1}"], correct: "B" },
+            { id: "cc9", text: "对于正确的表达式 a[2]，a不可能是以下哪个类型？", options: ["集合", "列表", "元组", "字典"], correct: "A" },
+            { id: "cc10", text: "可以使用____运算符来确定一个键是否在字典中。", options: ["&amp;", "in", "^", "?"], correct: "B" },
+            { id: "cc11", text: "你可以使用____从字典中删除元素。", options: ["remove", "rease", "delete", "del"], correct: "D" },
+            { id: "cc12", text: "返回集合中元素个数的函数是______。", options: ["size()", "len()", "elements()", "count()"], correct: "B" },
+            { id: "cc13", text: "计算机存储器的单位是字节（B, Byte），1B等于__________。", options: ["一位二进制", "四位二进制", "八位二进制", "十六位二进制"], correct: "C" },
+            { id: "cc14", text: "Python程序在Windows上的扩展名是_________。", options: ["py", "exe", "docx", "jpg"], correct: "A" },
+            { id: "cc15", text: "10的二进制值是__________。", options: ["1100", "1010", "0011", "1110"], correct: "B" },
+            { id: "cc16", text: "八进制35的十进制值是_________。", options: ["30", "25", "19", "29"], correct: "D" },
+            { id: "cc17", text: "计算机系统由硬件和________组成。", options: ["语言", "控制器", "存储器", "软件"], correct: "D" },
+            { id: "cc18", text: "______是不等长编码。", options: ["ASCII码", "Unicode码", "UTF-8码", "以上都不"], correct: "C" },
+            { id: "cc19", text: "_______号表示同一行的后面部分是Python程序的注释。", options: ["*", "%", "/", "#"], correct: "D" },
+            { id: "cc20", text: "Python语言的官方网站地址是_______。", options: ["www.python.org", "[www.python.com](https://www.python.com)", "www.python.edu", "[www.pythontutor.com](https://www.pythontutor.com)"], correct: "A" },
             { id: "cc21", text: "不是面向对象的程序设计语言是________。", options: ["Java", "C", "C++", "Python"], correct: "B" }
         ];
 
