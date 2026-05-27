@@ -95,7 +95,7 @@
         .sidebar-menu li.sub-item:hover { color: var(--primary-color); background: transparent; transform: translateX(3px); }
         [data-theme="slate"] .sidebar-menu li.sub-item { color: #aaa; }
 
-        main { flex: 1; padding: 40px; overflow-y: auto; max-width: 900px; margin: 0 auto; }
+        main { flex: 1; padding: 40px; overflow-y: auto; max-width: 900px; margin: 0 auto; position: relative; }
         .page-content { display: none; }
         .page-content.active { display: block; }
 
@@ -118,6 +118,11 @@
         pre { background: #f4f4f4; padding: 10px; border-radius: 4px; overflow-x: auto; color: #333; border: 1px solid #ddd; }
         [data-theme="slate"] pre { background: #1a1a1a; color: #ccc; border-color: #444; }
         .code-editor { width: 100%; height: 200px; padding: 10px; font-family: monospace; font-size: 14px; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-color); color: var(--text-color); margin-bottom: 10px; resize: vertical; }
+
+        /* 全局 Loading 提示 */
+        #pyscript-loading {
+            position: absolute; top: 0; left: 0; width: 100%; background-color: #ff9800; color: white; text-align: center; padding: 10px 0; font-weight: bold; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -187,6 +192,10 @@
         </aside>
 
         <main>
+            <div id="pyscript-loading">
+                ⏳ 正在下载 Python 运行环境及底层数学库 (首次加载由于依赖了 scipy，可能会耗时 10-30 秒，请耐心等待...)
+            </div>
+
             <div id="page-home" class="page-content active">
                 <h1 style="margin-top: 0;">Ichigo的小站</h1>
                 <p><strong>欢迎来访！这里是Ichigo的小站</strong></p>
@@ -257,7 +266,7 @@
                         <label>温度 (°C): </label>
                         <input type="number" id="steam-t" step="1" placeholder="例: 100">
                     </div>
-                    <button class="submit-btn" style="margin-top: 10px;" py-click="query_steam">查询参数</button>
+                    <button class="submit-btn" style="margin-top: 10px;" onclick="window.py_query_steam(event)">查询参数</button>
                     <div id="steam-result" class="result-box"></div>
                 </div>
             </div>
@@ -265,6 +274,13 @@
     </div>
 
     <script>
+        // === 先预置全局代理函数：防止用户在 Python 加载完成前疯狂点击按钮而产生报错 ===
+        window.py_query_steam = function(e) { 
+            if(e) e.preventDefault(); 
+            alert("⚙️ Python 环境及背后的依赖库(scipy)由于体积较大仍在下载中。首次加载预计需10-30秒，请稍候再试！"); 
+        };
+        window.py_verify_code = window.py_query_steam;
+
         // === 页面路由切换与主题 ===
         function switchPage(pageId) {
             document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
@@ -601,7 +617,7 @@
                 id: "code14", title: "图的字典表示",
                 desc: "有向图的字典表示。输入多行字符串，每行表示一个顶点和该顶点相连的边及长度，输出顶点数，边数，边的总长度。比如 {'O':{'A':2,'B':5,'C':4}}。用eval函数处理输入。<br><br>输入格式:<br>第一行表示输入的行数<br>下面每行输入表示一个顶点和该顶点相连的边及长度的字符串。<br><br>输出格式:<br>在一行中输出顶点数，边数，边的总长度。",
                 inputEx: "4\n{'a':{'b':10,'c':6}}\n{'b':{'c':2,'d':7}}\n{'c':{'d':10}}\n{'d':{}} ", outputEx: "4 5 35",
-                ans: "n = int(input())\nnodes = 0\nedges = 0\ntotal_len = 0\nfor _ in range(n):\n    d = eval(input())\n    nodes += 1\n    for k, v in d.items():\n        for dest, length in v.items():\n            edges += 1\n            total_len += length\nprint(f'{nodes} {edges} {total_len}')"
+                ans: "n = int(input())\nnodes = 0\edges = 0\ntotal_len = 0\nfor _ in range(n):\n    d = eval(input())\n    nodes += 1\n    for k, v in d.items():\n        for dest, length in v.items():\n            edges += 1\n            total_len += length\nprint(f'{nodes} {edges} {total_len}')"
             },
             {
                 id: "code15", title: "统计工龄",
@@ -650,6 +666,7 @@
         function renderCode() {
             const container = document.getElementById('code-container');
             codeQuestions.forEach((q, idx) => {
+                // 将 OJ 评测的动态 py-click 也更换为 JS 的 onclick，彻底规避生命周期绑定问题
                 container.innerHTML += `
                     <div class="card-box">
                         <h3 style="margin-top:0;">${idx + 1}. ${q.title}</h3>
@@ -661,7 +678,7 @@
                         <textarea class="code-editor" id="code-editor-${q.id}" placeholder="在此处编写你的 Python 代码..."></textarea>
                         
                         <div style="display:flex; gap:10px; margin-top:10px;">
-                            <button class="submit-btn" style="width: auto;" data-qid="${q.id}" py-click="verify_code">提交 OJ 评测</button>
+                            <button class="submit-btn" style="width: auto;" onclick="window.py_verify_code(event, '${q.id}')">提交 OJ 评测</button>
                             <button class="submit-btn" style="width: auto; background-color:#757575;" onclick="toggleAnswer('${q.id}')">显示/隐藏参考答案</button>
                         </div>
                         
@@ -688,7 +705,7 @@
     </script>
 
     <py-config>
-        packages = ["iapws"]
+        packages = ["scipy", "iapws"]
     </py-config>
     
     <script type="py">
@@ -696,7 +713,8 @@
         import io
         import builtins
         import traceback
-        from pyscript import document
+        from pyscript import document, window
+        from pyodide.ffi import create_proxy
         from iapws import IAPWS97
 
         # === 编程题测试用例库 (带有隐藏的鲁棒性强壮测试点) ===
@@ -730,9 +748,7 @@
         }
 
         # === 编程题在线评测核心逻辑 ===
-        def verify_code(event):
-            btn = event.target
-            q_id = btn.getAttribute("data-qid")
+        def py_verify_code(event, q_id):
             code_str = document.querySelector(f"#code-editor-{q_id}").value
             res_box = document.querySelector(f"#code-result-{q_id}")
             
@@ -796,7 +812,7 @@
             res_box.innerHTML = html_out
 
         # === 水蒸气查询逻辑 ===
-        def query_steam(event):
+        def py_query_steam(event):
             res_box = document.querySelector('#steam-result')
             res_box.style.display = 'block'
             res_box.innerHTML = "正在拉起计算核心并进行求解，请稍候..."
@@ -827,6 +843,21 @@
                 """
             except Exception as e:
                 res_box.innerHTML = f'<span class="incorrect">⚠ 计算出错或超出 IF97 标准适用范围: {str(e)}</span>'
+
+        # ==============================================================================
+        # 终极修复：把 Python 函数挂载回 JS 全局（覆盖掉我们在 JS 开头写的防误触占位函数）
+        # ==============================================================================
+        window.py_query_steam = create_proxy(py_query_steam)
+        window.py_verify_code = create_proxy(py_verify_code)
+
+        # 依赖彻底加载完毕后，隐藏顶部的那条长长的等待提示
+        try:
+            loading_banner = document.getElementById("pyscript-loading")
+            if loading_banner:
+                loading_banner.style.display = "none"
+        except:
+            pass
+
     </script>
 </body>
 </html>
