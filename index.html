@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <link rel="stylesheet" href="[https://pyscript.net/releases/2023.11.1/core.css](https://pyscript.net/releases/2023.11.1/core.css)" />
-    <script type="module" src="[https://pyscript.net/releases/2023.11.1/core.js](https://pyscript.net/releases/2023.11.1/core.js)"></script>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.11.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2023.11.1/core.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ichigo的小站</title>
@@ -383,7 +383,7 @@
             { id: "cc17", text: "计算机系统由硬件和________组成。", options: ["语言", "控制器", "存储器", "软件"], correct: "D" },
             { id: "cc18", text: "______是不等长编码。", options: ["ASCII码", "Unicode码", "UTF-8码", "以上都不"], correct: "C" },
             { id: "cc19", text: "_______号表示同一行的后面部分是Python程序的注释。", options: ["*", "%", "/", "#"], correct: "D" },
-            { id: "cc20", text: "Python语言的官方网站地址是_______。", options: ["www.python.org", "[www.python.com](https://www.python.com)", "www.python.edu", "[www.pythontutor.com](https://www.pythontutor.com)"], correct: "A" },
+            { id: "cc20", text: "Python语言的官方网站地址是_______。", options: ["www.python.org", "www.python.com", "www.python.edu", "www.pythontutor.com"], correct: "A" },
             { id: "cc21", text: "不是面向对象的程序设计语言是________。", options: ["Java", "C", "C++", "Python"], correct: "B" }
         ];
 
@@ -687,6 +687,10 @@
         };
     </script>
 
+    <py-config>
+        packages = ["iapws"]
+    </py-config>
+    
     <script type="py">
         import sys
         import io
