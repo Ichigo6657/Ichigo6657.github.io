@@ -276,7 +276,7 @@
     <script>
         // === 先预置全局代理函数：防止用户在 Python 加载完成前疯狂点击按钮而产生报错 ===
         window.py_query_steam = function(e) { 
-            if(e) e.preventDefault(); 
+            if(e) e.preventDefault();
             alert("⚙️ Python 环境及背后的依赖库(scipy)由于体积较大仍在下载中。首次加载预计需10-30秒，请稍候再试！"); 
         };
         window.py_verify_code = window.py_query_steam;
@@ -355,7 +355,36 @@
             { id: "tc10", text: "不可以在同一台计算机上安装多个不同的Python解释器版本。", correct: "F" }, 
             { id: "tc11", text: "Python是一种跨平台、开源、免费的动态编程语言。", correct: "T" }, 
             { id: "tc12", text: "math模块是python语言的数学模块。", correct: "T" }, 
-            { id: "tc13", text: "字母A的ASCII编码值和Unicode编码值相同。", correct: "T" } 
+            { id: "tc13", text: "字母A的ASCII编码值和Unicode编码值相同。", correct: "T" },
+            // 新增概念判断题
+            { id: "tc14", text: "以\"w\"模式打开的文件无法进行读操作。", correct: "T" },
+            { id: "tc15", text: "read函数返回的是列表。", correct: "F" },
+            { id: "tc16", text: "readlines函数返回的是列表。", correct: "T" },
+            { id: "tc17", text: "Json数据格式只能用于Javascript语言。", correct: "F" },
+            { id: "tc18", text: "close函数用于文件关闭。", correct: "T" },
+            { id: "tc19", text: "sys.stdin表示标准输入。", correct: "T" },
+            { id: "tc20", text: "第三方模块要先安装才能使用。", correct: "T" },
+            { id: "tc21", text: "创建对象是通过调用构造方法完成的。", correct: "T" },
+            { id: "tc22", text: "位于对象中的方法称为实例变量。", correct: "F" },
+            { id: "tc23", text: "Python方法定义的的第一个参数是this", correct: "F" },
+            { id: "tc24", text: "一个对象只能有一个实例变量", correct: "F" },
+            { id: "tc25", text: "在Python类中，构造方法的名称为__init__", correct: "T" },
+            { id: "tc26", text: "从类定义之外直接访问实例变量是不好的程序设计风格。", correct: "T" },
+            { id: "tc27", text: "在类定义中隐藏对象的细节称为实例化。", correct: "F" },
+            { id: "tc28", text: "父类（超类）从子类继承方法。", correct: "F" },
+            { id: "tc29", text: "在Python中定义类时，如果某个成员名称前有2个下划线则表示是私有成员。", correct: "T" },
+            { id: "tc30", text: "Python中一切内容都可以称为对象。", correct: "T" },
+            { id: "tc31", text: "定义类时所有实例方法的第一个参数用来表示对象本身，在类的外部通过对象名来调用实例方法时不需要为该参数传值。", correct: "T" },
+            { id: "tc32", text: "在面向对象程序设计中，函数和方法是完全一样的，都必须为所有参数进行传值。", correct: "F" },
+            { id: "tc33", text: "对于Python类中的私有成员，可以通过对象名._类名__私有成员名的方式来访问。", correct: "T" },
+            { id: "tc34", text: "在Python中定义类时实例方法的第一个参数名称必须是self。", correct: "F" },
+            { id: "tc35", text: "在Python中定义类时实例方法的第一个参数名称不管是什么，都表示对象自身。", correct: "T" },
+            { id: "tc36", text: "定义类时，在一个方法前面使用@classmethod进行修饰，则该方法属于类方法。", correct: "T" },
+            { id: "tc37", text: "定义类时，在一个方法前面使用@staticmethod进行修饰，则该方法属于静态方法。", correct: "T" },
+            { id: "tc38", text: "在Python中可以为自定义类的对象动态增加新成员。", correct: "T" },
+            { id: "tc39", text: "机器语言是字符A、字符B组成的代码指令构成。", correct: "F" },
+            { id: "tc40", text: "变量不需事先声明就可使用。", correct: "T" },
+            { id: "tc41", text: "Python集合中的元素可以是列表。", correct: "F" }
         ];
 
         const tfCodeQuestions = [
@@ -375,7 +404,30 @@
             { id: "td14", text: "下面程序输出的是15146046882。<br><pre>dic1={\"赵洁\" : 15264771766,\"张秀华\" : 13063767486,\"胡桂珍\" : 15146046882,\"龚丽丽\" : 13606379542,\"岳瑜\" : 13611987725}\ndic2={\"王玉兰\" : 15619397270,\"王强\" : 15929494512,\"王桂荣\" : 13794876998,\"邓玉英\" : 18890393268,\"胡桂珍\" : 13292597821}\ndic3={**dic1,**dic2}\nprint(dic3[\"胡桂珍\"])</pre>", correct: "F" },
             { id: "td15", text: "下面程序的输出是5。<br><pre>set2={num for num in range(1,15) if num%3==0}\nprint(len(set2))</pre>", correct: "F" },
             { id: "td16", text: "下面程序的输出是3。<br><pre>s={1,2,3}\ns1=s\ns1.remove(2)\nprint(len(s))</pre>", correct: "F" },
-            { id: "td17", text: "下面程序输出是circle。<br><pre>d={\"color\":\"red\",\"shape\":\"circle\"}\nd1=d\nd1[\"shape\"]=\"triangle\"\nprint(\"shape\")</pre>", correct: "T" }
+            { id: "td17", text: "下面程序输出是circle。<br><pre>d={\"color\":\"red\",\"shape\":\"circle\"}\nd1=d\nd1[\"shape\"]=\"triangle\"\nprint(\"shape\")</pre>", correct: "T" },
+            // 新增代码阅读判断题
+            { id: "td18", text: "表达式 \"3/0\" 会引发“ValueError”异常。", correct: "F" },
+            { id: "td19", text: "带有else子句的异常处理结构，如果不发生异常则执行else子句中的代码。", correct: "T" },
+            { id: "td20", text: "在异常处理结构中，不论是否发生异常，finally子句中的代码总是会执行的。", correct: "T" },
+            { id: "td21", text: "下面程序的输入是5，输出是：<br>*****<br>*****<br><pre>m=int(input())\nprint('{:^5}'.format('*'*m))\nprint('{:^m}'.format('*'*m))</pre>", correct: "F" },
+            { id: "td22", text: "int(\"92\",8)的值是74。", correct: "F" },
+            { id: "td23", text: "表达式3 and 0 and \"hello\"的值是False。", correct: "F" },
+            { id: "td24", text: "可以通过[]来访问字符串的某个字符，也可以将它修改成其他字符。", correct: "F" },
+            { id: "td25", text: "语句print(\"输出结果是{:08.2f}\".format(14.345))的输出是：输出结果是00014.34。", correct: "F" },
+            { id: "td26", text: "在python语言中，if5 是一个符合python语法的变量名。", correct: "T" },
+            { id: "td27", text: "2.1-2 == 0.1结果为True。", correct: "F" },
+            { id: "td28", text: "z已赋值，x=(y=z+1)语句是错误语句。", correct: "T" },
+            { id: "td29", text: "bool(FALSE)的返回值是True。", correct: "F" },
+            { id: "td30", text: "print(bin(12.5))的输出是0b1100.1", correct: "F" },
+            { id: "td31", text: "表达式：\"34\" in \"1234\"==True 返回值是True。", correct: "F" },
+            { id: "td32", text: "语句print(\"输出结果是{:8d}\".format(1234))的输出是：输出结果是 1234□□□□。 □表示空格。", correct: "F" },
+            { id: "td33", text: "[4,5]*3的结果是[[4,5],[4,5],[4,5]]。", correct: "F" },
+            { id: "td34", text: "下面的程序当输入是 c d e a时，输出是 a c d e。<br><pre>a = input().split(\" \")\nfor i in a.sort():\n    print(i,end=\" \")</pre>", correct: "F" },
+            { id: "td35", text: "列表lst=[12, -5, -22, -10, -26, 35, 0, 49, 3, -21], lst[0:100]的结果是错误。", correct: "F" },
+            { id: "td36", text: "列表lst=[12, -5, -22, -10, -26, 35, 0, 49, 3, -21], lst[100:]的结果是[]。", correct: "T" },
+            { id: "td37", text: "print(pow(-2,0.5))输出一个复数。", correct: "T" },
+            { id: "td38", text: "用open(\"sample.txt\",\"r+\"）打开文件后，可以写文件。", correct: "T" },
+            { id: "td39", text: "执行语句块 lst=[3,5,7,9];lst[:3]=[];print(lst) 后，输出[9]。", correct: "T" }
         ];
 
         // === 2. 选择题 ===
@@ -400,12 +452,43 @@
             { id: "cc18", text: "______是不等长编码。", options: ["ASCII码", "Unicode码", "UTF-8码", "以上都不"], correct: "C" },
             { id: "cc19", text: "_______号表示同一行的后面部分是Python程序的注释。", options: ["*", "%", "/", "#"], correct: "D" },
             { id: "cc20", text: "Python语言的官方网站地址是_______。", options: ["www.python.org", "www.python.com", "www.python.edu", "www.pythontutor.com"], correct: "A" },
-            { id: "cc21", text: "不是面向对象的程序设计语言是________。", options: ["Java", "C", "C++", "Python"], correct: "B" }
+            { id: "cc21", text: "不是面向对象的程序设计语言是________。", options: ["Java", "C", "C++", "Python"], correct: "B" },
+            // 新增概念选择题
+            { id: "cc22", text: "Python保留字_______开始了类定义", options: ["def", "class", "object", "init"], correct: "B" },
+            { id: "cc23", text: "在类中，具四个形式参数的方法通常在调用时有__个实际参数。", options: ["3", "4", "5", "不确定"], correct: "A" },
+            { id: "cc24", text: "在类的方法定义中，可以通过表达式________访问实例变量x。", options: ["x", "self.x", "self[x]", "this.x"], correct: "B" },
+            { id: "cc25", text: "定义一个类的“私有”方法，Python的惯例是使用________开始方法的名称。", options: ["“private”", "两个下划线(__)", "井号( # )", "减号 ( - )"], correct: "B" },
+            { id: "cc26", text: "将细节隐藏在类定义中，术语称为________。", options: ["虚函数", "子类化", "继承", "封装"], correct: "D" },
+            { id: "cc27", text: "以下________不是面向对象程序设计的基本特征之一。", options: ["继承", "多态", "抽象", "封装"], correct: "C" },
+            { id: "cc28", text: "汉字点阵图存储是一种常见的汉字存储方式。某电子词典使用16×16点阵来存储汉字。如果该词典收录了10,000个常用汉字，那么存储这些汉字所需的总存储空间约为（    ）KB。", options: ["4000", "360", "320", "576"], correct: "C" },
+            { id: "cc29", text: "如果是一幅黑白图片，颜色深度就是1（因为只有两种颜色：黑色0和白色1），那么如果需要呈现16种颜色的彩色图，它的颜色深度是（    ）。", options: ["1", "4", "8", "16"], correct: "B" },
+            { id: "cc30", text: "关于内存，以下说法不正确的是（  ）。", options: ["内存由若干存储单元组成，每个存储单元都有一个地址", "数据存放在存储单元中，存储单元以字节为单位", "一个字节由8位二进制位组成", "存储容量即存储器的总二进制位数，也称为地址空间"], correct: "D" },
+            { id: "cc31", text: "计算机的硬件可划分为三个子系统：（  ）、存储器和输入/输出。", options: ["处理器", "运算器", "控制器", "计算器"], correct: "A" },
+            { id: "cc32", text: "某一计算机的内存单元总共有512个，若我们对这些内存单元进行编号，地址从0000H（H表示16进制）到（______）。", options: ["0200", "01FF", "03FF", "0511"], correct: "B" },
+            { id: "cc33", text: "下面那个不是Python可以接受的变量名？", options: ["abc", "_23ac", "i", "good-name"], correct: "D" },
+            { id: "cc34", text: "以下选项中，关于Python字符串的错误描述是____。", options: ["字符串是用一对双引号括起来的字符", "字符串是字符序列", "字符串使用符号[ ]进行切片和索引", "Python字符串的切片表达方式是[I , J]"], correct: "D" },
+            { id: "cc35", text: "下面定义字典的语句那个是正确的？", options: ["momthdays=dict(Jan=31,Feb=28,Mar=31,Apr=30)", "momthdays=dict(\"Jan\"=31,\"Feb\"=28,\"Mar\"=31,“Apr\"=30)", "momthdays={Jan:31,Feb:28,Mar:31,Apr:30}", "momthdays={Jan=31,Feb=28,Mar=31,Apr=30}"], correct: "A" }
         ];
 
         const choiceCodeQuestions = [
             { id: "cd1", text: "Python 语句print(type(1//2))的输出结果是______________。", options: ["&lt;class 'int'&gt;", "&lt;class 'number'&gt;", "&lt;class 'float'&gt;", "&lt;class 'double'&gt;"], correct: "A" }, 
-            { id: "cd2", text: "下面程序的输出是什么？<br><pre>a,b=5,9\nprint(a, b)</pre>", options: ["59", "5,9", "5□9 (□表示空格)", "5□□9 (5和9之间二个空格)"], correct: "C" } 
+            { id: "cd2", text: "下面程序的输出是什么？<br><pre>a,b=5,9\nprint(a, b)</pre>", options: ["59", "5,9", "5□9 (□表示空格)", "5□□9 (5和9之间二个空格)"], correct: "C" },
+            // 新增代码阅读选择题
+            { id: "cd3", text: "下面程序的输出是什么？<br><pre>try:\n    x=float(\"abc123\")\n    print(\"The conversion is completed\")\nexcept IOError:\n    print(\"This code caused an IOError\")\nexcept ValueError:\n    print(\"This code caused an ValueError\")\nexcept:\n    print(\"An error happened\")</pre>", options: ["The conversion is completed", "This code caused an IOError", "An error happened", "This code caused an ValueError"], correct: "D" },
+            { id: "cd4", text: "下面程序输入是1时，输出是什么？<br><pre>def func(a):\n    if a==0:\n        raise ValueError\n    elif a==1:\n        raise ZeroDivisionError\n    \ni=int(input())\ntry:\n    func(i)\n    print(\"ok\")\nexcept Exception as e:\n    print(type(e))</pre>", options: ["ok", "&lt;class 'ZeroDivisionError'&gt;", "&lt;class 'ValueError'&gt;", "以上都不是"], correct: "B" },
+            { id: "cd5", text: "分析下面的代码:<br><pre>class A:\n    def __init__(self, s):\n        self.s = s\n\n    def print(self):\n        print(s)\n\na = A(\"Welcome\")\na.print()</pre>", options: ["程序有错误，因为类A中没有构造方法。", "程序有错误，因为类A中有一个命名的print方法print(self, s)。", "程序有错误，因为类A中有一个命名的print方法print( s)。", "如果方法 print(s) 改成 print(self.s)，程序能够正常运行."], correct: "C" },
+            { id: "cd6", text: "分析下面的代码:<br><pre>class A:\n    def __init__(self):\n        self.x = 1\n        self.__y = 1\n\n    def getY(self):\n        return self.__y\n\na = A()\nprint(a.x)</pre>", options: ["程序有错误，因为x是私有的，不能在类之外访问。", "程序有错误，因为y是私有的，不能在类之外访问。", "程序有错误，不能使用__y作为变量名。", "程序运行结果为1 。"], correct: "D" },
+            { id: "cd7", text: "分析下面代码:<br><pre>class A:\n    def __init__(self):\n        self.x = 1\n        self.__y = 1\n\n    def getY(self):\n        return self.__y\n\na = A()\na.__y = 45\nprint(a.getY())</pre>", options: ["程序有错误，因为x是私有的，不能在类之外访问。", "程序有错误，因为y是私有的，不能在类之外访问。", "程序有错误，不能使用__y作为变量名。", "程序运行结果为1 。"], correct: "D" },
+            { id: "cd8", text: "下面代码段运行的结果是什么？<br><pre>def main():\n    myCount = Count()\n    times = 0\n    for i in range(0, 100):\n        increment(myCount, times)\n    print(\"count =\", myCount.count, \"times =\", times)\n\ndef increment(c, times):\n    c.count += 1\n    times += 1\n\nclass Count:\n    def __init__(self):\n        self.count = 0\n\nmain()</pre>", options: ["count值为101，times 值为 0", "count值为100，times值为 0", "count值为100，times值为 100", "count值为101，times值为 101"], correct: "B" },
+            { id: "cd9", text: "下面代码段运行的结果是什么？<br><pre>class A:\n    def __init__(self, i = 1):\n        self.i = i\n\nclass B(A):\n    def __init__(self, j = 2):\n        super().__init__()\n        self.j = j\n\ndef main():\n    b = B()\n    print(b.i, b.j)\n\nmain()</pre>", options: ["0 0", "0 1", "1 2", "0 2"], correct: "C" },
+            { id: "cd10", text: "以下哪句打印出smith\\exam1\\test.txt？", options: ["print(\"smith\\exam1\\test.txt\")", "print(\"smith\\\\exam1\\\\test.txt\")", "print(\"smith\\\"exam1\\\"test.txt\")", "print(\"smith\"\\exam1\"\\test.txt\")"], correct: "B" },
+            { id: "cd11", text: "执行pytython语句print(\"abcd\"*3+\"\\141\")后的输出是：", options: ["abcdabcdabcda", "abcdabcdabcdb", "abcdabcda", "abcda"], correct: "A" },
+            { id: "cd12", text: "输入10，下面程序行号为2的语句输出是多少？<br><pre>the_max = int(input(\"Enter the upper limit:\"))\nthe_sum = 0\nextra = 0\nfor number in range(1,the_max):\n    if number%2 and not number%3:\n       the_sum = the_sum + number\n    else:\n       extra = extra + 1\nprint(the_sum) # 行号为 2</pre>", options: ["12", "7", "13", "8"], correct: "B" },
+            { id: "cd13", text: "下面代码的输出结果是_____。<br><pre>print(0.1+0.2==0.3)</pre>", options: ["True", "False", "true", "false"], correct: "B" },
+            { id: "cd14", text: "下面程序的输出是____。<br><pre>lst=[1,2,3]\nlst1=lst[:]\nprint(id(lst)==id(lst1))</pre>", options: ["True", "False", "0", "1"], correct: "B" },
+            { id: "cd15", text: "下面代码的输出结果是___。<br><pre>str1=\"k:1|k1:2|k2:3|k3:4\"\nlst=str1.split('|')\nd={}\nfor l in lst:\n    key,value=l.split(':')\n    d[key]=value\nprint(d)</pre>", options: ["[k:1,k1:2,k2:3,k3:4]", "{'k':1,'k1':2,'k2':3,'k3':4}", "{'k':'1','k1':'2','k2':'3','k3':'4'}", "{k:'1',k1:'2',k2:'3',k3:'4'}"], correct: "C" },
+            { id: "cd16", text: "下面代码的输出是___。<br><pre>def greeting(args1,*tupleargs,**dictargs):\n    print(args1)\n    print(tupleargs)\n    print(dictargs)\n\nname=['HTY','LEF','ZH']\ninfo={'schoolName':'NJRU','City':'Nanjing'}\ngreeting(*name,'Hello',**info)</pre>", options: ["程序错误", "无输出", "['HTY','LEF','ZH']", "HTY<br>('LEF', 'ZH', 'Hello')<br>{'schoolName': 'NJRU', 'City': 'Nanjing'}"], correct: "D" },
+            { id: "cd17", text: "现有 d = {}, python3解释器执行 d['a'] = 'b' 后d 的结果是（）", options: ["{'a':'b'}", "{a:b}", "{'a','b'}", "报错无法运行"], correct: "A" }
         ];
 
         // === 3. 填空题 ===
@@ -416,16 +499,31 @@
             { id: "fc4", parts: ["十进制19.625的二进制是：", "。（整数部分用八位二进制表示）"], answers: ["00010011.101"], score: 1 }, 
             { id: "fc5", parts: ["十六进制2AC的八进制表示是：", "。"], answers: ["1254"], score: 1 }, 
             { id: "fc6", parts: ["十进制106的原码是：", "，反码是：", "，补码是：", "。（用八位表示）"], answers: ["01101010", "01101010", "01101010"], score: 3 }, 
-            { id: "fc7", parts: ["-78的原码是：", "，反码是：", "，补码是：", "。（用八位表示）"], answers: ["11001110", "10110001", "10110010"], score: 3 } 
+            { id: "fc7", parts: ["-78的原码是：", "，反码是：", "，补码是：", "。（用八位表示）"], answers: ["11001110", "10110001", "10110010"], score: 3 },
+            // 新增概念填空题
+            { id: "fc8", parts: ["Python内置函数", "用来打开文件。"], answers: ["open"], score: 1 },
+            { id: "fc9", parts: ["Python内置函数open 用", "打开文件表示写模式。"], answers: ["w"], score: 1 },
+            { id: "fc10", parts: ["表达式((2>=2) or (2<2)) and 2的值为", "。"], answers: ["2"], score: 1 },
+            { id: "fc11", parts: ["表达式 3 and 0 and 5的结果是", "。"], answers: ["0"], score: 1 },
+            { id: "fc12", parts: ["len('3//11//2018'.split('/'))的结果是", "。"], answers: ["4"], score: 1 },
+            { id: "fc13", parts: ["print(\"programming\".find(\"r\",2))的输出是", "。"], answers: ["4"], score: 1 },
+            { id: "fc14", parts: ["print(\"□□□xyz□□\".strip(),\"□□□xyz□□\".rstrip(),\"□□□xyz□□\".lstrip())的输出是", "。（□表示空格）"], answers: ["xyz □□□xyz xyz□□"], score: 1 },
+            { id: "fc15", parts: ["print(\"{1}+{0}={2}\".format(2,3,2+3))的输出是", "。"], answers: ["3+2=5"], score: 1 },
+            { id: "fc16", parts: ["Python输出 print(\"hello\" 'world')的结果是", "。"], answers: ["helloworld"], score: 1 },
+            { id: "fc17", parts: ["要想得到[0,100]范围内的随机数，random.randint(0,n)里的n应该是：", "。"], answers: ["100"], score: 1 },
+            { id: "fc18", parts: ["print(\"a123\".isdigit())的输出是", "。"], answers: ["False"], score: 1 },
+            { id: "fc19", parts: ["list(range(2,12,2))[:-2].pop()的结果是：", "。"], answers: ["6"], score: 1 },
+            { id: "fc20", parts: ["print(len(\"this$is$$$a#\".split(\"$\")))的输出结果是", "。"], answers: ["5"], score: 1 },
+            { id: "fc21", parts: ["有字典 dict1={True: 'yes', 1: 'no', 1.0: 10}， dict1[True]的值是", "。"], answers: ["10"], score: 1 }
         ];
 
         const fillCodeQuestions = [
             { id: "fd1", parts: ["下面程序的运行结果是", "。<br><pre>b, c=2, 4\ndef g_func(d):\n    global a\n    a=d*c\ng_func(b)\nprint(a)</pre>"], answers: ["8"], score: 1 }, 
             { id: "fd2", parts: ["下面程序的运行结果是：", "。<br><pre>import math\ndef factors(x):\n   y=int(math.sqrt(x))\n   for i in range(2,y+1):\n       if (x%i ==0):\n           factors(x//i)\n           break\n       else:\n           print(x,end=' ')\n       return\nfactors(38)</pre>"], answers: ["19"], score: 3 },
             { id: "fd3", parts: ["下面程序的运行结果是：", "。<br><pre>def ins_sort_rec(seq, i):\n   if i == 0: return\n   ins_sort_rec(seq, i - 1)\n   j = i\n   while j > 0 and seq[j - 1] > seq[j]: \n       seq[j - 1], seq[j] = seq[j], seq[j - 1] \n       j -= 1\nseq = [3,-6,79,45,8,12,6,8]\nins_sort_rec(seq, len(seq)-1)\nprint(seq[5])</pre>"], answers: ["12"], score: 3 },
-            { id: "fd4", parts: ["下面程序的运行结果是：", "。<br><pre>def basic_lis(seq):\n   l=[1]*len(seq)\n   for cur ,val in enumerate(seq):           #enumerate返回元素的\"索引和值\"\n       for pre in range(cur):\n           if seq[pre]&lt;val:\n               l[cur]=max(l[cur],1+l[pre])\n   return max(l)\nL=[49, 64, 17, 100, 86, 66, 78, 68, 87, 96, 19, 99, 35]\nprint(basic_lis(L))</pre>"], answers: ["7"], score: 3 },
-            { id: "fd5", parts: ["下面程序是冒泡排序的实现，请填空(答案中不要有空格)：", "。<br><pre>def bubble(List):\n   for j in range(________,0,-1):\n       for i in range(0,j):\n           if List[i]>List[i+1]:List[i],List[i+1]=List[i+1],List[i]\n   return List\ntestlist = [49, 38, 65, 97, 76, 13, 27, 49] \nprint( bubble(testlist))</pre>"], answers: ["len(List)-1"], score: 1 },
-            { id: "fd6", parts: ["下面程序是选择排序的实现，请填空(答案中不要有空格)：", "。<br><pre>def selSort(nums):\n   n = len(nums)\n   for bottom in range(n-1):\n       mi = bottom\n       for i in range(_________, n):\n           if nums[i] &lt; nums[mi]:\n                mi = i\n       nums[bottom], nums[mi] = nums[mi], nums[bottom] \n   return nums\nnumbers = [49, 38, 65, 97, 76, 13, 27, 49]\nprint(selSort(numbers))</pre>"], answers: ["bottom+1"], score: 1 },
+            { id: "fd4", parts: ["下面程序的运行结果是：", "。<br><pre>def basic_lis(seq):\n   l=[1]*len(seq)\n   for cur ,val in enumerate(seq):\n       for pre in range(cur):\n           if seq[pre]&lt;val:\n               l[cur]=max(l[cur],1+l[pre])\n   return max(l)\nL=[49, 64, 17, 100, 86, 66, 78, 68, 87, 96, 19, 99, 35]\nprint(basic_lis(L))</pre>"], answers: ["7"], score: 3 },
+            { id: "fd5", parts: ["下面程序是冒泡排序的实现，请填空：", "。<br><pre>def bubble(List):\n   for j in range(________,0,-1):\n       for i in range(0,j):\n           if List[i]>List[i+1]:List[i],List[i+1]=List[i+1],List[i]\n   return List\ntestlist = [49, 38, 65, 97, 76, 13, 27, 49] \nprint( bubble(testlist))</pre>"], answers: ["len(List)-1"], score: 1 },
+            { id: "fd6", parts: ["下面程序是选择排序的实现，请填空：", "。<br><pre>def selSort(nums):\n   n = len(nums)\n   for bottom in range(n-1):\n       mi = bottom\n       for i in range(_________, n):\n           if nums[i] &lt; nums[mi]:\n                mi = i\n       nums[bottom], nums[mi] = nums[mi], nums[bottom] \n   return nums\nnumbers = [49, 38, 65, 97, 76, 13, 27, 49]\nprint(selSort(numbers))</pre>"], answers: ["bottom+1"], score: 1 },
             { id: "fd7", parts: ["下面程序的输出是：", "。<br><pre>row=[0]*3\ndata=[row,row,row]\ndata[2][2]=7\nprint(data[0][2])</pre>"], answers: ["7"], score: 2 },
             { id: "fd8", parts: ["下面程序的输出是：", "。<br><pre>data=[[0]*3] *3\ndata[2][2]=7\nprint(data[0][2])</pre>"], answers: ["7"], score: 2 },
             { id: "fd9", parts: ["下面程序的输出是：", "。<br><pre>data=[]\nfor i in range(3):\n   data.append([0]*3)\ndata[2][2]=7\nprint(data[0][2])</pre>"], answers: ["0"], score: 2 },
@@ -434,7 +532,16 @@
             { id: "fd12", parts: ["下面程序的输出是：", "。<br><pre>text=\"four score and 7 years\"\nlenwords={s:len(s) for s in text.split()}\nprint(lenwords[\"score\"])</pre>"], answers: ["5"], score: 2 },
             { id: "fd13", parts: ["下面程序的输出结果是：", "。<br><pre>dic1 = {\"姓名\": \"xiaoming\", \"年龄\": 27} \ndic2 = {\"性别\": \"male\",\"年龄\": 30} \ndic3 = {k:v for d in [dic1, dic2] for k,v in d.items()} \nprint(dic3[\"年龄\"])</pre>"], answers: ["30"], score: 2 },
             { id: "fd14", parts: ["下面程序的运行结果是：", "。<br><pre>cells=dict(values=[[100, 90, 80, 90], [95, 85, 75, 95]])\nprint(cells[\"values\"][1][2])</pre>"], answers: ["75"], score: 3 },
-            { id: "fd15", parts: ["下面程序的运行结果是：", "。<br><pre>myth=[{'label': color, 'value': color} for color in ['blue', 'red', 'yellow']]\nprint(myth[1][\"label\"])</pre>"], answers: ["red"], score: 2 }
+            { id: "fd15", parts: ["下面程序的运行结果是：", "。<br><pre>myth=[{'label': color, 'value': color} for color in ['blue', 'red', 'yellow']]\nprint(myth[1][\"label\"])</pre>"], answers: ["red"], score: 2 },
+            // 新增代码阅读填空题
+            { id: "fd16", parts: ["下面程序的输出是：", "。<br><pre>try:\n    x = float(\"abc123\")\n    print(\"数据类型转换完成\")\nexcept IOError:\n    print(\"This code caused an IOError\")\nexcept ValueError:\n    print(\"This code caused an ValueError\")</pre>"], answers: ["This code caused an ValueError"], score: 1 },
+            { id: "fd17", parts: ["上面程序输入是 -3 时，输出是：", "。<br><pre>def area(r):\n    assert r>=0,\"参数错误,半径小于0\"\n    s=3.14159*r*r\n    return s\n\nr=float(input())\ntry:\n    print(area(r))\nexcept AssertionError as msg:\n    print(msg)</pre>"], answers: ["参数错误,半径小于0"], score: 1 },
+            { id: "fd18", parts: ["执行下列语句后v的显示结果是什么?", "。<br><pre>values = [[3, 4, 5, 1], [33, 6, 1, 2]]\nv = values[0][0]\nfor row in range(0, len(values)):\n    for column in range(0, len(values[row])):\n        if v < values[row][column]:\n            v = values[row][column]\nprint(v)</pre>"], answers: ["33"], score: 1 },
+            { id: "fd19", parts: ["输入为‘dbc'时，行号为3的语句输出是多少？", "。<br><pre>my_str = input(\"Input a string: \")\nindex_int = 0\nresult_str = ''\nwhile index_int < (len(my_str) - 1): \n   if my_str[index_int] > my_str[index_int + 1]:\n     result_str = result_str + my_str[index_int]\n   else:\n     result_str = result_str * 2\n   index_int += 1 \nprint(result_str) # 行号为 3</pre>"], answers: ["dd"], score: 1 },
+            { id: "fd20", parts: ["下面语句的输出是什么？", "。<br><pre>list1=[1,43]\nlist2=list1\nlist1[0]=22\nprint(list2[0])</pre>"], answers: ["22"], score: 1 },
+            { id: "fd21", parts: ["下面程序的运行结果是", "。<br><pre>def plus(lst1,lst2):\n    for i in range(2):\n        lst1[i]+=lst2[i]\n        return lst1\n    \nv1=[0,4]\nv2=[3,5]\nprint(sum(plus(plus(v1,v1),v2)))</pre>"], answers: ["14"], score: 1 },
+            { id: "fd22", parts: ["下面程序的输出是___", "。<br><pre>def app(L=[]):\n    L.append(1)\n    return(L)\n\napp()\napp()\napp([2])\nprint(len(app()))</pre>"], answers: ["3"], score: 1 },
+            { id: "fd23", parts: ["当输入是123a，下面程序输出是___", "。<br><pre>while True:\n    x=input()\n    try :\n        x=int(x)\n    except Exception as e:\n        print(-10000000)\n        break\n    else:\n        print(x)\n        break</pre>"], answers: ["-10000000"], score: 1 }
         ];
 
         // === 渲染工厂函数 ===
@@ -461,6 +568,7 @@
                 const selected = document.querySelector(`input[name="${q.id}"]:checked`);
                 const resultBox = document.getElementById(`result-${q.id}`);
                 resultBox.style.display = 'block';
+                
                 if (!selected) resultBox.innerHTML = '<span class="incorrect">未作答</span>';
                 else if (selected.value === q.correct) resultBox.innerHTML = '<span class="correct">答案正确</span>';
                 else resultBox.innerHTML = '<span class="incorrect">答案错误</span>';
@@ -492,6 +600,7 @@
                 const selected = document.querySelector(`input[name="${q.id}"]:checked`);
                 const resultBox = document.getElementById(`result-${q.id}`);
                 resultBox.style.display = 'block';
+                
                 if (!selected) resultBox.innerHTML = '<span class="incorrect">未作答</span>';
                 else if (selected.value === q.correct) resultBox.innerHTML = '<span class="correct">答案正确</span>';
                 else resultBox.innerHTML = `<span class="incorrect">答案错误</span> (正确答案: ${q.correct})`;
@@ -533,7 +642,7 @@
             });
         }
 
-        // === 4. 编程题渲染逻辑 ===
+        // === 4. 编程题渲染逻辑 (原始代码已保留) ===
         const codeQuestions = [
             {
                 id: "code1", title: "缩写词",
@@ -617,7 +726,7 @@
                 id: "code14", title: "图的字典表示",
                 desc: "有向图的字典表示。输入多行字符串，每行表示一个顶点和该顶点相连的边及长度，输出顶点数，边数，边的总长度。比如 {'O':{'A':2,'B':5,'C':4}}。用eval函数处理输入。<br><br>输入格式:<br>第一行表示输入的行数<br>下面每行输入表示一个顶点和该顶点相连的边及长度的字符串。<br><br>输出格式:<br>在一行中输出顶点数，边数，边的总长度。",
                 inputEx: "4\n{'a':{'b':10,'c':6}}\n{'b':{'c':2,'d':7}}\n{'c':{'d':10}}\n{'d':{}} ", outputEx: "4 5 35",
-                ans: "n = int(input())\nnodes = 0\edges = 0\ntotal_len = 0\nfor _ in range(n):\n    d = eval(input())\n    nodes += 1\n    for k, v in d.items():\n        for dest, length in v.items():\n            edges += 1\n            total_len += length\nprint(f'{nodes} {edges} {total_len}')"
+                ans: "n = int(input())\nnodes = 0\nedges = 0\ntotal_len = 0\nfor _ in range(n):\n    d = eval(input())\n    nodes += 1\n    for k, v in d.items():\n        for dest, length in v.items():\n            edges += 1\n            total_len += length\nprint(f'{nodes} {edges} {total_len}')"
             },
             {
                 id: "code15", title: "统计工龄",
@@ -666,7 +775,6 @@
         function renderCode() {
             const container = document.getElementById('code-container');
             codeQuestions.forEach((q, idx) => {
-                // 将 OJ 评测的动态 py-click 也更换为 JS 的 onclick，彻底规避生命周期绑定问题
                 container.innerHTML += `
                     <div class="card-box">
                         <h3 style="margin-top:0;">${idx + 1}. ${q.title}</h3>
